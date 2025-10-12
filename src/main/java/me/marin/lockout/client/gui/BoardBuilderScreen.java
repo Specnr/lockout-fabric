@@ -21,6 +21,7 @@ import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.ClickEvent;
+import net.minecraft.client.gui.Click;
 import net.minecraft.text.HoverEvent;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -279,22 +280,20 @@ public class BoardBuilderScreen extends Screen {
         }
     }
 
-    private static final int LEFT_MOUSE_BUTTON = 0;
-    private static final int RIGHT_MOUSE_BUTTON = 1;
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        Optional<Integer> hoveredIdx = Utility.getBoardHoveredIndex(BoardBuilderData.INSTANCE.size(), width, height, (int) mouseX, (int) mouseY);
-        if ((button == LEFT_MOUSE_BUTTON || button == RIGHT_MOUSE_BUTTON) && hoveredIdx.isPresent()) {
+    public boolean mouseClicked(Click click, boolean consumed) {
+        Optional<Integer> hoveredIdx = Utility.getBoardHoveredIndex(BoardBuilderData.INSTANCE.size(), width, height, (int) click.x(), (int) click.y());
+        if ((click.button() == 0 || click.button() == 1) && hoveredIdx.isPresent()) {
             Goal goal = BoardBuilderData.INSTANCE.getGoals().get(hoveredIdx.get());
-            if (button == RIGHT_MOUSE_BUTTON && goal != null && goal.hasData()) {
+            if (click.button() == 1 && goal != null && goal.hasData()) {
                 openEditData(hoveredIdx.get());
             } else {
                 openSearch(hoveredIdx.get());
             }
             return true;
         } else {
-            return super.mouseClicked(mouseX, mouseY, button);
+            return super.mouseClicked(click, consumed);
         }
     }
 

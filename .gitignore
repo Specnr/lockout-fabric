@@ -118,3 +118,6 @@ run/
 !gradle-wrapper.jar
 
 build.gradle
+
+.cursor
+.vscode

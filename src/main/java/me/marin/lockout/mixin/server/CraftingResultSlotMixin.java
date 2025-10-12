@@ -36,7 +36,7 @@ public class CraftingResultSlotMixin {
 
     @Inject(method = "onCrafted(Lnet/minecraft/item/ItemStack;)V", at = @At("HEAD"))
     public void onCraft(ItemStack stack, CallbackInfo ci) {
-        if (player.getWorld().isClient) return;
+        if (player.getEntityWorld().isClient()) return;
         Lockout lockout = LockoutServer.lockout;
         if (!Lockout.isLockoutRunning(lockout)) return;
 

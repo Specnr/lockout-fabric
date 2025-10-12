@@ -265,7 +265,7 @@ public class LockoutClient implements ClientModInitializer {
                 "key.lockout.open_board", // The translation key of the keybinding's name
                 InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
                 GLFW.GLFW_KEY_B, // The keycode of the key
-                "category.lockout.keybinds" // The translation key of the keybinding's category.
+                KeyBinding.Category.MISC // The translation key of the keybinding's category.
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {

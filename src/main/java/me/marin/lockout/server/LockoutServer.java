@@ -1,6 +1,5 @@
 package me.marin.lockout.server;
 
-import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import me.marin.lockout.*;
@@ -31,6 +30,7 @@ import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.scoreboard.ServerScoreboard;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.PlayerConfigEntry;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.command.AdvancementCommand;
 import net.minecraft.server.command.LocateCommand;
@@ -184,10 +184,11 @@ public class LockoutServer {
     public static LocateData locateBiome(MinecraftServer server, RegistryKey<Biome> biome) {
         if (BIOME_LOCATE_DATA.containsKey(biome)) return BIOME_LOCATE_DATA.get(biome);
 
-        var currentPos = BlockPos.ofFloored(server.getOverworld().getSpawnPos().toCenterPos());
+        var spawnPoint = server.getOverworld().getSpawnPoint();
+        var currentPos = spawnPoint.getPos();
 
         var pair = server.getOverworld().locateBiome(
-                biomeRegistryEntry -> biomeRegistryEntry.matchesId(biome.getValue()),
+                biomeRegistryEntry -> biomeRegistryEntry.matchesKey(biome),
                 currentPos,
                 LOCATE_SEARCH,
                 32,
@@ -208,7 +209,8 @@ public class LockoutServer {
     public static LocateData locateStructure(MinecraftServer server, RegistryKey<Structure> structure) {
         if (STRUCTURE_LOCATE_DATA.containsKey(structure)) return STRUCTURE_LOCATE_DATA.get(structure);
 
-        var currentPos = BlockPos.ofFloored(server.getOverworld().getSpawnPos().toCenterPos());
+        var spawnPoint = server.getOverworld().getSpawnPoint();
+        var currentPos = spawnPoint.getPos();
 
         Registry<Structure> registry = server.getOverworld().getRegistryManager().getOrThrow(RegistryKeys.STRUCTURE);
         RegistryEntryList<Structure> structureList = RegistryEntryList.of(registry.getOrThrow(structure));
@@ -297,7 +299,7 @@ public class LockoutServer {
             }
         }
 
-        ServerWorld world = server.getCommandSource().getWorld();
+        ServerWorld world = server.getWorld(ServerWorld.OVERWORLD);
 
         // Generate & set board
         LockoutBoard lockoutBoard;
@@ -525,21 +527,21 @@ public class LockoutServer {
 
             int idx = context.getArgument("goal number", Integer.class);
 
-            Collection<GameProfile> gps;
+            Collection<PlayerConfigEntry> playerConfigs;
             try {
-                gps = GameProfileArgumentType.getProfileArgument(context, "player name");
+                playerConfigs = GameProfileArgumentType.getProfileArgument(context, "player name");
             } catch (CommandSyntaxException e) {
                 context.getSource().sendError(Text.literal("Invalid target."));
                 return 0;
             }
 
-            if (gps.size() != 1) {
+            if (playerConfigs.size() != 1) {
                 context.getSource().sendError(Text.literal("Invalid number of targets."));
                 return 0;
             }
-            GameProfile gp = gps.stream().findFirst().get();
-            if (!lockout.isLockoutPlayer(gp.getId())) {
-                context.getSource().sendError(Text.literal("Player " + gp.getName() + " is not playing Lockout."));
+            PlayerConfigEntry playerConfig = playerConfigs.stream().findFirst().get();
+            if (!lockout.isLockoutPlayer(playerConfig.id())) {
+                context.getSource().sendError(Text.literal("Player " + playerConfig.name() + " is not playing Lockout."));
                 return 0;
             }
 
@@ -549,8 +551,8 @@ public class LockoutServer {
             }
             Goal goal = lockout.getBoard().getGoals().get(idx - 1);
 
-            context.getSource().sendMessage(Text.of("Gave " + gp.getName() + " goal \"" + goal.getGoalName() + "\"."));
-            lockout.updateGoalCompletion(goal, gp.getId());
+            context.getSource().sendMessage(Text.of("Gave " + playerConfig.name() + " goal \"" + goal.getGoalName() + "\"."));
+            lockout.updateGoalCompletion(goal, playerConfig.id());
             return 1;
         } catch (RuntimeException e) {
             Lockout.error(e);

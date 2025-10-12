@@ -19,7 +19,7 @@ public class SlotMixin {
 
     @Inject(method="onTakeItem", at = @At("HEAD"))
     public void onTakeItem(PlayerEntity player, ItemStack stack, CallbackInfo ci) {
-        if (player.getWorld().isClient) return;
+        if (player.getEntityWorld().isClient()) return;
         Lockout lockout = LockoutServer.lockout;
         if (!Lockout.isLockoutRunning(lockout)) return;
 

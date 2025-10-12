@@ -15,7 +15,7 @@ public class CompassItemHandler {
     public static boolean isCompass(ItemStack item) {
         return item != null &&
                 item.getItem() == Items.COMPASS &&
-                Optional.ofNullable(item.get(DataComponentTypes.CUSTOM_DATA)).map(customData -> customData.contains("PlayerTracker")).orElse(false);
+                Optional.ofNullable(item.get(DataComponentTypes.CUSTOM_DATA)).filter(customData -> customData.copyNbt().contains("PlayerTracker")).isPresent();
     }
 
     public final List<UUID> players = new ArrayList<>();

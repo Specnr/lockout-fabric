@@ -8,6 +8,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
@@ -16,11 +17,15 @@ import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
-import org.apache.commons.lang3.text.WordUtils;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
@@ -77,14 +82,13 @@ public class BoardBuilderSearchWidget extends ScrollableWidget {
         context.enableScissor(this.left - 1, this.top, this.right + 1, getY() + getHeight());
 
         int y = 4;
-        int idx = 0;
         for (GoalEntry goalEntry : visibleGoals) {
-            goalEntry.render(context, idx++,getY() + y - (int)getScrollY() - 3,getX() + MARGIN_X, rowWidth - 4, 18, mouseX, mouseY, Objects.equals(goalEntry, hovered), delta);
+            goalEntry.render(context, getX() + MARGIN_X, getY() + y - (int)getScrollY() - 3, Objects.equals(goalEntry, hovered), delta);
             y += 18;
         }
 
         context.disableScissor();
-        this.drawScrollbar(context);
+        this.drawScrollbar(context, this.right, this.top);
     }
 
     protected final GoalEntry getEntryAtPosition(double x, double y) {
@@ -106,13 +110,13 @@ public class BoardBuilderSearchWidget extends ScrollableWidget {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(Click click, boolean consumed) {
         if (hovered != null) {
             BoardBuilderData.INSTANCE.setGoal(hovered.goal);
             MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
         }
-        var bl = checkScrollbarDragged(mouseX, mouseY, button);
-        return super.mouseClicked(mouseX, mouseY, button) || bl;
+        var bl = checkScrollbarDragged(click);
+        return super.mouseClicked(click, consumed) || bl;
     }
 
     @Override
@@ -130,7 +134,9 @@ public class BoardBuilderSearchWidget extends ScrollableWidget {
             String data = gen.map(g -> g.generateData(new ArrayList<>(GoalDataGenerator.ALL_DYES))).orElse(GoalDataConstants.DATA_NONE);
             this.goal = GoalRegistry.INSTANCE.newGoal(id, data);
 
-            this.displayName = gen.isEmpty() ? goal.getGoalName() : "[*] " + WordUtils.capitalize(goal.getId().replace("_", " ").toLowerCase(), ' ');
+            this.displayName = gen.isEmpty() ? goal.getGoalName() : "[*] " + Arrays.stream(goal.getId().replace("_", " ").toLowerCase().split(" "))
+                    .map(word -> word.isEmpty() ? word : Character.toUpperCase(word.charAt(0)) + word.substring(1))
+                    .collect(Collectors.joining(" "));
         }
 
 
@@ -140,13 +146,17 @@ public class BoardBuilderSearchWidget extends ScrollableWidget {
         }
 
         @Override
-        public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(DrawContext context, int x, int y, boolean hovered, float tickDelta) {
             TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 
             goal.render(context, textRenderer, x, y);
             context.drawTextWithShadow(textRenderer, displayName, x + 18, y + 5, Color.WHITE.getRGB());
             if (hovered) {
-                context.drawBorder(x - 1, y - 1, entryWidth + 2, entryHeight, Color.LIGHT_GRAY.getRGB());
+                // Draw border manually since drawBorder method doesn't exist
+                context.fill(x - 1, y - 1, x + 18 + textRenderer.getWidth(displayName) + 1, y, Color.LIGHT_GRAY.getRGB());
+                context.fill(x - 1, y + 15, x + 18 + textRenderer.getWidth(displayName) + 1, y + 16, Color.LIGHT_GRAY.getRGB());
+                context.fill(x - 1, y - 1, x, y + 16, Color.LIGHT_GRAY.getRGB());
+                context.fill(x + 18 + textRenderer.getWidth(displayName), y - 1, x + 18 + textRenderer.getWidth(displayName) + 1, y + 16, Color.LIGHT_GRAY.getRGB());
             }
         }
     }

@@ -6,6 +6,8 @@ import me.marin.lockout.lockout.DefaultGoalRegister;
 import me.marin.lockout.network.CustomBoardPayload;
 import me.marin.lockout.network.Networking;
 import me.marin.lockout.server.LockoutServer;
+import me.marin.lockout.util.PlayerSuggestionProvider;
+import me.marin.lockout.util.TeamSuggestionProvider;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -57,8 +59,8 @@ public class LockoutInitializer implements ModInitializer {
                     var teamsNode = CommandManager.literal("teams").build();
                     var playersNode = CommandManager.literal("players").build();
                     //TODO make custom argument types
-                    var teamListNode = CommandManager.argument("team names", StringArgumentType.greedyString()).executes(LockoutServer::lockoutCommandLogic).build();
-                    var playerListNode = CommandManager.argument("player names", StringArgumentType.greedyString()).executes(LockoutServer::lockoutCommandLogic).build();
+                    var teamListNode = CommandManager.argument("team names", StringArgumentType.greedyString()).suggests(new TeamSuggestionProvider()).executes(LockoutServer::lockoutCommandLogic).build();
+                    var playerListNode = CommandManager.argument("player names", StringArgumentType.greedyString()).suggests(new PlayerSuggestionProvider()).executes(LockoutServer::lockoutCommandLogic).build();
 
                     dispatcher.getRoot().addChild(commandNode);
                     commandNode.addChild(teamsNode);
@@ -74,8 +76,8 @@ public class LockoutInitializer implements ModInitializer {
                     var teamNode = CommandManager.literal("team").build();
                     var playersNode = CommandManager.literal("players").build();
                     //TODO make custom argument types
-                    var teamNameNode = CommandManager.argument("team name", StringArgumentType.greedyString()).executes(LockoutServer::blackoutCommandLogic).build();
-                    var playerListNode = CommandManager.argument("player names", StringArgumentType.greedyString()).executes(LockoutServer::blackoutCommandLogic).build();
+                    var teamNameNode = CommandManager.argument("team name", StringArgumentType.greedyString()).suggests(new TeamSuggestionProvider()).executes(LockoutServer::blackoutCommandLogic).build();
+                    var playerListNode = CommandManager.argument("player names", StringArgumentType.greedyString()).suggests(new PlayerSuggestionProvider()).executes(LockoutServer::blackoutCommandLogic).build();
 
                     dispatcher.getRoot().addChild(commandNode);
                     commandNode.addChild(teamNode);

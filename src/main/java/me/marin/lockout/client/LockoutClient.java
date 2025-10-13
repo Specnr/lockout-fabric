@@ -25,6 +25,7 @@ import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import oshi.util.tuples.Pair;
 
@@ -46,6 +47,7 @@ public class LockoutClient implements ClientModInitializer {
     public static final Map<String, String> goalTooltipMap = new HashMap<>();
 
     public static final ScreenHandlerType<BoardScreenHandler> BOARD_SCREEN_HANDLER;
+    public static final KeyBinding.Category LOCKOUT_CATEGORY = KeyBinding.Category.create(Identifier.of(Constants.NAMESPACE, "keybinds"));
 
     static {
         BOARD_SCREEN_HANDLER = new ScreenHandlerType<>(BoardScreenHandler::new, FeatureFlags.VANILLA_FEATURES);
@@ -260,12 +262,12 @@ public class LockoutClient implements ClientModInitializer {
             // Respond with version, it will be compared on server as well
             ClientPlayNetworking.send(new LockoutVersionPayload(LockoutInitializer.MOD_VERSION.getFriendlyString()));
         });
-
+        
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.lockout.open_board", // The translation key of the keybinding's name
                 InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
                 GLFW.GLFW_KEY_B, // The keycode of the key
-                KeyBinding.Category.MISC // The translation key of the keybinding's category.
+                LOCKOUT_CATEGORY // The translation key of the keybinding's category.
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {

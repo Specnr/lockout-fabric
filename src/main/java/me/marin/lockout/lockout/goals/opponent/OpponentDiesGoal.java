@@ -14,7 +14,7 @@ public class OpponentDiesGoal extends Goal implements TextureProvider {
 
     @Override
     public String getGoalName() {
-        return "Opponent dies";
+        return "All other opponents die";
     }
 
     @Override

@@ -24,7 +24,7 @@ public class OpponentObtainsSeedsGoal extends OpponentObtainsItemGoal implements
 
     @Override
     public String getGoalName() {
-        return "Opponent obtains Wheat Seeds";
+        return "All other opponents obtain Wheat Seeds";
     }
 
     private static final List<Item> ITEMS = List.of(Items.WHEAT_SEEDS);

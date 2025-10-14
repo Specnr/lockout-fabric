@@ -22,7 +22,7 @@ public class OpponentTakes100DamageGoal extends Goal implements TextureProvider 
 
     @Override
     public String getGoalName() {
-        return "Opponent Team takes 100 Damage";
+        return "All other opponents take 100 Damage";
     }
 
     @Override

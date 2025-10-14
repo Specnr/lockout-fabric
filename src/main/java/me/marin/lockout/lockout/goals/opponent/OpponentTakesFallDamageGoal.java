@@ -14,7 +14,7 @@ public class OpponentTakesFallDamageGoal extends Goal implements TextureProvider
 
     @Override
     public String getGoalName() {
-        return "Opponent takes Fall Damage";
+        return "All other opponents take fall damage";
     }
 
     @Override

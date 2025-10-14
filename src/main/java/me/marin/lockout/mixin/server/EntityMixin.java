@@ -26,7 +26,7 @@ public class EntityMixin {
             if (goal.isCompleted()) continue;
 
             if (goal instanceof OpponentCatchesOnFireGoal) {
-                lockout.complete1v1Goal(goal, player, false, player.getName().getString() + " caught on fire.");
+                lockout.completeMultiOpponentGoal(goal, player, player.getName().getString() + " caught on fire.");
             }
         }
     }

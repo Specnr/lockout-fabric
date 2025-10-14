@@ -43,6 +43,9 @@ public class Lockout {
     public final Map<LockoutTeam, Integer> deaths = new HashMap<>();
     public final Map<LockoutTeam, Integer> mobsKilled = new HashMap<>();
 
+    // Tracks which teams have met the condition for each opponent goal (for 3+ team support)
+    public final Map<Goal, Set<LockoutTeam>> opponentGoalProgress = new HashMap<>();
+
     public final Map<UUID, Long> pumpkinWearTime = new HashMap<>();
     public final Map<UUID, Integer> distanceSprinted = new HashMap<>();
     public final Map<UUID, Set<Item>> uniqueCrafts = new HashMap<>();
@@ -169,6 +172,91 @@ public class Lockout {
 
         sendGoalCompletedPacket(goal, winnerTeam);
         evaluateWinnerAndEndGame(winnerTeam);
+    }
+
+    /**
+     * Completes an opponent goal when all other teams have met the condition.
+     * Supports 2+ teams. For 2-team games, behaves the same as complete1v1Goal.
+     *
+     * @param goal The opponent goal to track
+     * @param teamThatMetCondition The team that just met the goal condition
+     * @param message The message to display when the goal is completed
+     */
+    public void completeMultiOpponentGoal(Goal goal, LockoutTeam teamThatMetCondition, String message) {
+        if (goal.isCompleted()) return;
+        if (!hasStarted()) return;
+
+        // Track that this team has met the condition
+        opponentGoalProgress.putIfAbsent(goal, new HashSet<>());
+        opponentGoalProgress.get(goal).add(teamThatMetCondition);
+
+        // Check if all other teams (excluding the potential winner) have met the condition
+        int teamsSize = teams.size();
+        int teamsThatMetCondition = opponentGoalProgress.get(goal).size();
+
+        // If all opponents have met the condition, complete the goal for the remaining team(s)
+        if (teamsThatMetCondition >= teamsSize - 1) {
+            // Find the team(s) that haven't met the condition - they win
+            List<LockoutTeamServer> winningTeams = new ArrayList<>();
+            for (LockoutTeam team : teams) {
+                if (!opponentGoalProgress.get(goal).contains(team)) {
+                    winningTeams.add((LockoutTeamServer) team);
+                }
+            }
+
+            // Should be exactly one winning team (or multiple in a tie scenario)
+            if (winningTeams.isEmpty()) {
+                // Edge case: all teams met condition simultaneously, shouldn't happen normally
+                return;
+            }
+
+            // Complete the goal for the first winning team (in case of multiple, pick one)
+            LockoutTeamServer winnerTeam = winningTeams.get(0);
+            goal.setCompleted(true, winnerTeam);
+            winnerTeam.addPoint();
+
+            // Create a clear completion message showing the winner
+            String completionMessage;
+            if (teams.size() == 2) {
+                // For 2 teams, use the trigger message as-is for backwards compatibility
+                completionMessage = message;
+            } else {
+                // For 3+ teams, make it clear who won
+                String oppName = message.split(" ")[0];
+                completionMessage = message.replace(oppName, winnerTeam.getDisplayName());
+            }
+
+            // Send messages to all teams
+            for (LockoutTeam lockoutTeam : teams) {
+                if (!(lockoutTeam instanceof LockoutTeamServer lockoutTeamServer)) continue;
+                if (winningTeams.contains(lockoutTeamServer)) {
+                    lockoutTeamServer.sendMessage(Formatting.GREEN + completionMessage);
+                } else {
+                    lockoutTeamServer.sendMessage(Formatting.RED + completionMessage);
+                }
+            }
+            for (ServerPlayerEntity spectator : Utility.getSpectators(this, LockoutServer.server)) {
+                spectator.sendMessage(Text.literal(completionMessage));
+            }
+
+            sendGoalCompletedPacket(goal, winnerTeam);
+            evaluateWinnerAndEndGame(winnerTeam);
+        }
+    }
+
+    /**
+     * Convenience method for completeMultiOpponentGoal that accepts a PlayerEntity.
+     */
+    public void completeMultiOpponentGoal(Goal goal, PlayerEntity player, String message) {
+        completeMultiOpponentGoal(goal, getPlayerTeam(player.getUuid()), message);
+    }
+
+    /**
+     * Convenience method for completeMultiOpponentGoal that accepts a UUID.
+     */
+    public void completeMultiOpponentGoal(Goal goal, UUID playerId, String message) {
+        if (!isLockoutPlayer(playerId)) return;
+        completeMultiOpponentGoal(goal, getPlayerTeam(playerId), message);
     }
 
     public void updateGoalCompletion(Goal goal, UUID playerId) {

@@ -14,7 +14,7 @@ public class OpponentJumpsGoal extends Goal implements TextureProvider {
 
     @Override
     public String getGoalName() {
-        return "Opponent jumps";
+        return "All other opponents jump";
     }
 
     @Override

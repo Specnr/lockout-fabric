@@ -12,7 +12,7 @@ public class OpponentHitBySnowballGoal extends Goal {
 
     @Override
     public String getGoalName() {
-        return "Opponent hit by Snowball";
+        return "All other opponents hit by Snowball";
     }
 
     private static final ItemStack ITEM_STACK = Items.SNOWBALL.getDefaultStack();

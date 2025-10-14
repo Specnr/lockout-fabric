@@ -22,7 +22,7 @@ public class OpponentDies3TimesGoal extends Goal implements CustomTextureRendere
 
     @Override
     public String getGoalName() {
-        return "Opponent dies 3 times";
+        return "All other opponents die 3 times";
     }
 
     @Override

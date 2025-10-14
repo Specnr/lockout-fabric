@@ -14,7 +14,7 @@ public class OpponentTouchesWaterGoal extends Goal implements TextureProvider {
 
     @Override
     public String getGoalName() {
-        return "Opponent touches Water";
+        return "All other opponents touch water";
     }
 
     @Override

@@ -47,14 +47,14 @@ public abstract class PlayerMixin {
             if (goal instanceof OpponentHitBySnowballGoal) {
                 if (entity instanceof SnowballEntity snowballEntity) {
                     if (snowballEntity.getOwner() instanceof PlayerEntity shooter && !Objects.equals(player, shooter)) {
-                        lockout.complete1v1Goal(goal, shooter, true, shooter.getName().getString() + " hit " + player.getName().getString() + " with a Snowball.");
+                        lockout.completeMultiOpponentGoal(goal, player, player.getName().getString() + " hit by " + shooter.getName().getString() + " with a Snowball.");
                     }
                 }
             }
             if (goal instanceof OpponentHitByEggGoal) {
                 if (entity instanceof EggEntity snowballEntity) {
                     if (snowballEntity.getOwner() instanceof PlayerEntity shooter && !Objects.equals(player, shooter)) {
-                        lockout.complete1v1Goal(goal, shooter, true, shooter.getName().getString() + " hit " + player.getName().getString() + " with an Egg.");
+                        lockout.completeMultiOpponentGoal(goal, player, player.getName().getString() + " hit by " + shooter.getName().getString() + " with an Egg.");
                     }
                 }
             }
@@ -98,12 +98,12 @@ public abstract class PlayerMixin {
             }
             if (goal instanceof OpponentTakesFallDamageGoal) {
                 if (source.isOf(DamageTypes.FALL)) {
-                    lockout.complete1v1Goal(goal, player, false, player.getName().getString() + " took fall damage.");
+                    lockout.completeMultiOpponentGoal(goal, player, player.getName().getString() + " took fall damage.");
                 }
             }
             if (goal instanceof OpponentTakes100DamageGoal) {
                 if (lockout.damageTaken.get(team) >= 100) {
-                    lockout.complete1v1Goal(goal, team, false, team.getDisplayName() + " took 100 damage.");
+                    lockout.completeMultiOpponentGoal(goal, team, team.getDisplayName() + " took 100 damage.");
                 }
             }
         }
@@ -125,7 +125,7 @@ public abstract class PlayerMixin {
                 lockout.completeGoal(goal, player);
             }
             if (goal instanceof OpponentEatsFoodGoal && stat.equals(Stats.EAT_CAKE_SLICE)) {
-                lockout.complete1v1Goal(goal, player, false, player.getName().getString() + " ate food.");
+                lockout.completeMultiOpponentGoal(goal, player, player.getName().getString() + " ate food.");
             }
         }
     }

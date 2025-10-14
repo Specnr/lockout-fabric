@@ -137,10 +137,10 @@ public class AfterDeathEventHandler implements ServerLivingEntityEvents.AfterDea
                 LockoutTeam team = lockout.getPlayerTeam(player.getUuid());
 
                 if (goal instanceof OpponentDiesGoal) {
-                    lockout.complete1v1Goal(goal, player, false, player.getName().getString() + " died.");
+                    lockout.completeMultiOpponentGoal(goal, player, player.getName().getString() + " died.");
                 }
                 if (goal instanceof OpponentDies3TimesGoal && lockout.deaths.get(team) >= 3) {
-                    lockout.complete1v1Goal(goal, player, false, team.getDisplayName() + " died 3 times.");
+                    lockout.completeMultiOpponentGoal(goal, team, team.getDisplayName() + " died 3 times.");
                 }
                 if (goal instanceof DieToDamageTypeGoal dieToDamageTypeGoal) {
                     for (RegistryKey<DamageType> key : dieToDamageTypeGoal.getDamageRegistryKeys()) {

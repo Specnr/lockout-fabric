@@ -14,7 +14,7 @@ public class OpponentCatchesOnFireGoal extends Goal implements TextureProvider {
 
     @Override
     public String getGoalName() {
-        return "Opponent catches on Fire";
+        return "All other opponents catch on Fire";
     }
 
     @Override

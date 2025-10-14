@@ -24,7 +24,7 @@ public class OpponentObtainsObsidianGoal extends OpponentObtainsItemGoal impleme
 
     @Override
     public String getGoalName() {
-        return "Opponent obtains Obsidian";
+        return "All other opponents obtain Obsidian";
     }
 
     private static final List<Item> ITEMS = List.of(Items.OBSIDIAN);

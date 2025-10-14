@@ -24,7 +24,7 @@ public class OpponentObtainsCraftingTableGoal extends OpponentObtainsItemGoal im
 
     @Override
     public String getGoalName() {
-        return "Opponent obtains Crafting Table";
+        return "All other opponents obtain Crafting Table";
     }
 
     private static final List<Item> ITEMS = List.of(Items.CRAFTING_TABLE);

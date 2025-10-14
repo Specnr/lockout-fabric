@@ -60,7 +60,7 @@ public class EndServerTickEventHandler implements ServerTickEvents.EndTick {
                 if (goal instanceof ObtainItemsGoal obtainItemsGoal) {
                     if (obtainItemsGoal.satisfiedBy(player.getInventory())) {
                         if (goal instanceof OpponentObtainsItemGoal opponentObtainsItemGoal) {
-                            lockout.complete1v1Goal(goal, player, false, opponentObtainsItemGoal.getMessage(player));
+                            lockout.completeMultiOpponentGoal(goal, player, opponentObtainsItemGoal.getMessage(player));
                         } else {
                             lockout.completeGoal(goal, player);
                         }
@@ -107,7 +107,7 @@ public class EndServerTickEventHandler implements ServerTickEvents.EndTick {
                 }
                 if (goal instanceof OpponentTouchesWaterGoal) {
                     if (Objects.equals(player.getEntityWorld().getBlockState(player.getBlockPos()).getBlock(), Blocks.WATER)) {
-                        lockout.complete1v1Goal(goal, player, false, player.getName().getString() + " touched water.");
+                        lockout.completeMultiOpponentGoal(goal, player, player.getName().getString() + " touched water.");
                     }
                 }
             }

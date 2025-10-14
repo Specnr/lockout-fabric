@@ -12,7 +12,7 @@ public class OpponentHitByEggGoal extends Goal {
 
     @Override
     public String getGoalName() {
-        return "Opponent hit by Egg";
+        return "All other opponents hit by Egg";
     }
 
     private static final ItemStack ITEM_STACK = Items.EGG.getDefaultStack();

@@ -14,7 +14,7 @@ public class OpponentEatsFoodGoal extends Goal implements TextureProvider {
 
     @Override
     public String getGoalName() {
-        return "Opponent eats Food";
+        return "All other opponents eat food";
     }
 
     @Override

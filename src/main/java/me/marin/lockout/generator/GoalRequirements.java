@@ -30,8 +30,7 @@ public abstract class GoalRequirements {
             .biomes(List.of(DESERT, SNOWY_PLAINS, SNOWY_TAIGA, GROVE, SNOWY_SLOPES, FLOWER_FOREST, TAIGA, MEADOW, OLD_GROWTH_PINE_TAIGA, OLD_GROWTH_SPRUCE_TAIGA, CHERRY_GROVE))
             .build();
     public static final GoalRequirements TEAMS_GOAL = new Builder().isTeamSizeOk((size) -> size >= 2).build();
-    public static final GoalRequirements TO2_ONLY_GOAL = new Builder().isTeamSizeOk((size) -> size >= 2).build();
-    public static final GoalRequirements TO2_ONLY_GOAL_NOT_IN_RANDOM_POOL = new Builder().isTeamSizeOk((size) -> size >= 2).partOfRandomPool(false).build();
+    public static final GoalRequirements TEAMS_GOAL_NOT_IN_RANDOM_POOL = new Builder().isTeamSizeOk((size) -> size >= 2).partOfRandomPool(false).build();
     public static final GoalRequirements NOT_IN_RANDOM_POOL = new Builder().partOfRandomPool(false).build();
 
     private GoalRequirements() {}

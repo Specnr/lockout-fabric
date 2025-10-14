@@ -24,11 +24,11 @@ public class LockoutConfig {
     @SerializedName("board position")
     public BoardPosition boardPosition = BoardPosition.RIGHT;
 
-    @SerializedName("show NoiseRouter line")
-    public boolean showNoiseRouterLine = false;
-
     @SerializedName("restrict random pool")
     public boolean restrictRandomPool = true;
+
+    @SerializedName("lockout start time")
+    public int lockoutStartTime = 60;
 
     public static void load() {
         if (!Files.exists(CONFIG_PATH)) {
@@ -51,8 +51,8 @@ public class LockoutConfig {
         instance = new LockoutConfig();
         instance.boardSize = 5;
         instance.boardPosition = BoardPosition.RIGHT;
-        instance.showNoiseRouterLine = false;
         instance.restrictRandomPool = true;
+        instance.lockoutStartTime = 60;
     }
 
     private static void createConfigDir() {

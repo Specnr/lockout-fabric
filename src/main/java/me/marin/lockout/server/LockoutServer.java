@@ -59,7 +59,7 @@ public class LockoutServer {
     public static final Map<RegistryKey<Structure>, LocateData> STRUCTURE_LOCATE_DATA = new HashMap<>();
     public static final List<DyeColor> AVAILABLE_DYE_COLORS = new ArrayList<>();
 
-    private static int lockoutStartTime = 60;
+    private static int lockoutStartTime;
     private static int boardSize;
 
     public static Lockout lockout;
@@ -85,8 +85,10 @@ public class LockoutServer {
         AVAILABLE_DYE_COLORS.clear();
 
         LockoutConfig.load(); // reload config every time the server starts
+        lockoutStartTime = LockoutConfig.getInstance().lockoutStartTime;
         boardSize = LockoutConfig.getInstance().boardSize;
         Lockout.log("Using default board size: " + boardSize);
+        Lockout.log("Using default lockout start time: " + lockoutStartTime);
 
         if (isInitialized) return;
         isInitialized = true;

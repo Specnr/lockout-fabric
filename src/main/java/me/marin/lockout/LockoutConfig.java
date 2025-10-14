@@ -27,6 +27,9 @@ public class LockoutConfig {
     @SerializedName("show NoiseRouter line")
     public boolean showNoiseRouterLine = false;
 
+    @SerializedName("restrict random pool")
+    public boolean restrictRandomPool = true;
+
     public static void load() {
         if (!Files.exists(CONFIG_PATH)) {
             createConfigDir();
@@ -49,6 +52,7 @@ public class LockoutConfig {
         instance.boardSize = 5;
         instance.boardPosition = BoardPosition.RIGHT;
         instance.showNoiseRouterLine = false;
+        instance.restrictRandomPool = true;
     }
 
     private static void createConfigDir() {

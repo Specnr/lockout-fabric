@@ -1,5 +1,6 @@
 package me.marin.lockout;
 
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import me.marin.lockout.lockout.DefaultGoalRegister;
@@ -137,6 +138,16 @@ public class LockoutInitializer implements ModInitializer {
 
                 dispatcher.getRoot().addChild(setBoardTimeRoot);
                 setBoardTimeRoot.addChild(size);
+            }
+
+            {
+                // SetRestrictRandomPool command
+
+                var setRestrictRandomPoolRoot = CommandManager.literal("SetRestrictRandomPool").requires(PERMISSIONS).build();
+                var restrict = CommandManager.argument("restrict", BoolArgumentType.bool()).executes(LockoutServer::setRestrictRandomPool).build();
+
+                dispatcher.getRoot().addChild(setRestrictRandomPoolRoot);
+                setRestrictRandomPoolRoot.addChild(restrict);
             }
 
         });

@@ -1,6 +1,7 @@
 package me.marin.lockout.generator;
 
 import me.marin.lockout.LocateData;
+import me.marin.lockout.LockoutConfig;
 import me.marin.lockout.LockoutTeamServer;
 import me.marin.lockout.client.LockoutBoard;
 import me.marin.lockout.lockout.GoalRegistry;
@@ -48,7 +49,7 @@ public class BoardGenerator {
                 if (!goalRequirements.isTeamsSizeOk(teams.size())) {
                     continue;
                 }
-                if (!goalRequirements.isPartOfRandomPool()) {
+                if (LockoutConfig.getInstance().restrictRandomPool && !goalRequirements.isPartOfRandomPool()) {
                     continue;
                 }
                 if (!goalRequirements.isSatisfied(biomes, structures)) {

@@ -576,4 +576,16 @@ public class LockoutServer {
         return 1;
     }
 
+    public static int setRestrictRandomPool(CommandContext<ServerCommandSource> context) {
+        boolean restrict = context.getArgument("restrict", Boolean.class);
+        LockoutConfig.getInstance().restrictRandomPool = restrict;
+        LockoutConfig.save();
+
+        String message = restrict
+                ? "Restricted goals will now be excluded from random pool"
+                : "Restricted goals will now be included in random pool";
+        context.getSource().sendFeedback(() -> Text.literal(message), true);
+        return 1;
+    }
+
 }

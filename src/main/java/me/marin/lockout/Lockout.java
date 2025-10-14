@@ -222,8 +222,7 @@ public class Lockout {
                 completionMessage = message;
             } else {
                 // For 3+ teams, make it clear who won
-                String oppName = message.split(" ")[0];
-                completionMessage = message.replace(oppName, winnerTeam.getDisplayName());
+                completionMessage = winnerTeam.getDisplayName() + " completed the goal! (" + message + ")";
             }
 
             // Send messages to all teams

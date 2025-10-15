@@ -240,5 +240,8 @@ public class GoalType {
     public static final String GET_COUNTRY_LODE_TAKE_ME_HOME_ADVANCEMENT = "GET_COUNTRY_LODE_TAKE_ME_HOME_ADVANCEMENT";
     public static final String GET_HEART_TRANSPLANTER_ADVANCEMENT = "GET_HEART_TRANSPLANTER_ADVANCEMENT";
     public static final String OBTAIN_RESIN_BRICK_STAIR = "OBTAIN_RESIN_BRICK_STAIR";
+    public static final String CONSTRUCT_COPPER_GOLEM = "CONSTRUCT_COPPER_GOLEM";
+    public static final String FILL_SHELF = "FILL_SHELF";
+    public static final String KILL_BLAZE_WITH_SNOWBALL = "KILL_BLAZE_WITH_SNOWBALL";
 
 }

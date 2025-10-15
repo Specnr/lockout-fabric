@@ -74,6 +74,10 @@ public class AfterDeathEventHandler implements ServerLivingEntityEvents.AfterDea
                         if (goal instanceof KillBreezeWithWindChargeGoal) {
                             allow = source.isOf(DamageTypes.WIND_CHARGE);
                         }
+                        if (goal instanceof KillBlazeWithSnowballGoal) {
+                            // Only snowballs count for damage to blazes in this damage type
+                            allow = source.isOf(DamageTypes.THROWN);
+                        }
                         if (goal instanceof KillColoredSheepGoal killColoredSheepGoal) {
                             allow = ((SheepEntity) entity).getColor() == killColoredSheepGoal.getDyeColor();
                         }

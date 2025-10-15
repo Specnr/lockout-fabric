@@ -412,6 +412,10 @@ public class DefaultGoalRegister {
                 .biomes(List.of(PALE_GARDEN))
                 .build());
 
+        INSTANCE.register(GoalType.CONSTRUCT_COPPER_GOLEM, ConstructCopperGolemGoal.class);
+        INSTANCE.register(GoalType.FILL_SHELF, FillShelfGoal.class);
+        INSTANCE.register(GoalType.KILL_BLAZE_WITH_SNOWBALL, KillBlazeWithSnowballGoal.class);
+
     }
 
 }

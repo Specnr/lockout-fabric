@@ -238,5 +238,7 @@ public class GoalType {
     public static final String FILL_BUNDLE_WITH_BUNDLES = "FILL_BUNDLE_WITH_BUNDLES";
     public static final String OBTAIN_64_ARROWS = "OBTAIN_64_ARROWS";
     public static final String GET_COUNTRY_LODE_TAKE_ME_HOME_ADVANCEMENT = "GET_COUNTRY_LODE_TAKE_ME_HOME_ADVANCEMENT";
+    public static final String GET_HEART_TRANSPLANTER_ADVANCEMENT = "GET_HEART_TRANSPLANTER_ADVANCEMENT";
+    public static final String OBTAIN_RESIN_BRICK_STAIR = "OBTAIN_RESIN_BRICK_STAIR";
 
 }

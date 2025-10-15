@@ -405,6 +405,13 @@ public class DefaultGoalRegister {
 
         INSTANCE.register(GoalType.OBTAIN_64_ARROWS, Obtain64ArrowsGoal.class);
 
+        INSTANCE.register(GoalType.GET_HEART_TRANSPLANTER_ADVANCEMENT, GetHeartTransplanterAdvancementGoal.class, new GoalRequirements.Builder()
+                .biomes(List.of(PALE_GARDEN))
+                .build());
+        INSTANCE.register(GoalType.OBTAIN_RESIN_BRICK_STAIR, ObtainResinBrickStairGoal.class, new GoalRequirements.Builder()
+                .biomes(List.of(PALE_GARDEN))
+                .build());
+
     }
 
 }

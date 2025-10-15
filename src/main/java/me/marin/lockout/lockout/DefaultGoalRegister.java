@@ -60,6 +60,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.OBTAIN_IRON_TOOLS, ObtainIronToolsGoal.class);
         INSTANCE.register(GoalType.OBTAIN_GOLDEN_TOOLS, ObtainGoldenToolsGoal.class);
         INSTANCE.register(GoalType.OBTAIN_DIAMOND_TOOLS, ObtainDiamondToolsGoal.class);
+        INSTANCE.register(GoalType.OBTAIN_COPPER_TOOLS, ObtainCopperToolsGoal.class);
         INSTANCE.register(GoalType.MINE_DIAMOND_ORE, MineDiamondOreGoal.class);
         INSTANCE.register(GoalType.MINE_EMERALD_ORE, MineEmeraldOreGoal.class, new GoalRequirements.Builder()
                 .biomes(List.of(JAGGED_PEAKS, FROZEN_PEAKS, STONY_PEAKS, GROVE, SNOWY_SLOPES))
@@ -76,6 +77,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.WEAR_LEATHER_ARMOR, WearLeatherArmorGoal.class);
         INSTANCE.register(GoalType.WEAR_GOLDEN_ARMOR, WearGoldenArmorGoal.class);
         INSTANCE.register(GoalType.WEAR_DIAMOND_ARMOR, WearDiamondArmorGoal.class);
+        INSTANCE.register(GoalType.WEAR_COPPER_ARMOR, WearCopperArmorGoal.class);
         INSTANCE.register(GoalType.WEAR_IRON_ARMOR, WearIronArmorGoal.class);
         INSTANCE.register(GoalType.WEAR_CHAIN_ARMOR_PIECE, WearChainArmorPieceGoal.class,
                 GoalRequirements.VILLAGE);

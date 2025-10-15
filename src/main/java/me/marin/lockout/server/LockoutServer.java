@@ -341,7 +341,7 @@ public class LockoutServer {
             ServerPlayNetworking.send(player, lockout.getTeamsGoalsPacket());
             ServerPlayNetworking.send(player, lockout.getUpdateTimerPacket());
 
-            if (!lockout.isSoloBlackout() && lockout.isLockoutPlayer(player.getUuid())) {
+            if (!lockout.isSoloBlackout() && lockout.isLockoutPlayer(player.getUuid()) && LockoutConfig.getInstance().giveCompasses) {
                 player.giveItemStack(compassHandler.newCompass());
             }
         }
@@ -687,6 +687,18 @@ public class LockoutServer {
         String message = restrict
                 ? "Restricted goals will now be excluded from random pool"
                 : "Restricted goals will now be included in random pool";
+        context.getSource().sendFeedback(() -> Text.literal(message), true);
+        return 1;
+    }
+
+    public static int setGiveCompasses(CommandContext<ServerCommandSource> context) {
+        boolean giveCompasses = context.getArgument("giveCompasses", Boolean.class);
+        LockoutConfig.getInstance().giveCompasses = giveCompasses;
+        LockoutConfig.save();
+
+        String message = giveCompasses
+                ? "Compasses will now be given to players"
+                : "Compasses will no longer be given to players";
         context.getSource().sendFeedback(() -> Text.literal(message), true);
         return 1;
     }

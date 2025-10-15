@@ -1,6 +1,7 @@
 package me.marin.lockout.server.handlers;
 
 import me.marin.lockout.Lockout;
+import me.marin.lockout.LockoutConfig;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -16,6 +17,7 @@ public class AfterRespawnEventHandler implements ServerPlayerEvents.AfterRespawn
         if (lockout.isSoloBlackout()) return;
         if (!lockout.isLockoutPlayer(newPlayer.getUuid())) return;
         if (alive) return; // end exit portal
+        if (!LockoutConfig.getInstance().giveCompasses) return;
 
         int slot = compassHandler.compassSlots.getOrDefault(newPlayer.getUuid(), 0);
         if (slot == 40) {

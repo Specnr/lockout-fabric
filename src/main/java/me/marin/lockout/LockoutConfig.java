@@ -30,6 +30,9 @@ public class LockoutConfig {
     @SerializedName("lockout start time")
     public int lockoutStartTime = 60;
 
+    @SerializedName("give compasses")
+    public boolean giveCompasses = false;
+
     public static void load() {
         if (!Files.exists(CONFIG_PATH)) {
             createConfigDir();
@@ -53,6 +56,7 @@ public class LockoutConfig {
         instance.boardPosition = BoardPosition.RIGHT;
         instance.restrictRandomPool = true;
         instance.lockoutStartTime = 60;
+        instance.giveCompasses = false;
     }
 
     private static void createConfigDir() {

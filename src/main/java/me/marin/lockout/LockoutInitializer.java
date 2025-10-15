@@ -150,6 +150,16 @@ public class LockoutInitializer implements ModInitializer {
                 setRestrictRandomPoolRoot.addChild(restrict);
             }
 
+            {
+                // SetGiveCompasses command
+
+                var setGiveCompassesRoot = CommandManager.literal("SetGiveCompasses").requires(PERMISSIONS).build();
+                var giveCompasses = CommandManager.argument("giveCompasses", BoolArgumentType.bool()).executes(LockoutServer::setGiveCompasses).build();
+
+                dispatcher.getRoot().addChild(setGiveCompassesRoot);
+                setGiveCompassesRoot.addChild(giveCompasses);
+            }
+
         });
 
         LootTableEvents.REPLACE.register(((key, original, source, registries) -> {

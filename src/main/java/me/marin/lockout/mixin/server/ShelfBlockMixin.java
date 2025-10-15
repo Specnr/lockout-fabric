@@ -28,23 +28,13 @@ public class ShelfBlockMixin {
         if (world.isClient()) return;
         
         Lockout lockout = LockoutServer.lockout;
-        if (!Lockout.isLockoutRunning(lockout)) {
-            Lockout.log("ShelfBlockMixin: Lockout not running");
-            return;
-        }
+        if (!Lockout.isLockoutRunning(lockout)) return;
 
         ShelfBlockEntity blockEntity = (ShelfBlockEntity) world.getBlockEntity(pos);
-        if (blockEntity == null) {
-            Lockout.log("ShelfBlockMixin: Block entity is null");
-            return;
-        }
+        if (blockEntity == null) return;
         
-        if (!cir.getReturnValue().isAccepted()) {
-            Lockout.log("ShelfBlockMixin: Interaction not successful, result: " + cir.getReturnValue());
-            return;
-        }
+        if (!cir.getReturnValue().isAccepted()) return;
 
-        Lockout.log("ShelfBlockMixin: Interaction successful, checking shelf filled");
         lockout$checkShelfFilled(lockout, player, blockEntity);
     }
 
@@ -52,37 +42,26 @@ public class ShelfBlockMixin {
     private static void lockout$checkShelfFilled(Lockout lockout, PlayerEntity player, ShelfBlockEntity blockEntity) {
         // Check if all 3 slots of the shelf are filled
         boolean allSlotsFilled = true;
-        int filledSlots = 0;
         
         for (int i = 0; i < 3; i++) {
-            if (!blockEntity.getStack(i).isEmpty()) {
-                filledSlots++;
-            } else {
+            if (blockEntity.getStack(i).isEmpty()) {
                 allSlotsFilled = false;
+                break;
             }
         }
 
-        Lockout.log("ShelfBlockMixin: Shelf has " + filledSlots + "/3 slots filled, allSlotsFilled: " + allSlotsFilled);
-
-        if (!allSlotsFilled) {
-            Lockout.log("ShelfBlockMixin: Shelf not fully filled, returning");
-            return;
-        }
-
-        Lockout.log("ShelfBlockMixin: Shelf is fully filled, checking goals");
+        if (!allSlotsFilled) return;
         
         for (Goal goal : lockout.getBoard().getGoals()) {
             if (goal == null) continue;
             if (goal.isCompleted()) continue;
 
             if (goal instanceof FillShelfGoal) {
-                Lockout.log("ShelfBlockMixin: Found FillShelfGoal, completing for player: " + player.getName().getString());
                 lockout.completeGoal(goal, player);
                 return;
             }
         }
-        
-        Lockout.log("ShelfBlockMixin: No FillShelfGoal found on board");
     }
 }
+
 

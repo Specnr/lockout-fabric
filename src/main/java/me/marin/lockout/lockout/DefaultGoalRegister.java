@@ -371,6 +371,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.DEAL_400_DAMAGE, Deal400DamageGoal.class);
         INSTANCE.register(GoalType.SPRINT_1_KM, Sprint1KmGoal.class);
         INSTANCE.register(GoalType.GET_HIRED_HELP_ADVANCEMENT, GetHiredHelpAdvancementGoal.class);
+        INSTANCE.register(GoalType.GET_STAY_HYDRATED_ADVANCEMENT, GetStayHydratedAdvancementGoal.class);
         INSTANCE.register(GoalType.GET_WAX_ON_ADVANCEMENT, GetWaxOnAdvancementGoal.class);
         INSTANCE.register(GoalType.GET_WAX_OFF_ADVANCEMENT, GetWaxOffAdvancementGoal.class);
         INSTANCE.register(GoalType.GET_COUNTRY_LODE_TAKE_ME_HOME_ADVANCEMENT, GetCountryLodeTakeMeHomeAdvancementGoal.class);

@@ -135,6 +135,7 @@ public class GoalType {
     public static final String GET_WAX_ON_ADVANCEMENT = "GET_WAX_ON_ADVANCEMENT";
     public static final String GET_WAX_OFF_ADVANCEMENT = "GET_WAX_OFF_ADVANCEMENT";
     public static final String GET_HIRED_HELP_ADVANCEMENT = "GET_HIRED_HELP_ADVANCEMENT";
+    public static final String GET_STAY_HYDRATED_ADVANCEMENT = "GET_STAY_HYDRATED_ADVANCEMENT";
     public static final String GET_ABSORPTION_STATUS_EFFECT = "GET_ABSORPTION_STATUS_EFFECT";
     public static final String GET_BAD_OMEN_STATUS_EFFECT = "GET_BAD_OMEN_STATUS_EFFECT";
     public static final String GET_GLOWING_STATUS_EFFECT = "GET_GLOWING_STATUS_EFFECT";

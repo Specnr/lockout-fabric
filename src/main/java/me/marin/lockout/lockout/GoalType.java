@@ -234,5 +234,6 @@ public class GoalType {
     public static final String KILL_BREEZE_USING_WIND_CHARGE = "KILL_BREEZE_USING_WIND_CHARGE";
     public static final String FILL_BUNDLE_WITH_BUNDLES = "FILL_BUNDLE_WITH_BUNDLES";
     public static final String OBTAIN_64_ARROWS = "OBTAIN_64_ARROWS";
+    public static final String GET_COUNTRY_LODE_TAKE_ME_HOME_ADVANCEMENT = "GET_COUNTRY_LODE_TAKE_ME_HOME_ADVANCEMENT";
 
 }

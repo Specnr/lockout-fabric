@@ -15,6 +15,7 @@
     "server.CampfireBlockEntityMixin",
     "server.ChiseledBookshelfBlockMixin",
     "server.CompassItemMixin",
+    "server.CompassItemUseOnBlockMixin",
     "server.ComposterBlockMixin",
     "server.ConsumeItemCriterionMixin",
     "server.CraftingResultSlotMixin",

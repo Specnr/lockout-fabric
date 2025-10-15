@@ -2,7 +2,7 @@ package me.marin.lockout.mixin.server;
 
 import me.marin.lockout.Lockout;
 import me.marin.lockout.lockout.Goal;
-import me.marin.lockout.lockout.goals.misc.FillBundleWithBundlesGoal;
+import me.marin.lockout.lockout.goals.misc.FillBundleGoal;
 import me.marin.lockout.server.LockoutServer;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BundleContentsComponent;
@@ -12,6 +12,7 @@ import net.minecraft.item.BundleItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.ClickType;
+import org.apache.commons.lang3.math.Fraction;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -45,18 +46,8 @@ public class BundleItemMixin {
     private static void lockout$onClick(Lockout lockout, PlayerEntity player, ItemStack stack) {
         BundleContentsComponent bcc = stack.get(DataComponentTypes.BUNDLE_CONTENTS);
 
-        int bundles = 0;
-        loop:
-        for (int i = 0; i < bcc.size(); i++) {
-            for (BundleItem bundle : BundleItem.getBundles()) {
-                if (bcc.get(i).isOf(bundle)) {
-                    bundles += 1;
-                    continue loop;
-                }
-            }
-            return;
-        }
-        if (bundles < 16) {
+        // Check if bundle is completely full (no space left)
+        if (bcc.getOccupancy().compareTo(Fraction.ONE) < 0) {
             return;
         }
 
@@ -64,7 +55,7 @@ public class BundleItemMixin {
             if (goal == null) continue;
             if (goal.isCompleted()) continue;
 
-            if (goal instanceof FillBundleWithBundlesGoal) {
+            if (goal instanceof FillBundleGoal) {
                 lockout.completeGoal(goal, player);
             }
         }

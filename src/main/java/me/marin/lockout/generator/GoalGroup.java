@@ -149,7 +149,7 @@ public class GoalGroup {
             USE_ANVIL, DIE_BY_ANVIL, OBTAIN_ALL_MINECARTS, GET_HIRED_HELP_ADVANCEMENT
     ), 1);
     public static final GoalGroup LEATHER_HEAVY = new GoalGroup(List.of(
-            WEAR_LEATHER_ARMOR, WEAR_UNIQUE_COLORED_LEATHER_ARMOR, FILL_BUNDLE_WITH_BUNDLES
+            WEAR_LEATHER_ARMOR, WEAR_UNIQUE_COLORED_LEATHER_ARMOR
     ), 1);
     public static final GoalGroup FIREWORKS = new GoalGroup(List.of(
             DIE_BY_FIREWORK, SHOOT_FIREWORK_FROM_CROSSBOW

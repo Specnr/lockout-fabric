@@ -29,6 +29,13 @@ public abstract class GoalRequirements {
     public static final GoalRequirements RABBIT_BIOMES = new Builder()
             .biomes(List.of(DESERT, SNOWY_PLAINS, SNOWY_TAIGA, GROVE, SNOWY_SLOPES, FLOWER_FOREST, TAIGA, MEADOW, OLD_GROWTH_PINE_TAIGA, OLD_GROWTH_SPRUCE_TAIGA, CHERRY_GROVE))
             .build();
+    public static final GoalRequirements SNOWY_BIOMES = new Builder()
+            .biomes(List.of(SNOWY_PLAINS, ICE_SPIKES, SNOWY_TAIGA, GROVE, SNOWY_SLOPES, FROZEN_PEAKS, FROZEN_RIVER, SNOWY_BEACH, FROZEN_OCEAN, DEEP_FROZEN_OCEAN))
+            .build();
+    public static final GoalRequirements SNOWY_BIOMES_TEAMS_GOAL = new Builder()
+            .biomes(List.of(SNOWY_PLAINS, ICE_SPIKES, SNOWY_TAIGA, GROVE, SNOWY_SLOPES, FROZEN_PEAKS, FROZEN_RIVER, SNOWY_BEACH, FROZEN_OCEAN, DEEP_FROZEN_OCEAN))
+            .isTeamSizeOk((size) -> size >= 2)
+            .build();
     public static final GoalRequirements TEAMS_GOAL = new Builder().isTeamSizeOk((size) -> size >= 2).build();
     public static final GoalRequirements TEAMS_GOAL_NOT_IN_RANDOM_POOL = new Builder().isTeamSizeOk((size) -> size >= 2).partOfRandomPool(false).build();
     public static final GoalRequirements NOT_IN_RANDOM_POOL = new Builder().partOfRandomPool(false).build();

@@ -132,7 +132,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.KILL_GUARDIAN, KillGuardianGoal.class, GoalRequirements.MONUMENT);
         INSTANCE.register(GoalType.KILL_GHAST, KillGhastGoal.class);
         INSTANCE.register(GoalType.KILL_BAT, KillBatGoal.class);
-        INSTANCE.register(GoalType.KILL_SNOW_GOLEM, KillSnowGolemGoal.class);
+        INSTANCE.register(GoalType.KILL_SNOW_GOLEM, KillSnowGolemGoal.class, GoalRequirements.SNOWY_BIOMES);
         INSTANCE.register(GoalType.KILL_SNOW_GOLEM_IN_NETHER, KillSnowGolemInNetherGoal.class);
         INSTANCE.register(GoalType.KILL_ELDER_GUARDIAN, KillElderGuardianGoal.class, GoalRequirements.MONUMENT);
         INSTANCE.register(GoalType.KILL_COLORED_SHEEP, KillColoredSheepGoal.class, null,
@@ -350,8 +350,7 @@ public class DefaultGoalRegister {
                 GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_HIT_BY_EGG, OpponentHitByEggGoal.class,
                 GoalRequirements.TEAMS_GOAL_NOT_IN_RANDOM_POOL);
-        INSTANCE.register(GoalType.OPPONENT_HIT_BY_SNOWBALL, OpponentHitBySnowballGoal.class,
-                GoalRequirements.TEAMS_GOAL_NOT_IN_RANDOM_POOL);
+        INSTANCE.register(GoalType.OPPONENT_HIT_BY_SNOWBALL, OpponentHitBySnowballGoal.class, GoalRequirements.SNOWY_BIOMES_TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_TAKES_100_DAMAGE, OpponentTakes100DamageGoal.class,
                 GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_TAKES_FALL_DAMAGE, OpponentTakesFallDamageGoal.class,
@@ -414,7 +413,7 @@ public class DefaultGoalRegister {
 
         INSTANCE.register(GoalType.CONSTRUCT_COPPER_GOLEM, ConstructCopperGolemGoal.class);
         INSTANCE.register(GoalType.FILL_SHELF, FillShelfGoal.class);
-        INSTANCE.register(GoalType.KILL_BLAZE_WITH_SNOWBALL, KillBlazeWithSnowballGoal.class);
+        INSTANCE.register(GoalType.KILL_BLAZE_WITH_SNOWBALL, KillBlazeWithSnowballGoal.class, GoalRequirements.SNOWY_BIOMES);
 
     }
 

@@ -17,6 +17,7 @@
         - Advancements
 - Add new `goal-pool.yml` which allows users to pick and choose which goals will be used in the random pool
     - Default selection is based off the current "NOT_IN_RANDOM_POOL" / "TEAMS_GOAL_NOT_IN_RANDOM_POOL"
+    - Add `/ReloadGoalPool` to reload the config while in the world
 - Change "Fill Bundle with 16 empty Bundles" to "Fill Bundle" for balancing
 - Add snowy biome check for snow-related goals
 - Allow "Opponent does X" goals to work with any number of teams
@@ -28,6 +29,7 @@
 - Adds start delay time to config
 - Update locator bar player waypoint colours to match team colour
     - Slightly change the shade of the colour to distinguish between players within a team
+      - Not the best solution, but not sure of a better one. Will look into this
 - Add `/SetGiveCompasses <true/false>` command to allow users to control if they are given compass on start / death
     - Default - false
 - Fixed key binding showing up in MISC

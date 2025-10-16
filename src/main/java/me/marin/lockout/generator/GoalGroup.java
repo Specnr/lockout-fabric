@@ -163,6 +163,9 @@ public class GoalGroup {
     public static final GoalGroup RAID = new GoalGroup(List.of(
             GET_BAD_OMEN_STATUS_EFFECT, KILL_ALL_RAID_MOBS
     ), 1);
+    public static final GoalGroup HAVE_MOST = new GoalGroup(List.of(
+            HAVE_MORE_UNIQUE_CRAFTS, HAVE_MOST_ADVANCEMENTS, HAVE_MOST_HOPPERS, HAVE_MORE_XP_LEVELS
+    ), 2);
 
     static {
         KILL_UNIQUE_HOSTILES.requirePredecessor.add(KILL_13_UNIQUE_HOSTILE_MOBS);
@@ -219,6 +222,7 @@ public class GoalGroup {
         GOAL_GROUPS.add(WOLF);
         GOAL_GROUPS.add(TRIAL_CHAMBERS);
         GOAL_GROUPS.add(RAID);
+        GOAL_GROUPS.add(HAVE_MOST);
     }
 
 

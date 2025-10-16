@@ -51,6 +51,7 @@ public class Lockout {
     public final Map<UUID, Set<Item>> uniqueCrafts = new HashMap<>();
     public final Map<UUID, Integer> playerKills = new HashMap<>();
     public final Map<UUID, Integer> playerAdvancements = new HashMap<>();
+    public final Map<UUID, Integer> playerHopperCounts = new HashMap<>();
 
     public UUID mostUniqueCraftsPlayer;
     public int mostUniqueCrafts;
@@ -58,6 +59,8 @@ public class Lockout {
     public int mostPlayerKills;
     public UUID mostAdvancementsPlayer;
     public int mostAdvancements;
+    public UUID mostHoppersPlayer;
+    public int mostHoppers;
 
     @Getter
     private final LockoutBoard board;
@@ -448,6 +451,37 @@ public class Lockout {
         if (!largestLevelPlayers.contains(mostLevelsPlayer)) {
             this.mostLevelsPlayer = largestLevelPlayers.get(0);
             updateGoalCompletion(goal, largestLevelPlayers.get(0));
+        }
+    }
+
+    public void recalculateHoppersGoal(Goal goal) {
+        List<UUID> largestHopperPlayers = new ArrayList<>();
+        int largestHopperCount = 0;
+
+        for (UUID uuid : playerHopperCounts.keySet()) {
+            int count = playerHopperCounts.get(uuid);
+            if (count == largestHopperCount) {
+                largestHopperPlayers.add(uuid);
+                continue;
+            }
+            if (count > largestHopperCount) {
+                largestHopperPlayers.clear();
+                largestHopperPlayers.add(uuid);
+                largestHopperCount = count;
+            }
+        }
+
+        if (largestHopperCount == 0) {
+            if (this.mostHoppersPlayer != null) {
+                this.mostHoppersPlayer = null;
+                clearGoalCompletion(goal, true);
+            }
+            return;
+        }
+
+        if (!largestHopperPlayers.contains(mostHoppersPlayer)) {
+            this.mostHoppersPlayer = largestHopperPlayers.get(0);
+            updateGoalCompletion(goal, largestHopperPlayers.get(0));
         }
     }
 

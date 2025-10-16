@@ -245,5 +245,6 @@ public class GoalType {
     public static final String CONSTRUCT_COPPER_GOLEM = "CONSTRUCT_COPPER_GOLEM";
     public static final String FILL_SHELF = "FILL_SHELF";
     public static final String KILL_BLAZE_WITH_SNOWBALL = "KILL_BLAZE_WITH_SNOWBALL";
+    public static final String HAVE_MOST_HOPPERS = "HAVE_MOST_HOPPERS";
 
 }

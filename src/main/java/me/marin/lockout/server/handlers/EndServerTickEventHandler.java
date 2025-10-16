@@ -4,6 +4,7 @@ import me.marin.lockout.Lockout;
 import me.marin.lockout.LockoutRunnable;
 import me.marin.lockout.lockout.Goal;
 import me.marin.lockout.lockout.goals.have_more.HaveMostXPLevelsGoal;
+import me.marin.lockout.lockout.goals.have_more.HaveMostHoppersGoal;
 import me.marin.lockout.lockout.goals.misc.EmptyHungerBarGoal;
 import me.marin.lockout.lockout.goals.misc.ReachBedrockGoal;
 import me.marin.lockout.lockout.goals.misc.ReachHeightLimitGoal;
@@ -52,6 +53,16 @@ public class EndServerTickEventHandler implements ServerTickEvents.EndTick {
                     lockout.levels.put(player.getUuid(), player.isDead() ? 0 : player.experienceLevel);
                 }
                 lockout.recalculateXPGoal(goal);
+            }
+
+            if (goal instanceof HaveMostHoppersGoal) {
+                for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+                    if (!lockout.isLockoutPlayer(player.getUuid())) continue;
+                    
+                    int hopperCount = player.getInventory().count(Items.HOPPER);
+                    lockout.playerHopperCounts.put(player.getUuid(), hopperCount);
+                }
+                lockout.recalculateHoppersGoal(goal);
             }
 
             if (goal.isCompleted()) continue;

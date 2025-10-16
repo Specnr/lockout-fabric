@@ -385,7 +385,7 @@ public class LockoutServer {
      * @param teamColor The team's color formatting
      * @param playerIndex The index of the player within their team (for color variation)
      */
-    private static void updatePlayerWaypointColor(ServerPlayerEntity player, Formatting teamColor, int playerIndex) {
+    public static void updatePlayerWaypointColor(ServerPlayerEntity player, Formatting teamColor, int playerIndex) {
         try {
             Integer colorValue = teamColor.getColorValue();
             if (colorValue == null) {

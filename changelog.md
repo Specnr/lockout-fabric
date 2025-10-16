@@ -1,3 +1,46 @@
+## Lockout v0.10.0
+- Add new goals:
+    - Use a compass on a lodestone
+        - Doesnt work with the tracker compass
+    - Hydrate a dried ghast
+    - Obtain a full set of copper tools
+    - Wear a full set of copper armor
+    - Pale garden goals:
+        - Achieve "Heart Transplant"
+        - Obtain Resin brick stairs
+    - Construct a copper golem
+    - Fill a shelf with shelves
+    - Kill a blaze with a snowball
+    - Have more:
+        - Player kills
+        - Hoppers
+        - Advancements
+- Add new `goal-pool.yml` which allows users to pick and choose which goals will be used in the random pool
+    - Default selection is based off the current "NOT_IN_RANDOM_POOL" / "TEAMS_GOAL_NOT_IN_RANDOM_POOL"
+- Change "Fill Bundle with 16 empty Bundles" to "Fill Bundle" for balancing
+- Add snowy biome check for snow-related goals
+- Allow "Opponent does X" goals to work with any number of teams
+    - Previously only worked with exactly two teams
+    - Goals now complete when ALL other opponents meet the condition
+    - Each team's progress is tracked independently
+    - Renamed all opponent goals to "All other opponents..." for clarity
+- Add autocomplete to players / teams in `/lockout` and `/blackout` commands
+- Adds start delay time to config
+- Update locator bar player waypoint colours to match team colour
+    - Slightly change the shade of the colour to distinguish between players within a team
+- Add `/SetGiveCompasses <true/false>` command to allow users to control if they are given compass on start / death
+    - Default - false
+- Fixed key binding showing up in MISC
+
+## Lockout v0.9.4
+- Update to 1.21.10
+- Update goals to 1.21.10
+    - Unique saplings now contains Pale Oak sapling
+    - Unique flowers now contains Eyeblossom (open and closed)
+    - All horse armours now contains copper
+- Removed F3 changes
+    - With the new F3 layout changes in newer versions, this would require quite the rework
+
 ## Lockout v0.9.3
 - Fixed spectators getting advancements causing a crash
 

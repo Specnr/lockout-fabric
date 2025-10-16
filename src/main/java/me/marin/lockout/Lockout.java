@@ -49,9 +49,12 @@ public class Lockout {
     public final Map<UUID, Long> pumpkinWearTime = new HashMap<>();
     public final Map<UUID, Integer> distanceSprinted = new HashMap<>();
     public final Map<UUID, Set<Item>> uniqueCrafts = new HashMap<>();
+    public final Map<UUID, Integer> playerKills = new HashMap<>();
 
     public UUID mostUniqueCraftsPlayer;
     public int mostUniqueCrafts;
+    public UUID mostPlayerKillsPlayer;
+    public int mostPlayerKills;
 
     @Getter
     private final LockoutBoard board;

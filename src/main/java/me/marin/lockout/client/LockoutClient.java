@@ -294,7 +294,7 @@ public class LockoutClient implements ClientModInitializer {
         });
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             LockoutConfig.load(); // reload config every time player joins world
-
+            GoalPoolConfig.load(); // reload goal pool config every time player joins world
         });
         ClientPlayConnectionEvents.DISCONNECT.register(((handler, client) -> {
             lockout = null;

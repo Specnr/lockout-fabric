@@ -86,6 +86,7 @@ public class LockoutServer {
         AVAILABLE_DYE_COLORS.clear();
 
         LockoutConfig.load(); // reload config every time the server starts
+        GoalPoolConfig.load(); // reload goal pool config every time the server starts
         lockoutStartTime = LockoutConfig.getInstance().lockoutStartTime;
         boardSize = LockoutConfig.getInstance().boardSize;
         Lockout.log("Using default board size: " + boardSize);
@@ -309,6 +310,18 @@ public class LockoutServer {
         if (CUSTOM_BOARD == null) {
             BoardGenerator boardGenerator = new BoardGenerator(GoalRegistry.INSTANCE.getRegisteredGoals(), teams, AVAILABLE_DYE_COLORS, BIOME_LOCATE_DATA, STRUCTURE_LOCATE_DATA);
             lockoutBoard = boardGenerator.generateBoard(boardSize);
+            
+            // Check if board generation failed due to insufficient goals
+            if (lockoutBoard == null) {
+                String errorMessage = "Cannot generate board: Not enough goals enabled in goal-pool.yml. Please enable more goals or reduce board size.";
+                for (UUID playerUuid : allLockoutPlayers) {
+                    ServerPlayerEntity player = playerManager.getPlayer(playerUuid);
+                    if (player != null) {
+                        player.sendMessage(Text.literal(errorMessage).formatted(Formatting.RED), false);
+                    }
+                }
+                return; // Abort lockout start
+            }
         } else {
             // Reset custom board (TODO: do this somewhere else)
             for (Goal goal : CUSTOM_BOARD.getGoals()) {
@@ -676,18 +689,6 @@ public class LockoutServer {
 
         boardSize = size;
         context.getSource().sendMessage(Text.of("Updated board size to " + size + "."));
-        return 1;
-    }
-
-    public static int setRestrictRandomPool(CommandContext<ServerCommandSource> context) {
-        boolean restrict = context.getArgument("restrict", Boolean.class);
-        LockoutConfig.getInstance().restrictRandomPool = restrict;
-        LockoutConfig.save();
-
-        String message = restrict
-                ? "Restricted goals will now be excluded from random pool"
-                : "Restricted goals will now be included in random pool";
-        context.getSource().sendFeedback(() -> Text.literal(message), true);
         return 1;
     }
 

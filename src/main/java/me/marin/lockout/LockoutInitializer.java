@@ -49,6 +49,7 @@ public class LockoutInitializer implements ModInitializer {
         MOD_VERSION = FabricLoader.getInstance().getModContainer(NAMESPACE).get().getMetadata().getVersion();
 
         LockoutConfig.load();
+        GoalPoolConfig.load();
         Networking.registerPayloads();
         DefaultGoalRegister.registerGoals();
 
@@ -138,16 +139,6 @@ public class LockoutInitializer implements ModInitializer {
 
                 dispatcher.getRoot().addChild(setBoardTimeRoot);
                 setBoardTimeRoot.addChild(size);
-            }
-
-            {
-                // SetRestrictRandomPool command
-
-                var setRestrictRandomPoolRoot = CommandManager.literal("SetRestrictRandomPool").requires(PERMISSIONS).build();
-                var restrict = CommandManager.argument("restrict", BoolArgumentType.bool()).executes(LockoutServer::setRestrictRandomPool).build();
-
-                dispatcher.getRoot().addChild(setRestrictRandomPoolRoot);
-                setRestrictRandomPoolRoot.addChild(restrict);
             }
 
             {

@@ -1,7 +1,8 @@
 package me.marin.lockout.generator;
 
 import me.marin.lockout.LocateData;
-import me.marin.lockout.LockoutConfig;
+import me.marin.lockout.GoalPoolConfig;
+import me.marin.lockout.Lockout;
 import me.marin.lockout.LockoutTeamServer;
 import me.marin.lockout.client.LockoutBoard;
 import me.marin.lockout.lockout.GoalRegistry;
@@ -21,6 +22,7 @@ public class BoardGenerator {
     private final List<DyeColor> attainableDyes;
     private final Map<RegistryKey<Biome>, LocateData> biomes;
     private final Map<RegistryKey<Structure>, LocateData> structures;
+    private final int maxRecursionDepth = 100;
 
     public BoardGenerator(List<String> registeredGoals, List<LockoutTeamServer> teams, List<DyeColor> attainableDyes, Map<RegistryKey<Biome>, LocateData> biomes, Map<RegistryKey<Structure>, LocateData> structures) {
         this.registeredGoals = registeredGoals;
@@ -31,6 +33,16 @@ public class BoardGenerator {
     }
 
     public LockoutBoard generateBoard(int size) {
+        return generateBoard(size, 0);
+    }
+
+    private LockoutBoard generateBoard(int size, int recursionDepth) {
+        // Prevent infinite recursion
+        if (recursionDepth >= maxRecursionDepth) {
+            Lockout.log("Board generation failed: max recursion depth (" + maxRecursionDepth + ") reached");
+            return null;
+        }
+
         Collections.shuffle(registeredGoals);
 
         List<Pair<String, String>> goals = new ArrayList<>();
@@ -44,12 +56,14 @@ public class BoardGenerator {
                 continue;
             }
 
+            // Always check GoalPoolConfig first - this applies to ALL goals
+            if (!GoalPoolConfig.getInstance().isGoalEnabled(goal)) {
+                continue;
+            }
+
             GoalRequirements goalRequirements = GoalRegistry.INSTANCE.getGoalGenerator(goal);
             if (goalRequirements != null) {
                 if (!goalRequirements.isTeamsSizeOk(teams.size())) {
-                    continue;
-                }
-                if (LockoutConfig.getInstance().restrictRandomPool && !goalRequirements.isPartOfRandomPool()) {
                     continue;
                 }
                 if (!goalRequirements.isSatisfied(biomes, structures)) {
@@ -64,8 +78,10 @@ public class BoardGenerator {
             goalTypes.add(goal);
         }
 
+        // If we didn't get enough goals, try again with a new shuffle
         if (goals.size() < size * size) {
-            return generateBoard(size);
+            Lockout.log("Board generation attempt " + (recursionDepth + 1) + ": only got " + goals.size() + " goals, need " + (size * size));
+            return generateBoard(size, recursionDepth + 1);
         }
 
         // Shuffle the board again. Some goals will always be after some other goals (GoalGroup#requirePredecessor),

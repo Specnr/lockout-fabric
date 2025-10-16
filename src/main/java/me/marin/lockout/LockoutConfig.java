@@ -24,9 +24,6 @@ public class LockoutConfig {
     @SerializedName("board position")
     public BoardPosition boardPosition = BoardPosition.RIGHT;
 
-    @SerializedName("restrict random pool")
-    public boolean restrictRandomPool = true;
-
     @SerializedName("lockout start time")
     public int lockoutStartTime = 60;
 
@@ -54,7 +51,6 @@ public class LockoutConfig {
         instance = new LockoutConfig();
         instance.boardSize = 5;
         instance.boardPosition = BoardPosition.RIGHT;
-        instance.restrictRandomPool = true;
         instance.lockoutStartTime = 60;
         instance.giveCompasses = false;
     }

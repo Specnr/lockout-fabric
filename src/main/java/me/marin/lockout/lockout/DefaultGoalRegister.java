@@ -176,7 +176,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.OBTAIN_ANCIENT_DEBRIS, ObtainAncientDebrisGoal.class);
         INSTANCE.register(GoalType.OBTAIN_ENDER_CHEST, ObtainEnderChestGoal.class);
         INSTANCE.register(GoalType.OBTAIN_HEART_OF_THE_SEA, ObtainHeartOfTheSeaGoal.class);
-        INSTANCE.register(GoalType.OBTAIN_WITHER_SKELETON_SKULL, ObtainWitherSkeletonSkullGoal.class, GoalRequirements.NOT_IN_RANDOM_POOL);
+        INSTANCE.register(GoalType.OBTAIN_WITHER_SKELETON_SKULL, ObtainWitherSkeletonSkullGoal.class);
         INSTANCE.register(GoalType.OBTAIN_END_ROD, ObtainEndRodGoal.class);
         INSTANCE.register(GoalType.OBTAIN_SPONGE, ObtainSpongeGoal.class,
                 GoalRequirements.MONUMENT);
@@ -239,7 +239,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.EAT_20_UNIQUE_FOOD, Eat20UniqueFoodsGoal.class);
         INSTANCE.register(GoalType.EAT_25_UNIQUE_FOOD, Eat25UniqueFoodsGoal.class);
         INSTANCE.register(GoalType.EAT_CHORUS_FRUIT, EatChorusFruitGoal.class);
-        INSTANCE.register(GoalType.EAT_COOKIE, EatCookieGoal.class, GoalRequirements.NOT_IN_RANDOM_POOL);
+        INSTANCE.register(GoalType.EAT_COOKIE, EatCookieGoal.class);
         INSTANCE.register(GoalType.EAT_GLOW_BERRY, EatGlowBerryGoal.class);
         INSTANCE.register(GoalType.EAT_POISONOUS_POTATO, EatPoisonousPotatoGoal.class);
         INSTANCE.register(GoalType.EAT_PUMPKIN_PIE, EatPumpkinPieGoal.class);
@@ -267,7 +267,7 @@ public class DefaultGoalRegister {
         );
         INSTANCE.register(GoalType.GET_GLOWING_STATUS_EFFECT, GetGlowingStatusEffectGoal.class);
         INSTANCE.register(GoalType.GET_JUMP_BOOST_STATUS_EFFECT, GetJumpBoostStatusEffectGoal.class);
-        INSTANCE.register(GoalType.GET_LEVITATION_STATUS_EFFECT, GetLevitationStatusEffectGoal.class, GoalRequirements.NOT_IN_RANDOM_POOL);
+        INSTANCE.register(GoalType.GET_LEVITATION_STATUS_EFFECT, GetLevitationStatusEffectGoal.class);
         INSTANCE.register(GoalType.GET_MINING_FATIGUE_STATUS_EFFECT, GetMiningFatigueStatusEffectGoal.class,
                 GoalRequirements.MONUMENT);
         INSTANCE.register(GoalType.GET_NAUSEA_STATUS_EFFECT, GetNauseaStatusEffectGoal.class, new GoalRequirements.Builder()
@@ -297,10 +297,10 @@ public class DefaultGoalRegister {
         );
         INSTANCE.register(GoalType.DIE_BY_MAGIC, DieByMagicGoal.class, GoalRequirements.MONUMENT);
         INSTANCE.register(GoalType.DIE_BY_TNT_MINECART, DieToTNTMinecartGoal.class);
-        INSTANCE.register(GoalType.GET_A_TERRIBLE_FORTRESS_ADVANCEMENT, GetATerribleFortressAdvancementGoal.class, GoalRequirements.NOT_IN_RANDOM_POOL);
-        INSTANCE.register(GoalType.GET_THE_CITY_AT_THE_END_OF_THE_GAME_ADVANCEMENT, GetCityAtTheEndOfTheGameAdvancementGoal.class, GoalRequirements.NOT_IN_RANDOM_POOL);
+        INSTANCE.register(GoalType.GET_A_TERRIBLE_FORTRESS_ADVANCEMENT, GetATerribleFortressAdvancementGoal.class);
+        INSTANCE.register(GoalType.GET_THE_CITY_AT_THE_END_OF_THE_GAME_ADVANCEMENT, GetCityAtTheEndOfTheGameAdvancementGoal.class);
         INSTANCE.register(GoalType.GET_EYE_SPY_ADVANCEMENT, GetEyeSpyAdvancementGoal.class);
-        INSTANCE.register(GoalType.GET_THOSE_WERE_THE_DAYS_ADVANCEMENT, GetThoseWereTheDaysAdvancementGoal.class, GoalRequirements.NOT_IN_RANDOM_POOL);
+        INSTANCE.register(GoalType.GET_THOSE_WERE_THE_DAYS_ADVANCEMENT, GetThoseWereTheDaysAdvancementGoal.class);
         INSTANCE.register(GoalType.REMOVE_STATUS_EFFECT_USING_MILK, RemoveStatusEffectUsingMilkGoal.class);
         INSTANCE.register(GoalType.GET_3_STATUS_EFFECTS_AT_ONCE, Get3StatusEffectsGoal.class);
         INSTANCE.register(GoalType.GET_4_STATUS_EFFECTS_AT_ONCE, Get4StatusEffectsGoal.class);
@@ -339,20 +339,16 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.WEAR_UNIQUE_COLORED_LEATHER_ARMOR, WearUniqueColoredLeatherArmorGoal.class);
         INSTANCE.register(GoalType.KILL_OTHER_PLAYER, KillOtherTeamPlayer.class,
                 GoalRequirements.TEAMS_GOAL);
-        INSTANCE.register(GoalType.OPPONENT_OBTAINS_CRAFTING_TABLE, OpponentObtainsCraftingTableGoal.class,
-                GoalRequirements.TEAMS_GOAL_NOT_IN_RANDOM_POOL);
-        INSTANCE.register(GoalType.OPPONENT_OBTAINS_OBSIDIAN, OpponentObtainsObsidianGoal.class,
-                GoalRequirements.TEAMS_GOAL_NOT_IN_RANDOM_POOL);
-        INSTANCE.register(GoalType.OPPONENT_OBTAINS_SEEDS, OpponentObtainsSeedsGoal.class,
-                GoalRequirements.TEAMS_GOAL_NOT_IN_RANDOM_POOL);
+        INSTANCE.register(GoalType.OPPONENT_OBTAINS_CRAFTING_TABLE, OpponentObtainsCraftingTableGoal.class);
+        INSTANCE.register(GoalType.OPPONENT_OBTAINS_OBSIDIAN, OpponentObtainsObsidianGoal.class);
+        INSTANCE.register(GoalType.OPPONENT_OBTAINS_SEEDS, OpponentObtainsSeedsGoal.class);
         INSTANCE.register(GoalType.OPPONENT_CATCHES_ON_FIRE, OpponentCatchesOnFireGoal.class,
                 GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_DIES_3_TIMES, OpponentDies3TimesGoal.class,
                 GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_DIES, OpponentDiesGoal.class,
                 GoalRequirements.TEAMS_GOAL);
-        INSTANCE.register(GoalType.OPPONENT_HIT_BY_EGG, OpponentHitByEggGoal.class,
-                GoalRequirements.TEAMS_GOAL_NOT_IN_RANDOM_POOL);
+        INSTANCE.register(GoalType.OPPONENT_HIT_BY_EGG, OpponentHitByEggGoal.class);
         INSTANCE.register(GoalType.OPPONENT_HIT_BY_SNOWBALL, OpponentHitBySnowballGoal.class, GoalRequirements.SNOWY_BIOMES_TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_TAKES_100_DAMAGE, OpponentTakes100DamageGoal.class,
                 GoalRequirements.TEAMS_GOAL);
@@ -360,8 +356,7 @@ public class DefaultGoalRegister {
                 GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_TOUCHES_WATER, OpponentTouchesWaterGoal.class,
                 GoalRequirements.TEAMS_GOAL);
-        INSTANCE.register(GoalType.OPPONENT_EATS_FOOD, OpponentEatsFoodGoal.class,
-                GoalRequirements.TEAMS_GOAL_NOT_IN_RANDOM_POOL);
+        INSTANCE.register(GoalType.OPPONENT_EATS_FOOD, OpponentEatsFoodGoal.class);
 
         INSTANCE.register(GoalType.TAKE_200_DAMAGE, Take200DamageGoal.class);
         INSTANCE.register(GoalType.REACH_NETHER_ROOF, ReachNetherRoofGoal.class);
@@ -381,7 +376,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.GET_COUNTRY_LODE_TAKE_ME_HOME_ADVANCEMENT, GetCountryLodeTakeMeHomeAdvancementGoal.class);
         INSTANCE.register(GoalType.PUT_BANNER_ON_SHIELD, ObtainShieldWithBannerGoal.class);
         INSTANCE.register(GoalType.HAVE_MORE_UNIQUE_CRAFTS, HaveMostUniqueCraftsGoal.class, GoalRequirements.TEAMS_GOAL);
-        INSTANCE.register(GoalType.HAVE_MOST_PLAYER_KILLS, HaveMostPlayerKillsGoal.class, GoalRequirements.TEAMS_GOAL_NOT_IN_RANDOM_POOL);
+        INSTANCE.register(GoalType.HAVE_MOST_PLAYER_KILLS, HaveMostPlayerKillsGoal.class);
         INSTANCE.register(GoalType.HAVE_MOST_ADVANCEMENTS, HaveMostAdvancementsGoal.class, GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.HAVE_MOST_HOPPERS, HaveMostHoppersGoal.class, GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.HAVE_YOUR_SHIELD_DISABLED, HaveShieldDisabledGoal.class);

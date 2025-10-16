@@ -16,7 +16,7 @@ public class KillBlazeWithSnowballGoal extends KillMobGoal implements TexturePro
 
     @Override
     public String getGoalName() {
-        return "Kill a Blaze with a Snowball";
+        return "Kill Blaze using Snowball";
     }
 
     @Override

@@ -6,7 +6,7 @@ import net.minecraft.item.Items;
 
 public class ConstructCopperGolemGoal extends Goal {
 
-    private static final ItemStack ITEM_STACK = Items.COPPER_GOLEM_SPAWN_EGG.getDefaultStack();
+    private static final ItemStack ITEM_STACK = Items.COPPER_CHEST.getDefaultStack();
 
     public ConstructCopperGolemGoal(String id, String data) {
         super(id, data);

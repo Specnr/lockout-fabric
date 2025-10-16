@@ -30,7 +30,7 @@ public class GoalPoolConfig {
 
     private final Map<String, Boolean> goalStates = new LinkedHashMap<>();
 
-    // Goals that are currently marked as NOT_IN_RANDOM_POOL or TEAMS_GOAL_NOT_IN_RANDOM_POOL
+    // Goals that should be disabled by default (NOT_IN_RANDOM_POOL or TEAMS_GOAL_NOT_IN_RANDOM_POOL goals)
     private static final Set<String> DEFAULT_DISABLED_GOALS = Set.of(
             OBTAIN_WITHER_SKELETON_SKULL,
             EAT_COOKIE,

@@ -704,4 +704,16 @@ public class LockoutServer {
         return 1;
     }
 
+    public static int reloadGoalPool(CommandContext<ServerCommandSource> context) {
+        try {
+            GoalPoolConfig.load();
+            context.getSource().sendFeedback(() -> Text.literal("Goal pool configuration reloaded successfully."), true);
+            return 1;
+        } catch (Exception e) {
+            Lockout.error(e);
+            context.getSource().sendError(Text.literal("Failed to reload goal pool configuration. Check the server logs for details."));
+            return 0;
+        }
+    }
+
 }

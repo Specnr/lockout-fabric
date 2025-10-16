@@ -151,6 +151,12 @@ public class LockoutInitializer implements ModInitializer {
                 setGiveCompassesRoot.addChild(giveCompasses);
             }
 
+            {
+                // ReloadGoalPool command
+
+                dispatcher.getRoot().addChild(CommandManager.literal("ReloadGoalPool").requires(PERMISSIONS).executes(LockoutServer::reloadGoalPool).build());
+            }
+
         });
 
         LootTableEvents.REPLACE.register(((key, original, source, registries) -> {

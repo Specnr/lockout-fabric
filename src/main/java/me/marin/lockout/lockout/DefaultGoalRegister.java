@@ -239,7 +239,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.EAT_20_UNIQUE_FOOD, Eat20UniqueFoodsGoal.class);
         INSTANCE.register(GoalType.EAT_25_UNIQUE_FOOD, Eat25UniqueFoodsGoal.class);
         INSTANCE.register(GoalType.EAT_CHORUS_FRUIT, EatChorusFruitGoal.class);
-        INSTANCE.register(GoalType.EAT_COOKIE, EatCookieGoal.class);
+        INSTANCE.register(GoalType.EAT_COOKIE, EatCookieGoal.class, GoalRequirements.NOT_IN_RANDOM_POOL);
         INSTANCE.register(GoalType.EAT_GLOW_BERRY, EatGlowBerryGoal.class);
         INSTANCE.register(GoalType.EAT_POISONOUS_POTATO, EatPoisonousPotatoGoal.class);
         INSTANCE.register(GoalType.EAT_PUMPKIN_PIE, EatPumpkinPieGoal.class);

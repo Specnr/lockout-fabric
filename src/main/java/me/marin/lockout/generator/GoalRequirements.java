@@ -37,8 +37,6 @@ public abstract class GoalRequirements {
             .isTeamSizeOk((size) -> size >= 2)
             .build();
     public static final GoalRequirements TEAMS_GOAL = new Builder().isTeamSizeOk((size) -> size >= 2).build();
-    public static final GoalRequirements TEAMS_GOAL_NOT_IN_RANDOM_POOL = new Builder().isTeamSizeOk((size) -> size >= 2).partOfRandomPool(false).build();
-    public static final GoalRequirements NOT_IN_RANDOM_POOL = new Builder().partOfRandomPool(false).build();
 
     private GoalRequirements() {}
 

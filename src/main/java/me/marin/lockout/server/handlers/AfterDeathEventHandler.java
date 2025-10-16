@@ -61,6 +61,32 @@ public class AfterDeathEventHandler implements ServerLivingEntityEvents.AfterDea
 
         for (Goal goal : lockout.getBoard().getGoals()) {
             if (goal == null) continue;
+
+            // Track player kills for HaveMostPlayerKillsGoal regardless of goal completion
+            if (playerDied && killedByPlayer) {
+                PlayerEntity player = (PlayerEntity) entity;
+                PlayerEntity killer = (PlayerEntity) entity.getPrimeAdversary();
+
+                // Ensure it's not a self-kill and they're on different teams
+                if (!Objects.equals(player, killer) && !Objects.equals(lockout.getPlayerTeam(killer.getUuid()), lockout.getPlayerTeam(player.getUuid()))) {
+                    // Increment kill count for this killer
+                    lockout.playerKills.putIfAbsent(killer.getUuid(), 0);
+                    lockout.playerKills.merge(killer.getUuid(), 1, Integer::sum);
+
+                    int killerKills = lockout.playerKills.get(killer.getUuid());
+                    if (goal instanceof HaveMostPlayerKillsGoal) {
+                        // If this killer now has more kills than current leader, update completion
+                        if (killerKills > lockout.mostPlayerKills) {
+                            if (!Objects.equals(lockout.mostPlayerKillsPlayer, killer.getUuid())) {
+                                lockout.updateGoalCompletion(goal, killer.getUuid());
+                            }
+                            lockout.mostPlayerKillsPlayer = killer.getUuid();
+                            lockout.mostPlayerKills = killerKills;
+                        }
+                    }
+                }
+            }
+
             if (goal.isCompleted()) continue;
 
             if (mobDied && killedByPlayer) {
@@ -184,37 +210,5 @@ public class AfterDeathEventHandler implements ServerLivingEntityEvents.AfterDea
                 }
             }
         }
-        
-        // Track player kills for HaveMostPlayerKillsGoal
-        if (playerDied && killedByPlayer) {
-            PlayerEntity player = (PlayerEntity) entity;
-            PlayerEntity killer = (PlayerEntity) entity.getPrimeAdversary();
-
-            // Ensure it's not a self-kill and they're on different teams
-            if (!Objects.equals(player, killer) && !Objects.equals(lockout.getPlayerTeam(killer.getUuid()), lockout.getPlayerTeam(player.getUuid()))) {
-                // Increment kill count for this killer
-                lockout.playerKills.putIfAbsent(killer.getUuid(), 0);
-                lockout.playerKills.merge(killer.getUuid(), 1, Integer::sum);
-
-                int killerKills = lockout.playerKills.get(killer.getUuid());
-
-                // Check if HaveMostPlayerKillsGoal is on the board
-                for (Goal goal : lockout.getBoard().getGoals()) {
-                    if (goal == null) continue;
-
-                    if (goal instanceof HaveMostPlayerKillsGoal) {
-                        // If this killer now has more kills than current leader, update completion
-                        if (killerKills > lockout.mostPlayerKills) {
-                            if (!Objects.equals(lockout.mostPlayerKillsPlayer, killer.getUuid())) {
-                                lockout.updateGoalCompletion(goal, killer.getUuid());
-                            }
-                            lockout.mostPlayerKillsPlayer = killer.getUuid();
-                            lockout.mostPlayerKills = killerKills;
-                        }
-                    }
-                }
-            }
-        }
-
     }
 }

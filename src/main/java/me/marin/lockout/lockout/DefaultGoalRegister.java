@@ -20,6 +20,7 @@ import me.marin.lockout.lockout.goals.dimension.EnterNetherGoal;
 import me.marin.lockout.lockout.goals.experience.ReachXPLevel15Goal;
 import me.marin.lockout.lockout.goals.experience.ReachXPLevel30Goal;
 import me.marin.lockout.lockout.goals.have_more.HaveMostPlayerKillsGoal;
+import me.marin.lockout.lockout.goals.have_more.HaveMostAdvancementsGoal;
 import me.marin.lockout.lockout.goals.have_more.HaveMostUniqueCraftsGoal;
 import me.marin.lockout.lockout.goals.have_more.HaveMostXPLevelsGoal;
 import me.marin.lockout.lockout.goals.kill.*;
@@ -380,6 +381,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.PUT_BANNER_ON_SHIELD, ObtainShieldWithBannerGoal.class);
         INSTANCE.register(GoalType.HAVE_MORE_UNIQUE_CRAFTS, HaveMostUniqueCraftsGoal.class, GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.HAVE_MOST_PLAYER_KILLS, HaveMostPlayerKillsGoal.class, GoalRequirements.TEAMS_GOAL_NOT_IN_RANDOM_POOL);
+        INSTANCE.register(GoalType.HAVE_MOST_ADVANCEMENTS, HaveMostAdvancementsGoal.class, GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.HAVE_YOUR_SHIELD_DISABLED, HaveShieldDisabledGoal.class);
         INSTANCE.register(GoalType.ITEM_FRAME_IN_ITEM_FRAME, ItemFrameInItemFrameGoal.class);
         INSTANCE.register(GoalType.FILL_CAMPFIRE, FillCampfireWithFoodGoal.class);

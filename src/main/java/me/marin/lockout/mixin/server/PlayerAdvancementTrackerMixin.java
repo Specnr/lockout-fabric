@@ -6,6 +6,7 @@ import me.marin.lockout.lockout.Goal;
 import me.marin.lockout.lockout.interfaces.AdvancementGoal;
 import me.marin.lockout.lockout.interfaces.GetUniqueAdvancementsGoal;
 import me.marin.lockout.lockout.interfaces.VisitBiomeGoal;
+import me.marin.lockout.lockout.goals.have_more.HaveMostAdvancementsGoal;
 import me.marin.lockout.server.LockoutServer;
 import net.minecraft.advancement.AdvancementDisplay;
 import net.minecraft.advancement.AdvancementEntry;
@@ -22,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Optional;
 
 @Mixin(PlayerAdvancementTracker.class)
@@ -49,6 +51,28 @@ public abstract class PlayerAdvancementTrackerMixin {
 
         for (Goal goal : lockout.getBoard().getGoals()) {
             if (goal == null) continue;
+
+            // Track player advancements for HaveMostAdvancementsGoal regardless of goal completion
+            if (goal instanceof HaveMostAdvancementsGoal) {
+                Optional<AdvancementDisplay> advancementDisplay = advancement.value().display();
+                if (advancementDisplay.isPresent() && advancementDisplay.get().shouldAnnounceToChat()) {
+                    // Increment advancement count for this player
+                    lockout.playerAdvancements.putIfAbsent(owner.getUuid(), 0);
+                    lockout.playerAdvancements.merge(owner.getUuid(), 1, Integer::sum);
+
+                    int playerAdvancements = lockout.playerAdvancements.get(owner.getUuid());
+
+                    // If this player now has more advancements than current leader, update completion
+                    if (playerAdvancements > lockout.mostAdvancements) {
+                        if (!Objects.equals(lockout.mostAdvancementsPlayer, owner.getUuid())) {
+                            lockout.updateGoalCompletion(goal, owner.getUuid());
+                        }
+                        lockout.mostAdvancementsPlayer = owner.getUuid();
+                        lockout.mostAdvancements = playerAdvancements;
+                    }
+                }
+            }
+
             if (goal.isCompleted()) continue;
 
             if (goal instanceof AdvancementGoal advancementGoal) {

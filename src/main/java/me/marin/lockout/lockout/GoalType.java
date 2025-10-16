@@ -223,6 +223,7 @@ public class GoalType {
     public static final String PUT_BANNER_ON_SHIELD = "PUT_BANNER_ON_SHIELD";
     public static final String HAVE_MORE_UNIQUE_CRAFTS = "HAVE_MORE_UNIQUE_CRAFTS";
     public static final String HAVE_MOST_PLAYER_KILLS = "HAVE_MOST_PLAYER_KILLS";
+    public static final String HAVE_MOST_ADVANCEMENTS = "HAVE_MOST_ADVANCEMENTS";
     public static final String HAVE_YOUR_SHIELD_DISABLED = "HAVE_YOUR_SHIELD_DISABLED";
     public static final String ITEM_FRAME_IN_ITEM_FRAME = "ITEM_FRAME_IN_ITEM_FRAME";
     public static final String FILL_CAMPFIRE = "FILL_CAMPFIRE";

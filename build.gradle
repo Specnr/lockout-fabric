@@ -28,7 +28,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
     
     // YAML parsing for goal pool configuration
-    implementation 'org.yaml:snakeyaml:2.0'
+    modImplementation include('org.yaml:snakeyaml:2.0')
 }
 
 processResources {

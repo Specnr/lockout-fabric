@@ -57,7 +57,7 @@ public class LockoutConfig {
 
     private static void createConfigDir() {
         try {
-            Files.createDirectory(Path.of("./config"));
+            Files.createDirectories(Path.of("./config"));
         } catch (Exception e) {
             Lockout.error(e);
         }

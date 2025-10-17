@@ -136,7 +136,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.KILL_GHAST, KillGhastGoal.class);
         INSTANCE.register(GoalType.KILL_BAT, KillBatGoal.class);
         INSTANCE.register(GoalType.KILL_SNOW_GOLEM, KillSnowGolemGoal.class, GoalRequirements.SNOWY_BIOMES);
-        INSTANCE.register(GoalType.KILL_SNOW_GOLEM_IN_NETHER, KillSnowGolemInNetherGoal.class);
+        INSTANCE.register(GoalType.KILL_SNOW_GOLEM_IN_NETHER, KillSnowGolemInNetherGoal.class, GoalRequirements.SNOWY_BIOMES);
         INSTANCE.register(GoalType.KILL_ELDER_GUARDIAN, KillElderGuardianGoal.class, GoalRequirements.MONUMENT);
         INSTANCE.register(GoalType.KILL_COLORED_SHEEP, KillColoredSheepGoal.class, null,
                 GoalDataGenerator.builder().withDye(attainableDyes -> {
@@ -339,16 +339,20 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.WEAR_UNIQUE_COLORED_LEATHER_ARMOR, WearUniqueColoredLeatherArmorGoal.class);
         INSTANCE.register(GoalType.KILL_OTHER_PLAYER, KillOtherTeamPlayer.class,
                 GoalRequirements.TEAMS_GOAL);
-        INSTANCE.register(GoalType.OPPONENT_OBTAINS_CRAFTING_TABLE, OpponentObtainsCraftingTableGoal.class);
-        INSTANCE.register(GoalType.OPPONENT_OBTAINS_OBSIDIAN, OpponentObtainsObsidianGoal.class);
-        INSTANCE.register(GoalType.OPPONENT_OBTAINS_SEEDS, OpponentObtainsSeedsGoal.class);
+        INSTANCE.register(GoalType.OPPONENT_OBTAINS_CRAFTING_TABLE, OpponentObtainsCraftingTableGoal.class,
+                GoalRequirements.TEAMS_GOAL);
+        INSTANCE.register(GoalType.OPPONENT_OBTAINS_OBSIDIAN, OpponentObtainsObsidianGoal.class,
+                GoalRequirements.TEAMS_GOAL);
+        INSTANCE.register(GoalType.OPPONENT_OBTAINS_SEEDS, OpponentObtainsSeedsGoal.class,
+                GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_CATCHES_ON_FIRE, OpponentCatchesOnFireGoal.class,
                 GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_DIES_3_TIMES, OpponentDies3TimesGoal.class,
                 GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_DIES, OpponentDiesGoal.class,
                 GoalRequirements.TEAMS_GOAL);
-        INSTANCE.register(GoalType.OPPONENT_HIT_BY_EGG, OpponentHitByEggGoal.class);
+        INSTANCE.register(GoalType.OPPONENT_HIT_BY_EGG, OpponentHitByEggGoal.class,
+                GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_HIT_BY_SNOWBALL, OpponentHitBySnowballGoal.class, GoalRequirements.SNOWY_BIOMES_TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_TAKES_100_DAMAGE, OpponentTakes100DamageGoal.class,
                 GoalRequirements.TEAMS_GOAL);
@@ -356,7 +360,8 @@ public class DefaultGoalRegister {
                 GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_TOUCHES_WATER, OpponentTouchesWaterGoal.class,
                 GoalRequirements.TEAMS_GOAL);
-        INSTANCE.register(GoalType.OPPONENT_EATS_FOOD, OpponentEatsFoodGoal.class);
+        INSTANCE.register(GoalType.OPPONENT_EATS_FOOD, OpponentEatsFoodGoal.class,
+                GoalRequirements.TEAMS_GOAL);
 
         INSTANCE.register(GoalType.TAKE_200_DAMAGE, Take200DamageGoal.class);
         INSTANCE.register(GoalType.REACH_NETHER_ROOF, ReachNetherRoofGoal.class);
@@ -376,7 +381,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.GET_COUNTRY_LODE_TAKE_ME_HOME_ADVANCEMENT, GetCountryLodeTakeMeHomeAdvancementGoal.class);
         INSTANCE.register(GoalType.PUT_BANNER_ON_SHIELD, ObtainShieldWithBannerGoal.class);
         INSTANCE.register(GoalType.HAVE_MORE_UNIQUE_CRAFTS, HaveMostUniqueCraftsGoal.class, GoalRequirements.TEAMS_GOAL);
-        INSTANCE.register(GoalType.HAVE_MOST_PLAYER_KILLS, HaveMostPlayerKillsGoal.class);
+        INSTANCE.register(GoalType.HAVE_MOST_PLAYER_KILLS, HaveMostPlayerKillsGoal.class, GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.HAVE_MOST_ADVANCEMENTS, HaveMostAdvancementsGoal.class, GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.HAVE_MOST_HOPPERS, HaveMostHoppersGoal.class, GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.HAVE_YOUR_SHIELD_DISABLED, HaveShieldDisabledGoal.class);

@@ -9,7 +9,7 @@
         - Achieve "Heart Transplant"
         - Obtain Resin brick stairs
     - Construct a copper golem
-    - Fill a shelf with shelves
+    - Fill a shelf
     - Kill a blaze with a snowball
     - Have more:
         - Player kills

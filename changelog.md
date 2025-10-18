@@ -1,3 +1,6 @@
+## Lockout v0.10.1
+- Fixed "Missing Lockout mod. Server is using Lockout v0.10.0" error
+
 ## Lockout v0.10.0
 - Add new goals:
     - Use a compass on a lodestone

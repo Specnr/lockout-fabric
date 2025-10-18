@@ -52,6 +52,7 @@ import net.minecraft.world.gen.structure.Structure;
 import oshi.util.tuples.Pair;
 
 import java.util.*;
+import java.util.UUID;
 
 public class LockoutServer {
 
@@ -73,12 +74,13 @@ public class LockoutServer {
 
     private static boolean isInitialized = false;
 
-    public static Map<ServerPlayerEntity, Integer> waitingForVersionPacketPlayersMap = new HashMap<>();
+    public static Map<UUID, Long> waitingForVersionPacketPlayersMap = new HashMap<>();
 
     public static void initializeServer() {
         lockout = null;
         compassHandler = null;
         gameStartRunnables.clear();
+        waitingForVersionPacketPlayersMap.clear();
 
         // Ideally, rejoining a world gets detected here, and this data doesn't get wiped
         BIOME_LOCATE_DATA.clear();
@@ -104,6 +106,28 @@ public class LockoutServer {
         ServerPlayConnectionEvents.JOIN.register(new PlayerJoinEventHandler());
 
         ServerTickEvents.END_SERVER_TICK.register(new EndServerTickEventHandler());
+        
+        // Add timeout handler for version packet checking
+        ServerTickEvents.END_SERVER_TICK.register((server) -> {
+            long currentTime = System.currentTimeMillis();
+            long timeoutMs = 5000; // 5 second timeout
+            
+            // Check for players who haven't responded within timeout
+            waitingForVersionPacketPlayersMap.entrySet().removeIf(entry -> {
+                UUID playerUuid = entry.getKey();
+                long joinTime = entry.getValue();
+                
+                if (currentTime - joinTime > timeoutMs) {
+                    // Timeout expired, kick player
+                    ServerPlayerEntity player = server.getPlayerManager().getPlayer(playerUuid);
+                    if (player != null) {
+                        player.networkHandler.disconnect(Text.of("Missing Lockout mod.\nServer is using Lockout v" + LockoutInitializer.MOD_VERSION.getFriendlyString() + "."));
+                    }
+                    return true; // Remove from map
+                }
+                return false; // Keep in map
+            });
+        });
 
         ServerLivingEntityEvents.AFTER_DEATH.register(new AfterDeathEventHandler());
 
@@ -111,14 +135,18 @@ public class LockoutServer {
 
         ServerLifecycleEvents.SERVER_STARTED.register(new ServerStartedEventHandler());
 
+        ServerLifecycleEvents.SERVER_STOPPING.register((server) -> {
+            isInitialized = false;
+        });
+
         ServerPlayConnectionEvents.DISCONNECT.register((handler, minecraftServer) -> {
-            waitingForVersionPacketPlayersMap.remove(handler.getPlayer());
+            waitingForVersionPacketPlayersMap.remove(handler.getPlayer().getUuid());
         });
 
         ServerPlayNetworking.registerGlobalReceiver(LockoutVersionPayload.ID, (payload, context) -> {
             // Client has Lockout mod, compare versions, then kick or initialize
             ServerPlayerEntity player = context.player();
-            waitingForVersionPacketPlayersMap.remove(player);
+            waitingForVersionPacketPlayersMap.remove(player.getUuid());
 
             String version = payload.version();
             if (!version.equals(LockoutInitializer.MOD_VERSION.getFriendlyString())) {

@@ -43,8 +43,7 @@
     "server.TameAnimalCriterionMixin",
     "server.WolfEntityMixin",
     "server.ZombieEntityMixin",
-    "server.ZombifiedPiglinEntityMixin",
-    "server.network.ServerCommonNetworkHandlerMixin"
+    "server.ZombifiedPiglinEntityMixin"
   ],
   "client": [
     "client.InGameHudMixin",

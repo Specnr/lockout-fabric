@@ -1,3 +1,7 @@
+## Lockout v0.10.2
+- Fixed opponent(s) eat food goal breaking on 3+ player games
+- Allow closing board screens with open board button and escape
+
 ## Lockout v0.10.1
 - Fixed "Missing Lockout mod. Server is using Lockout v0.10.0" error
 

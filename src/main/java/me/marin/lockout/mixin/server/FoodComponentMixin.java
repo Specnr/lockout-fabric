@@ -62,7 +62,7 @@ public class FoodComponentMixin {
                 }
             }
             if (goal instanceof OpponentEatsFoodGoal) {
-                lockout.complete1v1Goal(goal, player, false, player.getName().getString() + " ate food.");
+                lockout.completeMultiOpponentGoal(goal, player, player.getName().getString() + " ate food.");
             }
         }
 

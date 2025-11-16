@@ -46,6 +46,10 @@ public class LockoutClient implements ClientModInitializer {
     public static int CURRENT_TICK = 0;
     public static final Map<String, String> goalTooltipMap = new HashMap<>();
 
+    public static KeyBinding getBoardKeybinding() {
+        return keyBinding;
+    }
+
     public static final ScreenHandlerType<BoardScreenHandler> BOARD_SCREEN_HANDLER;
     public static final KeyBinding.Category LOCKOUT_CATEGORY = KeyBinding.Category.create(Identifier.of(Constants.NAMESPACE, "keybinds"));
 

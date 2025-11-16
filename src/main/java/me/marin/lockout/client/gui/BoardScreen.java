@@ -8,6 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 
@@ -36,6 +37,16 @@ public class BoardScreen extends HandledScreen<BoardScreenHandler> {
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
 
+    }
+
+    @Override
+    public boolean keyPressed(KeyInput input) {
+        // Check if the pressed key matches the board keybinding
+        if (LockoutClient.getBoardKeybinding().matchesKey(input)) {
+            this.close();
+            return true;
+        }
+        return super.keyPressed(input);
     }
 
 }

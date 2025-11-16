@@ -15,6 +15,7 @@ import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TextWidget;
@@ -347,7 +348,17 @@ public class BoardBuilderScreen extends Screen {
 
     @Override
     public boolean shouldCloseOnEsc() {
-        return false;
+        return true;
+    }
+
+    @Override
+    public boolean keyPressed(KeyInput input) {
+        // Check if the pressed key matches the board keybinding
+        if (LockoutClient.getBoardKeybinding().matchesKey(input)) {
+            this.close();
+            return true;
+        }
+        return super.keyPressed(input);
     }
 
     public void drawCenterBoard(DrawContext context, int mouseX, int mouseY) {

@@ -52,6 +52,8 @@ public class Lockout {
     public final Map<UUID, Integer> playerKills = new HashMap<>();
     public final Map<UUID, Integer> playerAdvancements = new HashMap<>();
     public final Map<UUID, Integer> playerHopperCounts = new HashMap<>();
+    public final Map<UUID, Integer> playerLeaflitterCounts = new HashMap<>();
+    public final Map<UUID, Integer> playerDiamondBlockCounts = new HashMap<>();
 
     public UUID mostUniqueCraftsPlayer;
     public int mostUniqueCrafts;
@@ -61,6 +63,10 @@ public class Lockout {
     public int mostAdvancements;
     public UUID mostHoppersPlayer;
     public int mostHoppers;
+    public UUID mostLeaflitterPlayer;
+    public int mostLeaflitter;
+    public UUID mostDiamondBlocksPlayer;
+    public int mostDiamondBlocks;
 
     @Getter
     private final LockoutBoard board;
@@ -482,6 +488,68 @@ public class Lockout {
         if (!largestHopperPlayers.contains(mostHoppersPlayer)) {
             this.mostHoppersPlayer = largestHopperPlayers.get(0);
             updateGoalCompletion(goal, largestHopperPlayers.get(0));
+        }
+    }
+
+    public void recalculateLeaflitterGoal(Goal goal) {
+        List<UUID> largestLeaflitterPlayers = new ArrayList<>();
+        int largestLeaflitterCount = 0;
+
+        for (UUID uuid : playerLeaflitterCounts.keySet()) {
+            int count = playerLeaflitterCounts.get(uuid);
+            if (count == largestLeaflitterCount) {
+                largestLeaflitterPlayers.add(uuid);
+                continue;
+            }
+            if (count > largestLeaflitterCount) {
+                largestLeaflitterPlayers.clear();
+                largestLeaflitterPlayers.add(uuid);
+                largestLeaflitterCount = count;
+            }
+        }
+
+        if (largestLeaflitterCount == 0) {
+            if (this.mostLeaflitterPlayer != null) {
+                this.mostLeaflitterPlayer = null;
+                clearGoalCompletion(goal, true);
+            }
+            return;
+        }
+
+        if (!largestLeaflitterPlayers.contains(mostLeaflitterPlayer)) {
+            this.mostLeaflitterPlayer = largestLeaflitterPlayers.get(0);
+            updateGoalCompletion(goal, largestLeaflitterPlayers.get(0));
+        }
+    }
+
+    public void recalculateDiamondBlocksGoal(Goal goal) {
+        List<UUID> largestDiamondBlockPlayers = new ArrayList<>();
+        int largestDiamondBlockCount = 0;
+
+        for (UUID uuid : playerDiamondBlockCounts.keySet()) {
+            int count = playerDiamondBlockCounts.get(uuid);
+            if (count == largestDiamondBlockCount) {
+                largestDiamondBlockPlayers.add(uuid);
+                continue;
+            }
+            if (count > largestDiamondBlockCount) {
+                largestDiamondBlockPlayers.clear();
+                largestDiamondBlockPlayers.add(uuid);
+                largestDiamondBlockCount = count;
+            }
+        }
+
+        if (largestDiamondBlockCount == 0) {
+            if (this.mostDiamondBlocksPlayer != null) {
+                this.mostDiamondBlocksPlayer = null;
+                clearGoalCompletion(goal, true);
+            }
+            return;
+        }
+
+        if (!largestDiamondBlockPlayers.contains(mostDiamondBlocksPlayer)) {
+            this.mostDiamondBlocksPlayer = largestDiamondBlockPlayers.get(0);
+            updateGoalCompletion(goal, largestDiamondBlockPlayers.get(0));
         }
     }
 

@@ -1,7 +1,11 @@
 ## Lockout v0.10.2
 - Fixed opponent(s) eat food goal breaking on 3+ player games
+- Fixed Waypoint colours changing after death
 - Allow closing board screens with open board button and escape
 - New Goals:
+  - Obtain all dyes
+  - Obtain tinted glass
+  - Kill slime
   - Most:
     - Leaf litter
     - Diamond blocks

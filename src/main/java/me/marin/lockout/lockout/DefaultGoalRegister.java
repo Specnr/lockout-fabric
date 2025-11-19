@@ -120,7 +120,7 @@ public class DefaultGoalRegister {
                 .build()
         );
         INSTANCE.register(GoalType.BREED_FROGS, BreedFrogsGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(SWAMP))
+                .biomes(List.of(SWAMP, MANGROVE_SWAMP))
                 .build()
         );
         INSTANCE.register(GoalType.KILL_WITCH, KillWitchGoal.class, new GoalRequirements.Builder()
@@ -134,6 +134,10 @@ public class DefaultGoalRegister {
         );
         INSTANCE.register(GoalType.KILL_ZOGLIN, KillZoglinGoal.class);
         INSTANCE.register(GoalType.KILL_SILVERFISH, KillSilverfishGoal.class);
+        INSTANCE.register(GoalType.KILL_SLIME, KillSlimeGoal.class, new GoalRequirements.Builder()
+                .biomes(List.of(SWAMP, MANGROVE_SWAMP))
+                .build()
+        );
         INSTANCE.register(GoalType.KILL_GUARDIAN, KillGuardianGoal.class, GoalRequirements.MONUMENT);
         INSTANCE.register(GoalType.KILL_GHAST, KillGhastGoal.class);
         INSTANCE.register(GoalType.KILL_BAT, KillBatGoal.class);
@@ -332,7 +336,9 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.OBTAIN_7_UNIQUE_WORKSTATIONS, Obtain7WorkstationsGoal.class);
         INSTANCE.register(GoalType.OBTAIN_REDSTONE_LAMP, ObtainRedstoneLampGoal.class);
         INSTANCE.register(GoalType.OBTAIN_SOUL_CAMPFIRE, ObtainSoulCampfireGoal.class);
+        INSTANCE.register(GoalType.OBTAIN_TINTED_GLASS, ObtainTintedGlassGoal.class);
         INSTANCE.register(GoalType.OBTAIN_ALL_PUMPKINS, ObtainAllPumpkinsGoal.class);
+        INSTANCE.register(GoalType.OBTAIN_ALL_DYES, ObtainAllDyesGoal.class, GoalRequirements.JUNGLE_AND_DESERT_BIOMES);
         INSTANCE.register(GoalType.ENRAGE_ZOMBIFIED_PIGLIN, AngerZombifiedPiglinGoal.class);
         INSTANCE.register(GoalType.OBTAIN_BRICK_WALL, ObtainBrickWallGoal.class);
         INSTANCE.register(GoalType.GET_10_ADVANCEMENTS, Get10UniqueAdvancementsGoal.class);

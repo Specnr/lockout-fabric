@@ -37,6 +37,33 @@ public abstract class GoalRequirements {
             .isTeamSizeOk((size) -> size >= 2)
             .build();
     public static final GoalRequirements TEAMS_GOAL = new Builder().isTeamSizeOk((size) -> size >= 2).build();
+    public static final GoalRequirements JUNGLE_AND_DESERT_BIOMES = new GoalRequirements() {
+        private final List<RegistryKey<Biome>> jungleBiomes = List.of(BAMBOO_JUNGLE, JUNGLE, SPARSE_JUNGLE);
+        private final List<RegistryKey<Biome>> desertBiomes = List.of(DESERT, BADLANDS, ERODED_BADLANDS, WOODED_BADLANDS);
+
+        @Override
+        public List<RegistryKey<Biome>> getRequiredBiomes() {
+            List<RegistryKey<Biome>> allBiomes = new java.util.ArrayList<>();
+            allBiomes.addAll(jungleBiomes);
+            allBiomes.addAll(desertBiomes);
+            return allBiomes;
+        }
+
+        @Override
+        public boolean isSatisfied(Map<RegistryKey<Biome>, LocateData> biomes, Map<RegistryKey<Structure>, LocateData> structures) {
+            boolean hasJungle = jungleBiomes.stream()
+                    .anyMatch(biome -> {
+                        LocateData data = biomes.get(biome);
+                        return data != null && data.wasLocated();
+                    });
+            boolean hasDesert = desertBiomes.stream()
+                    .anyMatch(biome -> {
+                        LocateData data = biomes.get(biome);
+                        return data != null && data.wasLocated();
+                    });
+            return hasJungle && hasDesert;
+        }
+    };
 
     private GoalRequirements() {}
 

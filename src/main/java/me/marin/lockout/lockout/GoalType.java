@@ -46,6 +46,7 @@ public class GoalType {
     public static final String KILL_STRAY = "KILL_STRAY";
     public static final String KILL_ZOGLIN = "KILL_ZOGLIN";
     public static final String KILL_SILVERFISH = "KILL_SILVERFISH";
+    public static final String KILL_SLIME = "KILL_SLIME";
     public static final String KILL_GUARDIAN = "KILL_GUARDIAN";
     public static final String KILL_GHAST = "KILL_GHAST";
     public static final String KILL_BAT = "KILL_BAT";
@@ -192,7 +193,9 @@ public class GoalType {
     public static final String OBTAIN_7_UNIQUE_WORKSTATIONS = "OBTAIN_7_UNIQUE_WORKSTATIONS";
     public static final String OBTAIN_REDSTONE_LAMP = "OBTAIN_REDSTONE_LAMP";
     public static final String OBTAIN_SOUL_CAMPFIRE = "OBTAIN_SOUL_CAMPFIRE";
+    public static final String OBTAIN_TINTED_GLASS = "OBTAIN_TINTED_GLASS";
     public static final String OBTAIN_ALL_PUMPKINS = "OBTAIN_ALL_PUMPKINS";
+    public static final String OBTAIN_ALL_DYES = "OBTAIN_ALL_DYES";
     public static final String ENRAGE_ZOMBIFIED_PIGLIN = "ENRAGE_ZOMBIFIED_PIGLIN";
     public static final String OBTAIN_BRICK_WALL = "OBTAIN_BRICK_WALL";
     public static final String GET_10_ADVANCEMENTS = "GET_10_ADVANCEMENTS";

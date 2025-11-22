@@ -3,6 +3,7 @@
 - Fixed Waypoint colours changing after death
 - Allow closing board screens with open board button and escape
 - Cleanup biome requirements, allowing for complex AND / OR combinations
+- Tick freeze on world load, unfreeze on lockout / blackout start
 - New Commands:
     - `/GetNearbyBiomes`
         - Returns the list of biomes found which are required for goals

@@ -24,46 +24,25 @@ public abstract class GoalRequirements {
             .structures(List.of(StructureKeys.MONUMENT))
             .build();
     public static final GoalRequirements JUNGLE_BIOMES = new Builder()
-            .biomes(List.of(BAMBOO_JUNGLE, JUNGLE, SPARSE_JUNGLE))
+            .biomeRequirement(BiomeRequirements.anyOf(BAMBOO_JUNGLE, JUNGLE, SPARSE_JUNGLE))
             .build();
     public static final GoalRequirements RABBIT_BIOMES = new Builder()
-            .biomes(List.of(DESERT, SNOWY_PLAINS, SNOWY_TAIGA, GROVE, SNOWY_SLOPES, FLOWER_FOREST, TAIGA, MEADOW, OLD_GROWTH_PINE_TAIGA, OLD_GROWTH_SPRUCE_TAIGA, CHERRY_GROVE))
+            .biomeRequirement(BiomeRequirements.anyOf(DESERT, SNOWY_PLAINS, SNOWY_TAIGA, GROVE, SNOWY_SLOPES, FLOWER_FOREST, TAIGA, MEADOW, OLD_GROWTH_PINE_TAIGA, OLD_GROWTH_SPRUCE_TAIGA, CHERRY_GROVE))
             .build();
     public static final GoalRequirements SNOWY_BIOMES = new Builder()
-            .biomes(List.of(SNOWY_PLAINS, ICE_SPIKES, SNOWY_TAIGA, GROVE, SNOWY_SLOPES, FROZEN_PEAKS, FROZEN_RIVER, SNOWY_BEACH, FROZEN_OCEAN, DEEP_FROZEN_OCEAN))
+            .biomeRequirement(BiomeRequirements.anyOf(SNOWY_PLAINS, ICE_SPIKES, SNOWY_TAIGA, GROVE, SNOWY_SLOPES, FROZEN_PEAKS, FROZEN_RIVER, SNOWY_BEACH, FROZEN_OCEAN, DEEP_FROZEN_OCEAN))
             .build();
     public static final GoalRequirements SNOWY_BIOMES_TEAMS_GOAL = new Builder()
-            .biomes(List.of(SNOWY_PLAINS, ICE_SPIKES, SNOWY_TAIGA, GROVE, SNOWY_SLOPES, FROZEN_PEAKS, FROZEN_RIVER, SNOWY_BEACH, FROZEN_OCEAN, DEEP_FROZEN_OCEAN))
+            .biomeRequirement(BiomeRequirements.anyOf(SNOWY_PLAINS, ICE_SPIKES, SNOWY_TAIGA, GROVE, SNOWY_SLOPES, FROZEN_PEAKS, FROZEN_RIVER, SNOWY_BEACH, FROZEN_OCEAN, DEEP_FROZEN_OCEAN))
             .isTeamSizeOk((size) -> size >= 2)
             .build();
     public static final GoalRequirements TEAMS_GOAL = new Builder().isTeamSizeOk((size) -> size >= 2).build();
-    public static final GoalRequirements JUNGLE_AND_DESERT_BIOMES = new GoalRequirements() {
-        private final List<RegistryKey<Biome>> jungleBiomes = List.of(BAMBOO_JUNGLE, JUNGLE, SPARSE_JUNGLE);
-        private final List<RegistryKey<Biome>> desertBiomes = List.of(DESERT, BADLANDS, ERODED_BADLANDS, WOODED_BADLANDS);
-
-        @Override
-        public List<RegistryKey<Biome>> getRequiredBiomes() {
-            List<RegistryKey<Biome>> allBiomes = new java.util.ArrayList<>();
-            allBiomes.addAll(jungleBiomes);
-            allBiomes.addAll(desertBiomes);
-            return allBiomes;
-        }
-
-        @Override
-        public boolean isSatisfied(Map<RegistryKey<Biome>, LocateData> biomes, Map<RegistryKey<Structure>, LocateData> structures) {
-            boolean hasJungle = jungleBiomes.stream()
-                    .anyMatch(biome -> {
-                        LocateData data = biomes.get(biome);
-                        return data != null && data.wasLocated();
-                    });
-            boolean hasDesert = desertBiomes.stream()
-                    .anyMatch(biome -> {
-                        LocateData data = biomes.get(biome);
-                        return data != null && data.wasLocated();
-                    });
-            return hasJungle && hasDesert;
-        }
-    };
+    public static final GoalRequirements JUNGLE_AND_DESERT_BIOMES = new Builder()
+            .biomeRequirement(BiomeRequirements.allOf(
+                    BiomeRequirements.anyOf(BAMBOO_JUNGLE, JUNGLE, SPARSE_JUNGLE),
+                    BiomeRequirements.anyOf(DESERT, BADLANDS, ERODED_BADLANDS, WOODED_BADLANDS)
+            ))
+            .build();
 
     private GoalRequirements() {}
 
@@ -90,10 +69,17 @@ public abstract class GoalRequirements {
         return true;
     }
 
+    public BiomeRequirement getBiomeRequirement() {
+        return null;
+    }
 
-    public final boolean isSatisfied(Map<RegistryKey<Biome>, LocateData> biomes, Map<RegistryKey<Structure>, LocateData> structures) {
+
+    public boolean isSatisfied(Map<RegistryKey<Biome>, LocateData> biomes, Map<RegistryKey<Structure>, LocateData> structures) {
         boolean hasRequiredBiome = true;
-        if (getRequiredBiomes() != null) {
+        if (getBiomeRequirement() != null) {
+            hasRequiredBiome = getBiomeRequirement().isMet(biomes);
+        } else if (getRequiredBiomes() != null && !getRequiredBiomes().isEmpty()) {
+            // Fallback for legacy or direct overrides if any
             for (RegistryKey<Biome> biome : getRequiredBiomes()) {
                 if (biomes.get(biome).wasLocated()) {
                     hasRequiredBiome = true;
@@ -122,13 +108,21 @@ public abstract class GoalRequirements {
 
     public static class Builder {
 
-        private List<RegistryKey<Biome>> biomes = Collections.emptyList();
+        private BiomeRequirement biomeRequirement = null;
         private List<RegistryKey<Structure>> structures = Collections.emptyList();
         private boolean partOfRandomPool = true;
         private Function<Integer, Boolean> isTeamSizeOk = (size) -> true;
 
+        /**
+         * @deprecated Use {@link #biomeRequirement(BiomeRequirement)} instead.
+         */
+        @Deprecated
         public Builder biomes(List<RegistryKey<Biome>> biomes) {
-            this.biomes = biomes;
+            this.biomeRequirement = BiomeRequirements.anyOf(biomes);
+            return this;
+        }
+        public Builder biomeRequirement(BiomeRequirement biomeRequirement) {
+            this.biomeRequirement = biomeRequirement;
             return this;
         }
         public Builder structures(List<RegistryKey<Structure>> structures) {
@@ -146,9 +140,10 @@ public abstract class GoalRequirements {
 
         public GoalRequirements build() {
             return new GoalRequirements() {
+
                 @Override
-                public List<RegistryKey<Biome>> getRequiredBiomes() {
-                    return biomes;
+                public BiomeRequirement getBiomeRequirement() {
+                    return biomeRequirement;
                 }
 
                 @Override

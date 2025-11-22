@@ -2,6 +2,7 @@ package me.marin.lockout.lockout;
 
 import me.marin.lockout.Lockout;
 import me.marin.lockout.generator.GoalDataGenerator;
+import me.marin.lockout.generator.BiomeRequirements;
 import me.marin.lockout.generator.GoalRequirements;
 import me.marin.lockout.lockout.goals.advancement.*;
 import me.marin.lockout.lockout.goals.advancement.unique.Get10UniqueAdvancementsGoal;
@@ -68,12 +69,12 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.OBTAIN_COPPER_TOOLS, ObtainCopperToolsGoal.class);
         INSTANCE.register(GoalType.MINE_DIAMOND_ORE, MineDiamondOreGoal.class);
         INSTANCE.register(GoalType.MINE_EMERALD_ORE, MineEmeraldOreGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(JAGGED_PEAKS, FROZEN_PEAKS, STONY_PEAKS, GROVE, SNOWY_SLOPES))
+                .biomeRequirement(BiomeRequirements.anyOf(JAGGED_PEAKS, FROZEN_PEAKS, STONY_PEAKS, GROVE, SNOWY_SLOPES))
                 .build()
         );
         INSTANCE.register(GoalType.MINE_MOB_SPAWNER, MineMobSpawnerGoal.class);
         INSTANCE.register(GoalType.MINE_TURTLE_EGG, MineTurtleEggGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(BEACH))
+                .biomeRequirement(BiomeRequirements.anyOf(BEACH))
                 .build()
         );
         INSTANCE.register(GoalType.ENTER_NETHER, EnterNetherGoal.class);
@@ -110,17 +111,17 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.BREED_PIG, BreedPigGoal.class);
         INSTANCE.register(GoalType.BREED_RABBIT, BreedRabbitGoal.class, GoalRequirements.RABBIT_BIOMES);
         INSTANCE.register(GoalType.BREED_FOX, BreedFoxGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(TAIGA, OLD_GROWTH_SPRUCE_TAIGA, OLD_GROWTH_PINE_TAIGA, SNOWY_TAIGA, GROVE))
+                .biomeRequirement(BiomeRequirements.anyOf(TAIGA, OLD_GROWTH_SPRUCE_TAIGA, OLD_GROWTH_PINE_TAIGA, SNOWY_TAIGA, GROVE))
                 .build()
         );
         INSTANCE.register(GoalType.BREED_SHEEP, BreedSheepGoal.class);
         INSTANCE.register(GoalType.BREED_STRIDER, BreedStriderGoal.class);
         INSTANCE.register(GoalType.BREED_GOAT, BreedGoatGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(FROZEN_PEAKS, JAGGED_PEAKS, SNOWY_SLOPES))
+                .biomeRequirement(BiomeRequirements.anyOf(FROZEN_PEAKS, JAGGED_PEAKS, SNOWY_SLOPES))
                 .build()
         );
         INSTANCE.register(GoalType.BREED_FROGS, BreedFrogsGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(SWAMP, MANGROVE_SWAMP))
+                .biomeRequirement(BiomeRequirements.anyOf(SWAMP, MANGROVE_SWAMP))
                 .build()
         );
         INSTANCE.register(GoalType.KILL_WITCH, KillWitchGoal.class, new GoalRequirements.Builder()
@@ -129,13 +130,13 @@ public class DefaultGoalRegister {
         );
         INSTANCE.register(GoalType.KILL_ZOMBIE_VILLAGER, KillZombieVillagerGoal.class, GoalRequirements.VILLAGE);
         INSTANCE.register(GoalType.KILL_STRAY, KillStrayGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(FROZEN_RIVER, SNOWY_PLAINS, ICE_SPIKES))
+                .biomeRequirement(BiomeRequirements.anyOf(FROZEN_RIVER, SNOWY_PLAINS, ICE_SPIKES))
                 .build()
         );
         INSTANCE.register(GoalType.KILL_ZOGLIN, KillZoglinGoal.class);
         INSTANCE.register(GoalType.KILL_SILVERFISH, KillSilverfishGoal.class);
         INSTANCE.register(GoalType.KILL_SLIME, KillSlimeGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(SWAMP, MANGROVE_SWAMP))
+                .biomeRequirement(BiomeRequirements.anyOf(SWAMP, MANGROVE_SWAMP))
                 .build()
         );
         INSTANCE.register(GoalType.KILL_GUARDIAN, KillGuardianGoal.class, GoalRequirements.MONUMENT);
@@ -163,7 +164,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.KILL_20_ARTHROPOD_MOBS, Kill20ArthropodMobsGoal.class);
         INSTANCE.register(GoalType.OBTAIN_RED_NETHER_BRICK_STAIRS, ObtainRedNetherBrickStairsGoal.class);
         INSTANCE.register(GoalType.OBTAIN_TROPICAL_FISH_BUCKET, ObtainBucketOfTropicalFishGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(WARM_OCEAN, DEEP_LUKEWARM_OCEAN, LUKEWARM_OCEAN, LUSH_CAVES, MANGROVE_SWAMP))
+                .biomeRequirement(BiomeRequirements.anyOf(WARM_OCEAN, DEEP_LUKEWARM_OCEAN, LUKEWARM_OCEAN, LUSH_CAVES, MANGROVE_SWAMP))
                 .build()
         );
         INSTANCE.register(GoalType.OBTAIN_BOOKSHELF, ObtainBookshelfGoal.class);
@@ -175,7 +176,7 @@ public class DefaultGoalRegister {
                 GoalRequirements.VILLAGE);
         INSTANCE.register(GoalType.OBTAIN_ENCHANT_BOTTLE, ObtainEnchantBottleGoal.class);
         INSTANCE.register(GoalType.OBTAIN_POWDER_SNOW_BUCKET, ObtainPowderSnowBucketGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(GROVE, SNOWY_SLOPES))
+                .biomeRequirement(BiomeRequirements.anyOf(GROVE, SNOWY_SLOPES))
                 .build()
         );
         INSTANCE.register(GoalType.OBTAIN_SOUL_LANTERN, ObtainSoulLanternGoal.class);
@@ -228,15 +229,15 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.BREW_WEAKNESS_POTION, BrewWeaknessPotionGoal.class);
         INSTANCE.register(GoalType.BREW_LINGERING_POTION, BrewLingeringPotionGoal.class);
         INSTANCE.register(GoalType.VISIT_ICE_SPIKES_BIOME, VisitIceSpikesBiomeGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(ICE_SPIKES))
+                .biomeRequirement(BiomeRequirements.anyOf(ICE_SPIKES))
                 .build()
         );
         INSTANCE.register(GoalType.VISIT_BADLANDS_BIOME, VisitBadlandsBiomeGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(BADLANDS, ERODED_BADLANDS, WOODED_BADLANDS))
+                .biomeRequirement(BiomeRequirements.anyOf(BADLANDS, ERODED_BADLANDS, WOODED_BADLANDS))
                 .build()
         );
         INSTANCE.register(GoalType.VISIT_MUSHROOM_BIOME, VisitMushroomBiomeGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(MUSHROOM_FIELDS))
+                .biomeRequirement(BiomeRequirements.anyOf(MUSHROOM_FIELDS))
                 .build()
         );
         INSTANCE.register(GoalType.EAT_5_UNIQUE_FOOD, Eat5UniqueFoodsGoal.class);
@@ -256,7 +257,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.EAT_CAKE, EatCakeGoal.class);
         INSTANCE.register(GoalType.OBTAIN_4_UNIQUE_SAPLINGS, Obtain4UniqueSaplingsGoal.class);
         INSTANCE.register(GoalType.TOOT_GOAT_HORN, TootGoatHornGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(FROZEN_PEAKS, JAGGED_PEAKS, SNOWY_SLOPES))
+                .biomeRequirement(BiomeRequirements.anyOf(FROZEN_PEAKS, JAGGED_PEAKS, SNOWY_SLOPES))
                 .build()
         );
         INSTANCE.register(GoalType.GET_ANY_SPYGLASS_ADVANCEMENT, GetAnySpyglassAdvancementGoal.class);
@@ -277,7 +278,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.GET_MINING_FATIGUE_STATUS_EFFECT, GetMiningFatigueStatusEffectGoal.class,
                 GoalRequirements.MONUMENT);
         INSTANCE.register(GoalType.GET_NAUSEA_STATUS_EFFECT, GetNauseaStatusEffectGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(WARM_OCEAN, DEEP_LUKEWARM_OCEAN, LUKEWARM_OCEAN))
+                .biomeRequirement(BiomeRequirements.anyOf(WARM_OCEAN, DEEP_LUKEWARM_OCEAN, LUKEWARM_OCEAN))
                 .build()
         );
         INSTANCE.register(GoalType.GET_POISON_STATUS_EFFECT, GetPoisonStatusEffectGoal.class);
@@ -285,11 +286,11 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.DIE_BY_ANVIL, DieToAnvilGoal.class);
         INSTANCE.register(GoalType.DIE_BY_BEE_STING, DieToBeeStingGoal.class);
         INSTANCE.register(GoalType.DIE_BY_BERRY_BUSH, DieToBerryBushGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(TAIGA, SNOWY_TAIGA))
+                .biomeRequirement(BiomeRequirements.anyOf(TAIGA, SNOWY_TAIGA))
                 .build()
         );
         INSTANCE.register(GoalType.DIE_BY_CACTUS, DieToCactusGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(DESERT, BADLANDS, WOODED_BADLANDS, ERODED_BADLANDS))
+                .biomeRequirement(BiomeRequirements.anyOf(DESERT, BADLANDS, WOODED_BADLANDS, ERODED_BADLANDS))
                 .build()
         );
         INSTANCE.register(GoalType.DIE_BY_FALLING_OFF_VINE, DieToFallingOffVinesGoal.class);
@@ -298,7 +299,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.DIE_BY_INTENTIONAL_GAME_DESIGN, DieToIntentionalGameDesignGoal.class);
         INSTANCE.register(GoalType.DIE_BY_IRON_GOLEM, DieToIronGolemGoal.class);
         INSTANCE.register(GoalType.DIE_TO_POLAR_BEAR, DieToPolarBearGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(SNOWY_PLAINS, ICE_SPIKES, FROZEN_OCEAN, DEEP_FROZEN_OCEAN))
+                .biomeRequirement(BiomeRequirements.anyOf(SNOWY_PLAINS, ICE_SPIKES, FROZEN_OCEAN, DEEP_FROZEN_OCEAN))
                 .build()
         );
         INSTANCE.register(GoalType.DIE_BY_MAGIC, DieByMagicGoal.class, GoalRequirements.MONUMENT);
@@ -376,7 +377,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.HAVE_MORE_XP_LEVELS, HaveMostXPLevelsGoal.class,
                 GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.FREEZE_TO_DEATH, DieByFreezingGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(GROVE, SNOWY_SLOPES))
+                .biomeRequirement(BiomeRequirements.anyOf(GROVE, SNOWY_SLOPES))
                 .build()
         );
         INSTANCE.register(GoalType.KILL_100_MOBS, Kill100MobsGoal.class);
@@ -404,7 +405,7 @@ public class DefaultGoalRegister {
         );
         INSTANCE.register(GoalType.FILL_CHISELED_BOOKSHELF, FillChiseledBookshelfGoal.class);
         INSTANCE.register(GoalType.USE_BRUSH_ON_SUSPICIOUS_BLOCK, UseBrushOnSuspiciousBlock.class, new GoalRequirements.Builder()
-                .structures(List.of(OCEAN_RUIN_WARM, TRAIL_RUINS))
+                .structures(List.of(OCEAN_RUIN_WARM, OCEAN_RUIN_COLD, TRAIL_RUINS))
                 .build()
         );
 
@@ -413,7 +414,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.LIGHT_CANDLE, LightCandleGoal.class);
         INSTANCE.register(GoalType.WEAR_FULL_ENCHANTED_ARMOR, WearFullEnchantedArmorGoal.class);
         INSTANCE.register(GoalType.PUT_WOLF_ARMOR_ON_WOLF, PutWolfArmorOnWolfGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(SAVANNA, SAVANNA_PLATEAU, WINDSWEPT_SAVANNA, BADLANDS, ERODED_BADLANDS, WOODED_BADLANDS)) /* armadillo spawn biomes */
+                .biomeRequirement(BiomeRequirements.anyOf(SAVANNA, SAVANNA_PLATEAU, WINDSWEPT_SAVANNA, BADLANDS, ERODED_BADLANDS, WOODED_BADLANDS)) /* armadillo spawn biomes */
                 .build());
         INSTANCE.register(GoalType.KILL_BREEZE_USING_WIND_CHARGE, KillBreezeWithWindChargeGoal.class);
         INSTANCE.register(GoalType.FILL_BUNDLE, FillBundleGoal.class);
@@ -421,10 +422,10 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.OBTAIN_64_ARROWS, Obtain64ArrowsGoal.class);
 
         INSTANCE.register(GoalType.GET_HEART_TRANSPLANTER_ADVANCEMENT, GetHeartTransplanterAdvancementGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(PALE_GARDEN))
+                .biomeRequirement(BiomeRequirements.anyOf(PALE_GARDEN))
                 .build());
         INSTANCE.register(GoalType.OBTAIN_RESIN_BRICK_STAIR, ObtainResinBrickStairGoal.class, new GoalRequirements.Builder()
-                .biomes(List.of(PALE_GARDEN))
+                .biomeRequirement(BiomeRequirements.anyOf(PALE_GARDEN))
                 .build());
 
         INSTANCE.register(GoalType.CONSTRUCT_COPPER_GOLEM, ConstructCopperGolemGoal.class);

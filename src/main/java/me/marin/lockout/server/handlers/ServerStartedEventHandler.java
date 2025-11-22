@@ -62,7 +62,13 @@ public class ServerStartedEventHandler implements ServerLifecycleEvents.ServerSt
                 GoalRequirements goalRequirements = GoalRegistry.INSTANCE.getGoalGenerator(id);
                 if (goalRequirements == null) continue;
 
-                for (RegistryKey<Biome> biome : goalRequirements.getRequiredBiomes()) {
+                java.util.Set<RegistryKey<Biome>> biomesToLocate = new java.util.HashSet<>(goalRequirements.getRequiredBiomes());
+
+                if (goalRequirements.getBiomeRequirement() != null) {
+                    goalRequirements.getBiomeRequirement().collectBiomes(biomesToLocate);
+                }
+
+                for (RegistryKey<Biome> biome : biomesToLocate) {
                     locateBiome(server, biome);
                 }
 

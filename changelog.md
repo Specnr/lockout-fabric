@@ -13,6 +13,7 @@
   - Obtain all dyes
   - Obtain tinted glass
   - Kill slime
+  - Enter a trial chamber
   - Most:
     - Leaf litter
     - Diamond blocks

@@ -251,5 +251,6 @@ public class GoalType {
     public static final String HAVE_MOST_HOPPERS = "HAVE_MOST_HOPPERS";
     public static final String HAVE_MOST_LEAFLITTER = "HAVE_MOST_LEAFLITTER";
     public static final String HAVE_MOST_DIAMOND_BLOCKS = "HAVE_MOST_DIAMOND_BLOCKS";
+    public static final String ENTER_A_TRIAL_CHAMBER = "ENTER_A_TRIAL_CHAMBER";
 
 }

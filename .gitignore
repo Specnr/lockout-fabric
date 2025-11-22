@@ -119,5 +119,5 @@ run/
 
 build.gradle
 
-.cursor
+# .cursor # Ignored directly in .git/info/exclude
 .vscode

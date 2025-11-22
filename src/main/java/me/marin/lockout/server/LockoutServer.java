@@ -744,4 +744,28 @@ public class LockoutServer {
         }
     }
 
+    public static int getNearbyStructures(CommandContext<ServerCommandSource> context) {
+        List<String> found = new ArrayList<>();
+        for (Map.Entry<RegistryKey<Structure>, LocateData> entry : STRUCTURE_LOCATE_DATA.entrySet()) {
+            if (entry.getValue().wasLocated()) {
+                found.add(entry.getKey().getValue().getPath());
+            }
+        }
+        Collections.sort(found);
+        server.getPlayerManager().broadcast(Text.empty().append(Text.literal("Found Structures:").formatted(Formatting.GOLD, Formatting.BOLD)).append(Text.literal("\n" + String.join("\n", found))), false);
+        return 1;
+    }
+
+    public static int getNearbyBiomes(CommandContext<ServerCommandSource> context) {
+        List<String> found = new ArrayList<>();
+        for (Map.Entry<RegistryKey<Biome>, LocateData> entry : BIOME_LOCATE_DATA.entrySet()) {
+            if (entry.getValue().wasLocated()) {
+                found.add(entry.getKey().getValue().getPath());
+            }
+        }
+        Collections.sort(found);
+        server.getPlayerManager().broadcast(Text.empty().append(Text.literal("Found Biomes:").formatted(Formatting.GOLD, Formatting.BOLD)).append(Text.literal("\n" + String.join("\n", found))), false);
+        return 1;
+    }
+
 }

@@ -157,6 +157,16 @@ public class LockoutInitializer implements ModInitializer {
                 dispatcher.getRoot().addChild(CommandManager.literal("ReloadGoalPool").requires(PERMISSIONS).executes(LockoutServer::reloadGoalPool).build());
             }
 
+            {
+                // GetNearbyStructures command
+                dispatcher.getRoot().addChild(CommandManager.literal("GetNearbyStructures").requires(PERMISSIONS).executes(LockoutServer::getNearbyStructures).build());
+            }
+
+            {
+                // GetNearbyBiomes command
+                dispatcher.getRoot().addChild(CommandManager.literal("GetNearbyBiomes").requires(PERMISSIONS).executes(LockoutServer::getNearbyBiomes).build());
+            }
+
         });
 
         LootTableEvents.REPLACE.register(((key, original, source, registries) -> {

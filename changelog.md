@@ -2,6 +2,12 @@
 - Fixed opponent(s) eat food goal breaking on 3+ player games
 - Fixed Waypoint colours changing after death
 - Allow closing board screens with open board button and escape
+- Cleanup biome requirements, allowing for complex AND / OR combinations
+- New Commands:
+    - `/GetNearbyBiomes`
+        - Returns the list of biomes found which are required for goals
+    - `/GetNearbyStructures`
+        - Returns the list of structures found which are required for goals
 - New Goals:
   - Obtain all dyes
   - Obtain tinted glass

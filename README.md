@@ -45,6 +45,12 @@ Change the match start time:
 Change if compasses are given:
 - `/SetGiveCompasses <true/false>` - default is false, locator bar provides a more "vanilla" experience
 
+Get biomes nearby required for goals:
+- `/GetNearbyBiomes`
+
+Get structures nearby required for goals:
+- `/GetNearbyStructures`
+
 Reload the Goal Pool after changes to `goal-pool.yml`:
 - `/ReloadGoalPool`
 

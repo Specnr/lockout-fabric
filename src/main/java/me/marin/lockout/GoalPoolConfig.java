@@ -65,6 +65,7 @@ public class GoalPoolConfig {
                     List<String> allGoals = getAllRegisteredGoals();
                     int enabledCount = 0;
                     int disabledCount = 0;
+                    boolean configUpdated = false;
                     
                     for (String goal : allGoals) {
                         Object value = yamlData.get(goal);
@@ -79,15 +80,17 @@ public class GoalPoolConfig {
                             instance.goalStates.put(goal, enabled);
                             if (enabled) enabledCount++;
                             else disabledCount++;
+                            configUpdated = true;
                         }
                     }
                     
                     Lockout.log("GoalPoolConfig loaded: " + enabledCount + " enabled, " + disabledCount + " disabled goals");
                     
-                    // Ensure all registered goals are present
-                    addMissingGoals();
+                    if (configUpdated) {
+                        Lockout.log("New goals detected in config, updating file...");
+                        save();
+                    }
                 }
-                // Don't save here - it overwrites user changes
             } catch (Exception e) {
                 Lockout.log("Invalid goal-pool.yml file, using default values.");
                 Lockout.error(e);
@@ -106,14 +109,7 @@ public class GoalPoolConfig {
         }
     }
 
-    private static void addMissingGoals() {
-        List<String> allGoals = getAllRegisteredGoals();
-        for (String goal : allGoals) {
-            if (!instance.goalStates.containsKey(goal)) {
-                instance.goalStates.put(goal, !DEFAULT_DISABLED_GOALS.contains(goal));
-            }
-        }
-    }
+
 
     private static List<String> getAllRegisteredGoals() {
         return categorizeGoals().values().stream()

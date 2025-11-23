@@ -4,6 +4,7 @@
 - Allow closing board screens with open board button and escape
 - Cleanup biome requirements, allowing for complex AND / OR combinations
 - Tick freeze on world load, unfreeze on lockout / blackout start
+- Improved updating of goal-pool.yml when updating mod
 - Update / standardize cartographer trades:
   - Level 2: Always buys glass panes, and sells trial chambers maps
   - Level 3: Always buys compasses, and sells ocean explorer maps

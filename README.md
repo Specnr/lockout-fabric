@@ -90,3 +90,6 @@ You can pick and choose which goals you want the random board generator to selec
 - Piglin barter rates are same as in version 1.16.1 (more pearls, string etc.)
 - Raids replicate those on Medium difficulty (guarantees all Illagers)
 - Zombies always convert Villagers into Zombie Villagers
+- Cartograhper trades have been updated:
+  - Level 2: Always buys glass panes, and sells ocean explorer maps
+  - Level 3: Always buys compasses, and sells trial chambers maps

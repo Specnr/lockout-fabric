@@ -4,6 +4,9 @@
 - Allow closing board screens with open board button and escape
 - Cleanup biome requirements, allowing for complex AND / OR combinations
 - Tick freeze on world load, unfreeze on lockout / blackout start
+- Update / standardize cartographer trades:
+  - Level 2: Always buys glass panes, and sells ocean explorer maps
+  - Level 3: Always buys compasses, and sells trial chambers maps
 - New Commands:
     - `/GetNearbyBiomes`
         - Returns the list of biomes found which are required for goals

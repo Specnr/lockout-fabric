@@ -1,4 +1,4 @@
-## Lockout v0.10.2
+## Lockout v0.11.0
 - Fixed opponent(s) eat food goal breaking on 3+ player games
 - Fixed Waypoint colours changing after death
 - Allow closing board screens with open board button and escape

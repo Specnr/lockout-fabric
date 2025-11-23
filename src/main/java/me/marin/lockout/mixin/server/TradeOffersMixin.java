@@ -20,11 +20,11 @@ public class TradeOffersMixin {
         if (cartographerTrades != null) {
             cartographerTrades.put(2, new TradeOffers.Factory[]{
                 new TradeOffers.BuyItemFactory(Items.GLASS_PANE, 11, 12, 10),
-                new TradeOffers.SellMapFactory(13, StructureTags.ON_OCEAN_EXPLORER_MAPS, "filled_map.monument", MapDecorationTypes.MONUMENT, 12, 10)
+                new TradeOffers.SellMapFactory(12, StructureTags.ON_TRIAL_CHAMBERS_MAPS, "filled_map.trial_chambers", MapDecorationTypes.TRIAL_CHAMBERS, 12, 10)
             });
             cartographerTrades.put(3, new TradeOffers.Factory[]{
                 new TradeOffers.BuyItemFactory(Items.COMPASS, 1, 12, 20),
-                new TradeOffers.SellMapFactory(12, StructureTags.ON_TRIAL_CHAMBERS_MAPS, "filled_map.trial_chambers", MapDecorationTypes.TRIAL_CHAMBERS, 12, 10)
+                new TradeOffers.SellMapFactory(13, StructureTags.ON_OCEAN_EXPLORER_MAPS, "filled_map.monument", MapDecorationTypes.MONUMENT, 12, 10)
             });
         }
     }

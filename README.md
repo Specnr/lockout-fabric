@@ -91,5 +91,6 @@ You can pick and choose which goals you want the random board generator to selec
 - Raids replicate those on Medium difficulty (guarantees all Illagers)
 - Zombies always convert Villagers into Zombie Villagers
 - Cartograhper trades have been updated:
-  - Level 2: Always buys glass panes, and sells ocean explorer maps
-  - Level 3: Always buys compasses, and sells trial chambers maps
+  - Level 2: Always buys glass panes, and sells trial chambers maps
+  - Level 3: Always buys compasses, and sells ocean explorer maps
+    - **NOTE**: Only level up cartographers to level 3 if there are monument goals on the board. This can massively lag servers if there are no close monuments.

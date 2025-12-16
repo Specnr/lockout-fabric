@@ -201,7 +201,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.OBTAIN_DISPENSER, ObtainDispenserGoal.class);
         INSTANCE.register(GoalType.OBTAIN_PISTON, ObtainPistonGoal.class);
         INSTANCE.register(GoalType.OBTAIN_ALL_RAW_ORE_BLOCKS, ObtainAllRawOreBlocksGoal.class);
-        INSTANCE.register(GoalType.OBTAIN_ALL_HORSE_ARMOR, ObtainAllHorseArmorGoal.class);
+        INSTANCE.register(GoalType.OBTAIN_4_UNIQUE_HORSE_ARMOR, Obtain4UniqueHorseArmorGoal.class);
         INSTANCE.register(GoalType.OBTAIN_4_UNIQUE_SEEDS, Obtain4UniqueSeedsGoal.class);
         INSTANCE.register(GoalType.OBTAIN_6_UNIQUE_FLOWERS, Obtain6UniqueFlowersGoal.class);
         INSTANCE.register(GoalType.OBTAIN_COLORED_GLAZED_TERRACOTTA, ObtainColoredGlazedTerracottaGoal.class,

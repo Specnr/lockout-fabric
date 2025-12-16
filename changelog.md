@@ -1,7 +1,9 @@
 ## Lockout v0.12.0
 - Updated to 1.21.11
 - Updated goals:
-    - 
+    - Changed all horse armor goals to 4 unique horse armor
+        - Also added netherite horse armor to the pool (please dont craft this lol)
+    - Added spears to all tool goals
 - New goals:
     - 
 

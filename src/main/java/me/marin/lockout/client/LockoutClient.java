@@ -1,5 +1,6 @@
 package me.marin.lockout.client;
 
+import me.lucko.fabric.api.permissions.v0.Permissions;
 import me.marin.lockout.*;
 import me.marin.lockout.client.gui.*;
 import me.marin.lockout.json.JSONBoard;
@@ -19,6 +20,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
+import net.minecraft.command.permission.LeveledPermissionPredicate;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
@@ -35,8 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static me.marin.lockout.Constants.MAX_BOARD_SIZE;
-import static me.marin.lockout.Constants.MIN_BOARD_SIZE;
+import static me.marin.lockout.Constants.*;
 
 public class LockoutClient implements ClientModInitializer {
 
@@ -225,7 +226,7 @@ public class LockoutClient implements ClientModInitializer {
                     if (MinecraftClient.getInstance().isInSingleplayer()) {
                         return true;
                     }
-                    return ccs.getPlayer().hasPermissionLevel(2);
+                    return Permissions.check(ccs.getPlayer(), PLACEHOLDER_PERM_STRING, LeveledPermissionPredicate.GAMEMASTERS.getLevel());
                 }).build();
 
                 var boardNameNode = ClientCommandManager.argument("board name", CustomBoardFileArgumentType.newInstance()).executes((context) -> {

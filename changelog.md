@@ -1,3 +1,10 @@
+## Lockout v0.12.0
+- Updated to 1.21.11
+- Updated goals:
+    - 
+- New goals:
+    - 
+
 ## Lockout v0.11.0
 - Fixed opponent(s) eat food goal breaking on 3+ player games
 - Fixed Waypoint colours changing after death

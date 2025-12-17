@@ -24,6 +24,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 
 @Mixin(CraftingResultSlot.class)
 public class CraftingResultSlotMixin {
@@ -56,7 +58,15 @@ public class CraftingResultSlotMixin {
             if (goal == null) continue;
 
             if (goal instanceof HaveMostUniqueCraftsGoal) {
-                player.playSoundToPlayer(SoundEvents.BLOCK_NOTE_BLOCK_IRON_XYLOPHONE.value(), SoundCategory.BLOCKS, 2, 2);
+                if (player instanceof ServerPlayerEntity serverPlayer) {
+                    serverPlayer.networkHandler.sendPacket(new PlaySoundS2CPacket(
+                            SoundEvents.BLOCK_NOTE_BLOCK_IRON_XYLOPHONE,
+                            SoundCategory.PLAYERS,
+                            player.getX(), player.getY(), player.getZ(),
+                            2f, 2f,
+                            player.getRandom().nextLong()
+                    ));
+                }
                 if (crafts.size() % 5 == 0) {
                     player.sendMessage(Text.of(Formatting.GRAY + "" + Formatting.ITALIC + "You have crafted " + crafts.size() + " unique items."), false);
                 }

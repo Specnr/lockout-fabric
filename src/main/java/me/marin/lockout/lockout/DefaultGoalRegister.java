@@ -37,6 +37,7 @@ import me.marin.lockout.lockout.goals.misc.*;
 import me.marin.lockout.lockout.goals.obtain.*;
 import me.marin.lockout.lockout.goals.opponent.*;
 import me.marin.lockout.lockout.goals.ride.RideHorseGoal;
+import me.marin.lockout.lockout.goals.ride.RideNautilusGoal;
 import me.marin.lockout.lockout.goals.ride.RideMinecartGoal;
 import me.marin.lockout.lockout.goals.ride.RidePigGoal;
 import me.marin.lockout.lockout.goals.status_effect.*;
@@ -201,7 +202,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.OBTAIN_DISPENSER, ObtainDispenserGoal.class);
         INSTANCE.register(GoalType.OBTAIN_PISTON, ObtainPistonGoal.class);
         INSTANCE.register(GoalType.OBTAIN_ALL_RAW_ORE_BLOCKS, ObtainAllRawOreBlocksGoal.class);
-        INSTANCE.register(GoalType.OBTAIN_ALL_HORSE_ARMOR, ObtainAllHorseArmorGoal.class);
+        INSTANCE.register(GoalType.OBTAIN_4_UNIQUE_HORSE_ARMOR, Obtain4UniqueHorseArmorGoal.class);
         INSTANCE.register(GoalType.OBTAIN_4_UNIQUE_SEEDS, Obtain4UniqueSeedsGoal.class);
         INSTANCE.register(GoalType.OBTAIN_6_UNIQUE_FLOWERS, Obtain6UniqueFlowersGoal.class);
         INSTANCE.register(GoalType.OBTAIN_COLORED_GLAZED_TERRACOTTA, ObtainColoredGlazedTerracottaGoal.class,
@@ -317,6 +318,10 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.RIDE_HORSE, RideHorseGoal.class);
         INSTANCE.register(GoalType.RIDE_MINECART, RideMinecartGoal.class);
         INSTANCE.register(GoalType.RIDE_PIG, RidePigGoal.class);
+        INSTANCE.register(GoalType.RIDE_NAUTILUS, RideNautilusGoal.class, new GoalRequirements.Builder()
+            .biomeRequirement(BiomeRequirements.anyOf(WARM_OCEAN, DEEP_LUKEWARM_OCEAN, LUKEWARM_OCEAN))
+            .build()
+        );
         INSTANCE.register(GoalType.USE_STONECUTTER, UseStonecutterGoal.class);
         INSTANCE.register(GoalType.USE_ANVIL, UseAnvilGoal.class);
         INSTANCE.register(GoalType.USE_ENCHANTING_TABLE, UseEnchantingTableGoal.class);
@@ -437,6 +442,10 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.CONSTRUCT_COPPER_GOLEM, ConstructCopperGolemGoal.class);
         INSTANCE.register(GoalType.FILL_SHELF, FillShelfGoal.class);
         INSTANCE.register(GoalType.KILL_BLAZE_WITH_SNOWBALL, KillBlazeWithSnowballGoal.class, GoalRequirements.SNOWY_BIOMES);
+
+        INSTANCE.register(GoalType.OBTAIN_ANY_NAUTILUS_ARMOR, ObtainAnyNautilusArmorGoal.class);
+
+        INSTANCE.register(GoalType.SKEWER_MOBS, SkewerMobsGoal.class);
 
     }
 

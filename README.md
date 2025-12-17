@@ -94,3 +94,8 @@ You can pick and choose which goals you want the random board generator to selec
   - Level 2: Always buys glass panes, and sells trial chambers maps
   - Level 3: Always buys compasses, and sells ocean explorer maps
     - **NOTE**: Only level up cartographers to level 3 if there are monument goals on the board. This can massively lag servers if there are no close monuments.
+
+# Credits
+- Original mod by [marin774](https://github.com/marin774)
+- Edits done by [Specnr](https://github.com/Specnr)
+- Coreybirdo, Tharve and EnderRouge - Additional goal ideas and suggestions

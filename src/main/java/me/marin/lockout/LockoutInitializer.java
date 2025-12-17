@@ -3,6 +3,7 @@ package me.marin.lockout;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import me.lucko.fabric.api.permissions.v0.Permissions;
 import me.marin.lockout.lockout.DefaultGoalRegister;
 import me.marin.lockout.network.CustomBoardPayload;
 import me.marin.lockout.network.Networking;
@@ -16,6 +17,7 @@ import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.Version;
 import net.minecraft.command.argument.GameProfileArgumentType;
+import net.minecraft.command.permission.LeveledPermissionPredicate;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
@@ -35,12 +37,12 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import static me.marin.lockout.Constants.MAX_BOARD_SIZE;
-import static me.marin.lockout.Constants.NAMESPACE;
+import static me.marin.lockout.Constants.*;
 
 public class LockoutInitializer implements ModInitializer {
 
-    private static final Predicate<ServerCommandSource> PERMISSIONS = (ssc) -> ssc.hasPermissionLevel(2) || ssc.getServer().isSingleplayer();
+    private static final Predicate<ServerCommandSource> PERMISSIONS = (ssc) ->
+            ssc.getServer() != null && (Permissions.check(ssc, PLACEHOLDER_PERM_STRING, LeveledPermissionPredicate.GAMEMASTERS.getLevel()) || ssc.getServer().isSingleplayer());
 
     public static Version MOD_VERSION;
 

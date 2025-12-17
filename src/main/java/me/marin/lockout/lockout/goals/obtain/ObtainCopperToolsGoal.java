@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ObtainCopperToolsGoal extends ObtainAllItemsGoal {
 
-    private static final List<Item> ITEMS = List.of(Items.COPPER_AXE, Items.COPPER_HOE, Items.COPPER_PICKAXE, Items.COPPER_SWORD, Items.COPPER_SHOVEL);
+    private static final List<Item> ITEMS = List.of(Items.COPPER_AXE, Items.COPPER_HOE, Items.COPPER_PICKAXE, Items.COPPER_SWORD, Items.COPPER_SHOVEL, Items.COPPER_SPEAR);
 
     public ObtainCopperToolsGoal(String id, String data) {
         super(id, data);

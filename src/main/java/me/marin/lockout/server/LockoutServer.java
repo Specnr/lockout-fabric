@@ -23,6 +23,7 @@ import net.fabricmc.fabric.api.message.v1.ServerMessageEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.command.argument.GameProfileArgumentType;
+import net.minecraft.command.permission.LeveledPermissionPredicate;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -44,15 +45,17 @@ import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.structure.Structure;
 import oshi.util.tuples.Pair;
+import me.lucko.fabric.api.permissions.v0.Permissions;
 
 import java.util.*;
 import java.util.UUID;
+
+import static me.marin.lockout.Constants.PLACEHOLDER_PERM_STRING;
 
 public class LockoutServer {
 
@@ -185,7 +188,7 @@ public class LockoutServer {
             ServerPlayerEntity player = context.player();
 
             if (!server.isSingleplayer()) {
-                if (!player.hasPermissionLevel(2)) {
+                if (!Permissions.check(player, PLACEHOLDER_PERM_STRING, LeveledPermissionPredicate.GAMEMASTERS.getLevel())) {
                     player.sendMessage(Text.literal("You do not have the permission for this command!").formatted(Formatting.RED));
                     return;
                 }
@@ -453,7 +456,7 @@ public class LockoutServer {
                 player.getEntityPos(),
                 player.getRotationClient(),
                 player.getEntityWorld(),
-                4, // Permission level 4 (op level)
+                LeveledPermissionPredicate.OWNERS, // Permission level 4 (op level)
                 player.getName().getString(),
                 Text.empty(),
                 server,

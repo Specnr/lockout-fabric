@@ -32,7 +32,10 @@ public class Kill30UndeadMobsGoal extends KillSpecificMobsGoal implements CycleT
             Identifier.of(Constants.NAMESPACE, "textures/custom/undead/kill_stray.png"),
             Identifier.of(Constants.NAMESPACE, "textures/custom/undead/kill_zoglin.png")
     );
-    // undead: drowned, husk, phantom, skeleton, skeletonhorse, stray, wither, wither skeleton, zoglin, zombie, zombie horse, zombie villager, zombiefied piglin, bogged
+    /* undead:
+    drowned, husk, phantom, skeleton, skeleton horse, stray, wither, wither skeleton, zoglin, zombie,
+    zombie horse, zombie villager, zombified piglin, bogged, parched, zombie nautilus, camel husk
+    */
     private static final List<EntityType<?>> UNDEAD_MOBS = List.of(
             EntityType.DROWNED,
             EntityType.HUSK,
@@ -47,7 +50,10 @@ public class Kill30UndeadMobsGoal extends KillSpecificMobsGoal implements CycleT
             EntityType.ZOMBIE_HORSE,
             EntityType.ZOMBIE_VILLAGER,
             EntityType.ZOMBIFIED_PIGLIN,
-            EntityType.BOGGED
+            EntityType.BOGGED,
+            EntityType.PARCHED,
+            EntityType.ZOMBIE_NAUTILUS,
+            EntityType.CAMEL_HUSK
     );
     public Kill30UndeadMobsGoal(String id, String data) {
         super(id, data);

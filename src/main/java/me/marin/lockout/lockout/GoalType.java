@@ -91,7 +91,7 @@ public class GoalType {
     public static final String OBTAIN_DISPENSER = "OBTAIN_DISPENSER";
     public static final String OBTAIN_PISTON = "OBTAIN_PISTON";
     public static final String OBTAIN_ALL_RAW_ORE_BLOCKS = "OBTAIN_ALL_RAW_ORE_BLOCKS";
-    public static final String OBTAIN_ALL_HORSE_ARMOR = "OBTAIN_ALL_HORSE_ARMOR";
+    public static final String OBTAIN_4_UNIQUE_HORSE_ARMOR = "OBTAIN_4_UNIQUE_HORSE_ARMOR";
     public static final String OBTAIN_4_UNIQUE_SEEDS = "OBTAIN_4_UNIQUE_SEEDS";
     public static final String OBTAIN_6_UNIQUE_FLOWERS = "OBTAIN_6_UNIQUE_FLOWERS";
     public static final String OBTAIN_COLORED_GLAZED_TERRACOTTA = "OBTAIN_COLORED_GLAZED_TERRACOTTA";
@@ -173,6 +173,7 @@ public class GoalType {
     public static final String RIDE_HORSE = "RIDE_HORSE";
     public static final String RIDE_PIG = "RIDE_PIG";
     public static final String RIDE_MINECART = "RIDE_MINECART";
+    public static final String RIDE_NAUTILUS = "RIDE_NAUTILUS";
     public static final String USE_STONECUTTER = "USE_STONECUTTER";
     public static final String USE_ANVIL = "USE_ANVIL";
     public static final String USE_ENCHANTING_TABLE = "USE_ENCHANTING_TABLE";
@@ -252,5 +253,7 @@ public class GoalType {
     public static final String HAVE_MOST_LEAFLITTER = "HAVE_MOST_LEAFLITTER";
     public static final String HAVE_MOST_DIAMOND_BLOCKS = "HAVE_MOST_DIAMOND_BLOCKS";
     public static final String ENTER_A_TRIAL_CHAMBER = "ENTER_A_TRIAL_CHAMBER";
+    public static final String OBTAIN_ANY_NAUTILUS_ARMOR = "OBTAIN_ANY_NAUTILUS_ARMOR";
+    public static final String SKEWER_MOBS = "SKEWER_MOBS";
 
 }

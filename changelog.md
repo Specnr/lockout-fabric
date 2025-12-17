@@ -1,3 +1,15 @@
+## Lockout v0.12.0
+- Updated to 1.21.11
+- Updated goals:
+    - Changed all horse armor goals to 4 unique horse armor
+        - Also added netherite horse armor to the pool (please dont craft this lol)
+    - Added spears to all tool goals
+- New goals:
+    - Ride a nautilus
+    - Obtain any nautilus armor
+    - Achieve the "Mob Kabob" advancement
+- Kill a slime texture added
+
 ## Lockout v0.11.0
 - Fixed opponent(s) eat food goal breaking on 3+ player games
 - Fixed Waypoint colours changing after death
@@ -66,7 +78,7 @@
 - Update goals to 1.21.10
     - Unique saplings now contains Pale Oak sapling
     - Unique flowers now contains Eyeblossom (open and closed)
-    - All horse armours now contains copper
+    - All horse armors now contains copper
 - Removed F3 changes
     - With the new F3 layout changes in newer versions, this would require quite the rework
 

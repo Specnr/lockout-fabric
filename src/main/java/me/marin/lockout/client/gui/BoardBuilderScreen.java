@@ -187,8 +187,7 @@ public class BoardBuilderScreen extends Screen {
                 }
                 if (!isOk) {
                     String s = "Invalid '" + wrongDataGenerator + "'.";
-                    editDataErrorTextWidget = new TextWidget(Text.of(s), textRenderer);
-                    editDataErrorTextWidget.setTextColor(Color.RED.getRGB());
+                    editDataErrorTextWidget = new TextWidget(Text.literal(s).formatted(Formatting.RED), textRenderer);
                     editDataErrorTextWidget.setPosition(x + 75 - textRenderer.getWidth(s) / 2, errorY);
                     this.addDrawableChild(editDataErrorTextWidget);
                     return;
@@ -256,8 +255,7 @@ public class BoardBuilderScreen extends Screen {
     }
 
     private void showError(String message, int x, int y) {
-        saveErrorTextWidget = new TextWidget(Text.of(message), textRenderer);
-        saveErrorTextWidget.setTextColor(Color.RED.getRGB());
+        saveErrorTextWidget = new TextWidget(Text.literal(message).formatted(Formatting.RED), textRenderer);
         saveErrorTextWidget.setPosition(x, y);
         this.addDrawableChild(saveErrorTextWidget);
     }

@@ -1,12 +1,18 @@
 package me.marin.lockout.lockout.goals.have_more;
 
 import me.marin.lockout.Constants;
+import me.marin.lockout.LockoutTeam;
+import me.marin.lockout.LockoutTeamServer;
 import me.marin.lockout.lockout.Goal;
+import me.marin.lockout.lockout.interfaces.MostStatGoal;
 import me.marin.lockout.lockout.texture.TextureProvider;
+import me.marin.lockout.server.LockoutServer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
-public class HaveMostAdvancementsGoal extends Goal implements TextureProvider {
+import java.util.UUID;
+
+public class HaveMostAdvancementsGoal extends Goal implements TextureProvider, MostStatGoal {
 
     public HaveMostAdvancementsGoal(String id, String data) {
         super(id, data);
@@ -26,6 +32,15 @@ public class HaveMostAdvancementsGoal extends Goal implements TextureProvider {
     @Override
     public Identifier getTextureIdentifier() {
         return TEXTURE;
+    }
+
+    @Override
+    public int getStat(LockoutTeam team) {
+        int max = 0;
+        for (UUID uuid : ((LockoutTeamServer)team).getPlayers()) {
+            max = Math.max(max, LockoutServer.lockout.playerAdvancements.getOrDefault(uuid, 0));
+        }
+        return max;
     }
 
 }

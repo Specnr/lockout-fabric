@@ -48,13 +48,14 @@ public class LockoutTeamServer extends LockoutTeam {
         }
     }
 
-    public <T extends Goal & HasTooltipInfo> void sendTooltipUpdate(T goal) {
+    public void sendTooltipUpdate(Goal goal) {
         sendTooltipUpdate(goal, true);
     }
-    public <T extends Goal & HasTooltipInfo> void sendTooltipUpdate(T goal, boolean updateSpectators) {
+    public void sendTooltipUpdate(Goal goal, boolean updateSpectators) {
+        if (!(goal instanceof HasTooltipInfo tooltipGoal)) return;
         for (UUID playerId : players) {
             ServerPlayerEntity player = server.getPlayerManager().getPlayer(playerId);
-            var payload = new UpdateTooltipPayload(goal.getId(), String.join("\n", goal.getTooltip(this, player)));
+            var payload = new UpdateTooltipPayload(goal.getId(), String.join("\n", tooltipGoal.getTooltip(this, player)));
             if (player != null) {
                 ServerPlayNetworking.send(player, payload);
             }
@@ -64,8 +65,9 @@ public class LockoutTeamServer extends LockoutTeam {
             this.sendTooltipPacketSpectators(goal);
         }
     }
-    private <T extends Goal & HasTooltipInfo> void sendTooltipPacketSpectators(T goal) {
-        var payload = new UpdateTooltipPayload(goal.getId(), String.join("\n", goal.getSpectatorTooltip()));
+    private void sendTooltipPacketSpectators(Goal goal) {
+        if (!(goal instanceof HasTooltipInfo tooltipGoal)) return;
+        var payload = new UpdateTooltipPayload(goal.getId(), String.join("\n", tooltipGoal.getSpectatorTooltip()));
         for (ServerPlayerEntity spectator : Utility.getSpectators(LockoutServer.lockout, server)) {
             ServerPlayNetworking.send(spectator, payload);
         }

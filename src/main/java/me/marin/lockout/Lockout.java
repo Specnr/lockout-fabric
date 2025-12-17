@@ -9,6 +9,8 @@ import me.marin.lockout.network.EndLockoutPayload;
 import me.marin.lockout.network.LockoutGoalsTeamsPayload;
 import me.marin.lockout.network.UpdateTimerPayload;
 import me.marin.lockout.lockout.goals.have_more.*;
+import me.marin.lockout.lockout.interfaces.HasTooltipInfo;
+import me.marin.lockout.network.UpdateTooltipPayload;
 import me.marin.lockout.server.LockoutServer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.EntityType;
@@ -46,6 +48,10 @@ public class Lockout {
 
     // Tracks which teams have met the condition for each opponent goal (for 3+ team support)
     public final Map<Goal, Set<LockoutTeam>> opponentGoalProgress = new HashMap<>();
+
+    public final Map<UUID, Integer> levels = new LinkedHashMap<>();
+    public UUID mostLevelsPlayer;
+    public int mostLevels;
 
     public final Map<UUID, Long> pumpkinWearTime = new HashMap<>();
     public final Map<UUID, Integer> distanceSprinted = new HashMap<>();
@@ -205,6 +211,8 @@ public class Lockout {
         // Track that this team has met the condition
         opponentGoalProgress.putIfAbsent(goal, new HashSet<>());
         opponentGoalProgress.get(goal).add(teamThatMetCondition);
+
+        updateTooltips(goal);
 
         // Check if all other teams (excluding the potential winner) have met the condition
         int teamsSize = teams.size();
@@ -427,9 +435,22 @@ public class Lockout {
                 isRunning);
     }
 
+    public void updateTooltips(Goal goal) {
+        if (goal instanceof HasTooltipInfo tooltipGoal) {
+            for (LockoutTeam team : teams) {
+                ((LockoutTeamServer)team).sendTooltipUpdate(goal);
+            }
+            // Update spectators
+            List<String> spectatorTooltip = tooltipGoal.getSpectatorTooltip();
+            var payload = new UpdateTooltipPayload(goal.getId(), String.join("\n", spectatorTooltip));
+            for (ServerPlayerEntity spectator : Utility.getSpectators(this, LockoutServer.server)) {
+                ServerPlayNetworking.send(spectator, payload);
+            }
+        }
+    }
 
-    public final Map<UUID, Integer> levels = new LinkedHashMap<>();
-    private UUID mostLevelsPlayer;
+
+
 
     public void recalculateXPGoal(Goal goal) {
         List<UUID> largestLevelPlayers = new ArrayList<>();
@@ -451,15 +472,18 @@ public class Lockout {
         if (largestLevel == 0) {
             if (this.mostLevelsPlayer != null) {
                 this.mostLevelsPlayer = null;
+                this.mostLevels = 0;
                 clearGoalCompletion(goal, true);
             }
-            return;
+        } else if (!largestLevelPlayers.contains(mostLevelsPlayer)) {
+            this.mostLevelsPlayer = largestLevelPlayers.get(0);
+            this.mostLevels = largestLevel;
+            updateGoalCompletion(goal, largestLevelPlayers.get(0));
+        } else {
+            this.mostLevels = largestLevel;
         }
 
-        if (!largestLevelPlayers.contains(mostLevelsPlayer)) {
-            this.mostLevelsPlayer = largestLevelPlayers.get(0);
-            updateGoalCompletion(goal, largestLevelPlayers.get(0));
-        }
+        updateTooltips(goal);
     }
 
     public void recalculateUniqueCraftsGoal(Goal goal) {
@@ -483,15 +507,18 @@ public class Lockout {
         if (largestCraftCount == 0) {
             if (this.mostUniqueCraftsPlayer != null) {
                 this.mostUniqueCraftsPlayer = null;
+                this.mostUniqueCrafts = 0;
                 clearGoalCompletion(goal, true);
             }
-            return;
+        } else if (!largestCraftPlayers.contains(mostUniqueCraftsPlayer)) {
+            this.mostUniqueCraftsPlayer = largestCraftPlayers.get(0);
+            this.mostUniqueCrafts = largestCraftCount;
+            updateGoalCompletion(goal, largestCraftPlayers.get(0));
+        } else {
+            this.mostUniqueCrafts = largestCraftCount;
         }
 
-        if (!largestCraftPlayers.contains(mostUniqueCraftsPlayer)) {
-            this.mostUniqueCraftsPlayer = largestCraftPlayers.get(0);
-            updateGoalCompletion(goal, largestCraftPlayers.get(0));
-        }
+        updateTooltips(goal);
     }
 
     public void recalculatePlayerKillsGoal(Goal goal) {
@@ -515,15 +542,18 @@ public class Lockout {
         if (largestKillCount == 0) {
             if (this.mostPlayerKillsPlayer != null) {
                 this.mostPlayerKillsPlayer = null;
+                this.mostPlayerKills = 0;
                 clearGoalCompletion(goal, true);
             }
-            return;
+        } else if (!largestKillPlayers.contains(mostPlayerKillsPlayer)) {
+            this.mostPlayerKillsPlayer = largestKillPlayers.get(0);
+            this.mostPlayerKills = largestKillCount;
+            updateGoalCompletion(goal, largestKillPlayers.get(0));
+        } else {
+            this.mostPlayerKills = largestKillCount;
         }
 
-        if (!largestKillPlayers.contains(mostPlayerKillsPlayer)) {
-            this.mostPlayerKillsPlayer = largestKillPlayers.get(0);
-            updateGoalCompletion(goal, largestKillPlayers.get(0));
-        }
+        updateTooltips(goal);
     }
 
     public void recalculateAdvancementsGoal(Goal goal) {
@@ -547,15 +577,18 @@ public class Lockout {
         if (largestAdvancementCount == 0) {
             if (this.mostAdvancementsPlayer != null) {
                 this.mostAdvancementsPlayer = null;
+                this.mostAdvancements = 0;
                 clearGoalCompletion(goal, true);
             }
-            return;
+        } else if (!largestAdvancementPlayers.contains(mostAdvancementsPlayer)) {
+            this.mostAdvancementsPlayer = largestAdvancementPlayers.get(0);
+            this.mostAdvancements = largestAdvancementCount;
+            updateGoalCompletion(goal, largestAdvancementPlayers.get(0));
+        } else {
+            this.mostAdvancements = largestAdvancementCount;
         }
 
-        if (!largestAdvancementPlayers.contains(mostAdvancementsPlayer)) {
-            this.mostAdvancementsPlayer = largestAdvancementPlayers.get(0);
-            updateGoalCompletion(goal, largestAdvancementPlayers.get(0));
-        }
+        updateTooltips(goal);
     }
 
     public void forfeitTeam(LockoutTeam team) {
@@ -588,11 +621,11 @@ public class Lockout {
             // Same logic as completeMultiOpponentGoal
             if (count >= teamsSize - 1) {
                  List<LockoutTeamServer> winningTeams = new ArrayList<>();
-                for (LockoutTeam t : teams) {
-                    if (!teamsMetCondition.contains(t)) {
-                        winningTeams.add((LockoutTeamServer) t);
-                    }
-                }
+                List<LockoutTeamServer> notMet = teams.stream()
+                        .filter(t -> !teamsMetCondition.contains(t))
+                        .map(t -> (LockoutTeamServer) t)
+                        .toList();
+                winningTeams.addAll(notMet);
 
                 if (winningTeams.isEmpty()) continue;
 
@@ -680,6 +713,8 @@ public class Lockout {
             this.mostHoppersPlayer = largestHopperPlayers.get(0);
             updateGoalCompletion(goal, largestHopperPlayers.get(0));
         }
+
+        updateTooltips(goal);
     }
 
     public void recalculateLeaflitterGoal(Goal goal) {
@@ -712,6 +747,8 @@ public class Lockout {
             this.mostLeaflitterPlayer = largestLeaflitterPlayers.get(0);
             updateGoalCompletion(goal, largestLeaflitterPlayers.get(0));
         }
+
+        updateTooltips(goal);
     }
 
     public void recalculateDiamondBlocksGoal(Goal goal) {
@@ -744,6 +781,8 @@ public class Lockout {
             this.mostDiamondBlocksPlayer = largestDiamondBlockPlayers.get(0);
             updateGoalCompletion(goal, largestDiamondBlockPlayers.get(0));
         }
+
+        updateTooltips(goal);
     }
 
 }

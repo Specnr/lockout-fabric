@@ -36,7 +36,7 @@ public class KillSlimeGoal extends KillMobGoal implements TextureProvider {
         return null;
     }
 
-    private static final Identifier OVERLAY = Identifier.of(Constants.NAMESPACE, "textures/custom/kill/kill_x_overlay.png");
+    private static final Identifier OVERLAY = Identifier.of(Constants.NAMESPACE, "textures/custom/overlay/kill_overlay.png");
     
     @Override
     public boolean renderTexture(DrawContext context, int x, int y, int tick) {

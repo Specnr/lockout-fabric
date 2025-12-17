@@ -49,27 +49,20 @@ public abstract class PlayerAdvancementTrackerMixin {
         if (!lockout.isLockoutPlayer(owner.getUuid())) return;
         LockoutTeamServer team = (LockoutTeamServer) lockout.getPlayerTeam(owner.getUuid());
 
+        Optional<AdvancementDisplay> advancementDisplay = advancement.value().display();
+        if (advancementDisplay.isPresent() && advancementDisplay.get().shouldAnnounceToChat()) {
+            // Increment advancement count for this player
+            lockout.playerAdvancements.putIfAbsent(owner.getUuid(), 0);
+            lockout.playerAdvancements.merge(owner.getUuid(), 1, Integer::sum);
+        }
+
         for (Goal goal : lockout.getBoard().getGoals()) {
             if (goal == null) continue;
 
             // Track player advancements for HaveMostAdvancementsGoal regardless of goal completion
             if (goal instanceof HaveMostAdvancementsGoal) {
-                Optional<AdvancementDisplay> advancementDisplay = advancement.value().display();
                 if (advancementDisplay.isPresent() && advancementDisplay.get().shouldAnnounceToChat()) {
-                    // Increment advancement count for this player
-                    lockout.playerAdvancements.putIfAbsent(owner.getUuid(), 0);
-                    lockout.playerAdvancements.merge(owner.getUuid(), 1, Integer::sum);
-
-                    int playerAdvancements = lockout.playerAdvancements.get(owner.getUuid());
-
-                    // If this player now has more advancements than current leader, update completion
-                    if (playerAdvancements > lockout.mostAdvancements) {
-                        if (!Objects.equals(lockout.mostAdvancementsPlayer, owner.getUuid())) {
-                            lockout.updateGoalCompletion(goal, owner.getUuid());
-                        }
-                        lockout.mostAdvancementsPlayer = owner.getUuid();
-                        lockout.mostAdvancements = playerAdvancements;
-                    }
+                    lockout.recalculateAdvancementsGoal(goal);
                 }
             }
 
@@ -81,7 +74,6 @@ public abstract class PlayerAdvancementTrackerMixin {
                 }
             }
             if (goal instanceof GetUniqueAdvancementsGoal getUniqueAdvancementsGoal) {
-                Optional<AdvancementDisplay> advancementDisplay = advancement.value().display();
                 if (advancementDisplay.isPresent()) {
                     getUniqueAdvancementsGoal.getTrackerMap().putIfAbsent(team, new LinkedHashSet<>());
                     getUniqueAdvancementsGoal.getTrackerMap().get(team).add(advancement.id());

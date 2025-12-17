@@ -1,3 +1,14 @@
+## Lockout v0.12.1
+- Added `/forfeit` command
+    - Allows players or teams to forfeit
+    - Recalculates goals if needed
+    - Removes player(s) from active goals
+    - Removes player(s) from compass
+    - Changes gamemode of player(s) to spectator
+- Improved tooltips for more complex goals:
+    - Has most X goals shows how much you have
+    - Opponent does X goals shows who have not met the condition
+
 ## Lockout v0.12.0
 - Updated to 1.21.11
 - Updated goals:
@@ -8,12 +19,6 @@
     - Ride a nautilus
     - Obtain any nautilus armor
     - Achieve the "Mob Kabob" advancement
-- Added `/forfeit` command
-    - Allows players or teams to forfeit
-    - Recalculates goals if needed
-    - Removes player(s) from active goals
-    - Removes player(s) from compass
-    - Changes gamemode of player(s) to spectator
 - Kill a slime texture added
 
 

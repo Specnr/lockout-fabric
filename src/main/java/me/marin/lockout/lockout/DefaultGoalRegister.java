@@ -40,6 +40,7 @@ import me.marin.lockout.lockout.goals.ride.RideHorseGoal;
 import me.marin.lockout.lockout.goals.ride.RideNautilusGoal;
 import me.marin.lockout.lockout.goals.ride.RideMinecartGoal;
 import me.marin.lockout.lockout.goals.ride.RidePigGoal;
+import me.marin.lockout.lockout.goals.visit.*;
 import me.marin.lockout.lockout.goals.status_effect.*;
 import me.marin.lockout.lockout.goals.status_effect.unique.Get3StatusEffectsGoal;
 import me.marin.lockout.lockout.goals.status_effect.unique.Get4StatusEffectsGoal;
@@ -305,6 +306,7 @@ public class DefaultGoalRegister {
         );
         INSTANCE.register(GoalType.DIE_BY_MAGIC, DieByMagicGoal.class, GoalRequirements.MONUMENT);
         INSTANCE.register(GoalType.DIE_BY_TNT_MINECART, DieToTNTMinecartGoal.class);
+        INSTANCE.register(GoalType.DIE_BY_DROWNING, DieByDrowningGoal.class);
         INSTANCE.register(GoalType.GET_A_TERRIBLE_FORTRESS_ADVANCEMENT, GetATerribleFortressAdvancementGoal.class);
         INSTANCE.register(GoalType.GET_THE_CITY_AT_THE_END_OF_THE_GAME_ADVANCEMENT, GetCityAtTheEndOfTheGameAdvancementGoal.class);
         INSTANCE.register(GoalType.GET_EYE_SPY_ADVANCEMENT, GetEyeSpyAdvancementGoal.class);
@@ -368,6 +370,7 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.OPPONENT_HIT_BY_EGG, OpponentHitByEggGoal.class,
                 GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_HIT_BY_SNOWBALL, OpponentHitBySnowballGoal.class, GoalRequirements.SNOWY_BIOMES_TEAMS_GOAL);
+        INSTANCE.register(GoalType.OPPONENT_HIT_BY_ARROW, OpponentHitByArrowGoal.class, GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_TAKES_100_DAMAGE, OpponentTakes100DamageGoal.class,
                 GoalRequirements.TEAMS_GOAL);
         INSTANCE.register(GoalType.OPPONENT_TAKES_FALL_DAMAGE, OpponentTakesFallDamageGoal.class,
@@ -446,6 +449,14 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.OBTAIN_ANY_NAUTILUS_ARMOR, ObtainAnyNautilusArmorGoal.class);
 
         INSTANCE.register(GoalType.SKEWER_MOBS, SkewerMobsGoal.class);
+        INSTANCE.register(GoalType.OBTAIN_DEAD_BUSH, ObtainDeadBushGoal.class, GoalRequirements.DEAD_BUSH_BIOMES);
+
+        INSTANCE.register(GoalType.VISIT_10_UNIQUE_BIOMES, Visit10UniqueBiomesGoal.class);
+        INSTANCE.register(GoalType.VISIT_15_UNIQUE_BIOMES, Visit15UniqueBiomesGoal.class);
+        INSTANCE.register(GoalType.VISIT_20_UNIQUE_BIOMES, Visit20UniqueBiomesGoal.class);
+        INSTANCE.register(GoalType.TUNE_NOTE_BLOCK, TuneNoteBlockGoal.class);
+        INSTANCE.register(GoalType.PLACE_PAINTING, PlacePaintingGoal.class);
+        INSTANCE.register(GoalType.OBTAIN_CALIBRATED_SCULK_SENSOR, ObtainCalibratedSculkSensorGoal.class, GoalRequirements.DEEP_DARK_BIOME);
 
     }
 

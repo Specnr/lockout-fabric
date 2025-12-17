@@ -76,7 +76,7 @@ public class GoalGroup {
     ), 1);
     public static final GoalGroup DEATH_DAMAGE = new GoalGroup(List.of(
             DIE_BY_ANVIL, DIE_BY_BEE_STING, DIE_BY_BERRY_BUSH, DIE_BY_CACTUS, DIE_BY_FALLING_OFF_VINE, DIE_BY_FALLING_STALACTITE, DIE_BY_FIREWORK,
-            DIE_BY_INTENTIONAL_GAME_DESIGN, DIE_BY_IRON_GOLEM, DIE_BY_MAGIC, DIE_BY_TNT_MINECART, OPPONENT_DIES, OPPONENT_DIES_3_TIMES,
+            DIE_BY_INTENTIONAL_GAME_DESIGN, DIE_BY_IRON_GOLEM, DIE_BY_MAGIC, DIE_BY_TNT_MINECART, DIE_BY_DROWNING, OPPONENT_DIES, OPPONENT_DIES_3_TIMES,
             DEAL_400_DAMAGE, OPPONENT_TAKES_100_DAMAGE, TAKE_200_DAMAGE
     ), 3);
     public static final GoalGroup BIOME = new GoalGroup(List.of(
@@ -91,13 +91,13 @@ public class GoalGroup {
     public static final GoalGroup OPPONENT_GOALS = new GoalGroup(List.of(
             OPPONENT_TAKES_100_DAMAGE, OPPONENT_TAKES_FALL_DAMAGE, OPPONENT_CATCHES_ON_FIRE,
             OPPONENT_OBTAINS_CRAFTING_TABLE, OPPONENT_JUMPS, OPPONENT_TOUCHES_WATER,
-            OPPONENT_HIT_BY_EGG, OPPONENT_HIT_BY_SNOWBALL, OPPONENT_DIES, OPPONENT_DIES_3_TIMES
+            OPPONENT_HIT_BY_EGG, OPPONENT_HIT_BY_SNOWBALL, OPPONENT_HIT_BY_ARROW, OPPONENT_DIES, OPPONENT_DIES_3_TIMES
     ), 3);
     public static final GoalGroup OPPONENT_DEATH_DAMAGE = new GoalGroup(List.of(
             OPPONENT_DIES, OPPONENT_DIES_3_TIMES, OPPONENT_TAKES_100_DAMAGE
     ), 1);
     public static final GoalGroup OPPONENT_HIT_BY = new GoalGroup(List.of(
-            OPPONENT_HIT_BY_EGG, OPPONENT_HIT_BY_SNOWBALL
+            OPPONENT_HIT_BY_EGG, OPPONENT_HIT_BY_SNOWBALL, OPPONENT_HIT_BY_ARROW
     ), 1);
     public static final GoalGroup DAMAGE = new GoalGroup(List.of(
             DEAL_400_DAMAGE, OPPONENT_TAKES_100_DAMAGE, TAKE_200_DAMAGE
@@ -163,6 +163,9 @@ public class GoalGroup {
     public static final GoalGroup RAID = new GoalGroup(List.of(
             GET_BAD_OMEN_STATUS_EFFECT, KILL_ALL_RAID_MOBS
     ), 1);
+    public static final GoalGroup VISIT_UNIQUE_BIOMES = new GoalGroup(List.of(
+            VISIT_10_UNIQUE_BIOMES, VISIT_15_UNIQUE_BIOMES, VISIT_20_UNIQUE_BIOMES
+    ), 2);
     public static final GoalGroup HAVE_MOST = new GoalGroup(List.of(
             HAVE_MORE_UNIQUE_CRAFTS, HAVE_MOST_ADVANCEMENTS, HAVE_MOST_HOPPERS, HAVE_MORE_XP_LEVELS,
             HAVE_MOST_LEAFLITTER, HAVE_MOST_DIAMOND_BLOCKS
@@ -175,6 +178,8 @@ public class GoalGroup {
         EAT_X_UNIQUE_FOOD.requirePredecessor.add(EAT_20_UNIQUE_FOOD);
         EAT_X_UNIQUE_FOOD.requirePredecessor.add(EAT_25_UNIQUE_FOOD);
         X_ADVANCEMENTS.requirePredecessor.add(GET_30_ADVANCEMENTS);
+        VISIT_UNIQUE_BIOMES.requirePredecessor.add(VISIT_15_UNIQUE_BIOMES);
+        VISIT_UNIQUE_BIOMES.requirePredecessor.add(VISIT_20_UNIQUE_BIOMES);
     }
 
     static {
@@ -224,6 +229,7 @@ public class GoalGroup {
         GOAL_GROUPS.add(TRIAL_CHAMBERS);
         GOAL_GROUPS.add(RAID);
         GOAL_GROUPS.add(HAVE_MOST);
+        GOAL_GROUPS.add(VISIT_UNIQUE_BIOMES);
     }
 
 

@@ -15,6 +15,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.thrown.EggEntity;
 import net.minecraft.entity.projectile.thrown.SnowballEntity;
 import net.minecraft.item.ItemStack;
@@ -99,6 +100,13 @@ public abstract class PlayerMixin {
             if (goal instanceof OpponentTakesFallDamageGoal) {
                 if (source.isOf(DamageTypes.FALL)) {
                     lockout.completeMultiOpponentGoal(goal, player, player.getName().getString() + " took fall damage.");
+                }
+            }
+            if (goal instanceof OpponentHitByArrowGoal) {
+                if (source.getSource() instanceof ArrowEntity arrowEntity) {
+                    if (arrowEntity.getOwner() instanceof PlayerEntity shooter && !Objects.equals(player, shooter)) {
+                        lockout.completeMultiOpponentGoal(goal, player, player.getName().getString() + " hit by " + shooter.getName().getString() + " with an Arrow.");
+                    }
                 }
             }
             if (goal instanceof OpponentTakes100DamageGoal) {

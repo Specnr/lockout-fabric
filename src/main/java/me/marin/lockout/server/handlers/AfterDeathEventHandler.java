@@ -4,6 +4,7 @@ import me.marin.lockout.Lockout;
 import me.marin.lockout.LockoutTeam;
 import me.marin.lockout.LockoutTeamServer;
 import me.marin.lockout.lockout.Goal;
+import me.marin.lockout.lockout.goals.death.DieByDrowningGoal;
 import me.marin.lockout.lockout.goals.death.DieToFallingOffVinesGoal;
 import me.marin.lockout.lockout.goals.death.DieToTNTMinecartGoal;
 import me.marin.lockout.lockout.goals.have_more.HaveMostPlayerKillsGoal;
@@ -195,6 +196,12 @@ public class AfterDeathEventHandler implements ServerLivingEntityEvents.AfterDea
                 }
                 if (goal instanceof DieToTNTMinecartGoal) {
                     if (source.getSource() instanceof TntMinecartEntity) {
+                        lockout.completeGoal(goal, player);
+                    }
+                }
+
+                if (goal instanceof DieByDrowningGoal) {
+                    if (source.isOf(DamageTypes.DROWN)) {
                         lockout.completeGoal(goal, player);
                     }
                 }

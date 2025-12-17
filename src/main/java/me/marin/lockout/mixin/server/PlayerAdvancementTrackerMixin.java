@@ -107,6 +107,19 @@ public abstract class PlayerAdvancementTrackerMixin {
                     lockout.completeGoal(goal, owner);
                 }
             }
+
+            if (goal instanceof me.marin.lockout.lockout.interfaces.VisitUniqueBiomesGoal visitUniqueBiomesGoal) {
+                LockoutTeamServer team = (LockoutTeamServer) lockout.getPlayerTeam(owner.getUuid());
+                lockout.visitedBiomes.computeIfAbsent(team, t -> new LinkedHashSet<>());
+                lockout.visitedBiomes.get(team).add(biomeId);
+
+                int size = lockout.visitedBiomes.get(team).size();
+
+                team.sendTooltipUpdate(visitUniqueBiomesGoal);
+                if (size >= visitUniqueBiomesGoal.getAmount()) {
+                    lockout.completeGoal(goal, team);
+                }
+            }
         }
 
     }

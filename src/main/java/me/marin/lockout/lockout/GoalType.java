@@ -213,6 +213,7 @@ public class GoalType {
     public static final String OPPONENT_DIES = "OPPONENT_DIES";
     public static final String OPPONENT_HIT_BY_EGG = "OPPONENT_HIT_BY_EGG";
     public static final String OPPONENT_HIT_BY_SNOWBALL = "OPPONENT_HIT_BY_SNOWBALL";
+    public static final String OPPONENT_HIT_BY_ARROW = "OPPONENT_HIT_BY_ARROW";
     public static final String OPPONENT_JUMPS = "OPPONENT_JUMPS";
     public static final String OPPONENT_TAKES_100_DAMAGE = "OPPONENT_TAKES_100_DAMAGE";
     public static final String OPPONENT_TAKES_FALL_DAMAGE = "OPPONENT_TAKES_FALL_DAMAGE";
@@ -255,5 +256,12 @@ public class GoalType {
     public static final String ENTER_A_TRIAL_CHAMBER = "ENTER_A_TRIAL_CHAMBER";
     public static final String OBTAIN_ANY_NAUTILUS_ARMOR = "OBTAIN_ANY_NAUTILUS_ARMOR";
     public static final String SKEWER_MOBS = "SKEWER_MOBS";
-
+    public static final String DIE_BY_DROWNING = "DIE_BY_DROWNING";
+    public static final String OBTAIN_DEAD_BUSH = "OBTAIN_DEAD_BUSH";
+    public static final String VISIT_10_UNIQUE_BIOMES = "VISIT_10_UNIQUE_BIOMES";
+    public static final String VISIT_15_UNIQUE_BIOMES = "VISIT_15_UNIQUE_BIOMES";
+    public static final String VISIT_20_UNIQUE_BIOMES = "VISIT_20_UNIQUE_BIOMES";
+    public static final String TUNE_NOTE_BLOCK = "TUNE_NOTE_BLOCK";
+    public static final String PLACE_PAINTING = "PLACE_PAINTING";
+    public static final String OBTAIN_CALIBRATED_SCULK_SENSOR = "OBTAIN_CALIBRATED_SCULK_SENSOR";
 }

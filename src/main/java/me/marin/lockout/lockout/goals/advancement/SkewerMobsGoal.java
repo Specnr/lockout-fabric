@@ -18,7 +18,7 @@ public class SkewerMobsGoal extends AdvancementGoal {
 
     @Override
     public String getGoalName() {
-        return "Skewer 5 mobs";
+        return "Skewer 5 mobs at once";
     }
 
     @Override

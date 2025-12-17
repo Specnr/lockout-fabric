@@ -69,16 +69,21 @@ public class LockoutServer {
         }
 
         LockoutTeam team = lockout.getPlayerTeam(player.getUuid());
-        if (team.getPlayerNames().size() > 1) {
-            context.getSource().sendError(Text.literal("Forfeit is only available for individual players, not teams."));
-            return 0;
+        LockoutTeamServer teamServer = (LockoutTeamServer) team;
+
+        // Broadcast first
+        server.getPlayerManager().broadcast(Text.literal(team.getDisplayName() + " has forfeited the match."), false);
+
+        // Process all members of the team
+        for (UUID memberId : teamServer.getPlayers()) {
+            ServerPlayerEntity teamMember = server.getPlayerManager().getPlayer(memberId);
+            if (teamMember != null) {
+                teamMember.changeGameMode(GameMode.SPECTATOR);
+            }
         }
 
-        lockout.forfeitPlayer(player);
+        lockout.forfeitTeam(team);
 
-        player.changeGameMode(GameMode.SPECTATOR);
-        player.sendMessage(Text.literal("You have forfeited the match and are now spectating."));
-        server.getPlayerManager().broadcast(Text.literal(player.getName().getString() + " forfeited the match."), false);
         return 1;
     }
 

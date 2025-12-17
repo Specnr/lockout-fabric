@@ -558,13 +558,16 @@ public class Lockout {
         }
     }
 
-    public void forfeitPlayer(ServerPlayerEntity player) {
-        if (!isLockoutPlayer(player)) return;
-        LockoutTeam team = getPlayerTeam(player.getUuid());
-        
-        // Remove player/team
+    public void forfeitTeam(LockoutTeam team) {
+        // Remove team
         ((List) teams).remove(team);
-        LockoutServer.compassHandler.removePlayer(player.getUuid());
+
+        // Remove all players of this team from compass
+        if (team instanceof LockoutTeamServer teamServer) {
+            for (UUID playerId : teamServer.getPlayers()) {
+                LockoutServer.compassHandler.removePlayer(playerId);
+            }
+        }
         
         // Update opponent goal progress
         for (Goal goal : opponentGoalProgress.keySet()) {

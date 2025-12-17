@@ -443,6 +443,8 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.FILL_SHELF, FillShelfGoal.class);
         INSTANCE.register(GoalType.KILL_BLAZE_WITH_SNOWBALL, KillBlazeWithSnowballGoal.class, GoalRequirements.SNOWY_BIOMES);
 
+        INSTANCE.register(GoalType.OBTAIN_ANY_NAUTILUS_ARMOR, ObtainAnyNautilusArmorGoal.class);
+
     }
 
 }

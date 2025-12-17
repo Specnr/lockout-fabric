@@ -6,6 +6,7 @@
     - Added spears to all tool goals
 - New goals:
     - Ride a nautilus
+    - Obtain any nautilus armor
 - Kill a slime texture added
 
 ## Lockout v0.11.0
@@ -76,7 +77,7 @@
 - Update goals to 1.21.10
     - Unique saplings now contains Pale Oak sapling
     - Unique flowers now contains Eyeblossom (open and closed)
-    - All horse armours now contains copper
+    - All horse armors now contains copper
 - Removed F3 changes
     - With the new F3 layout changes in newer versions, this would require quite the rework
 

@@ -173,6 +173,7 @@ public class GoalType {
     public static final String RIDE_HORSE = "RIDE_HORSE";
     public static final String RIDE_PIG = "RIDE_PIG";
     public static final String RIDE_MINECART = "RIDE_MINECART";
+    public static final String RIDE_NAUTILUS = "RIDE_NAUTILUS";
     public static final String USE_STONECUTTER = "USE_STONECUTTER";
     public static final String USE_ANVIL = "USE_ANVIL";
     public static final String USE_ENCHANTING_TABLE = "USE_ENCHANTING_TABLE";

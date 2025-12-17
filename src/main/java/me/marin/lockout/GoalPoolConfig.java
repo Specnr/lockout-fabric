@@ -297,7 +297,7 @@ public class GoalPoolConfig {
         
         // Riding
         categories.put("Riding", List.of(
-                RIDE_HORSE, RIDE_PIG, RIDE_MINECART
+                RIDE_HORSE, RIDE_PIG, RIDE_MINECART, RIDE_NAUTILUS
         ));
         
         // Workstations

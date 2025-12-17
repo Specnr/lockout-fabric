@@ -5,7 +5,8 @@
         - Also added netherite horse armor to the pool (please dont craft this lol)
     - Added spears to all tool goals
 - New goals:
-    - 
+    - Ride a nautilus
+- Kill a slime texture added
 
 ## Lockout v0.11.0
 - Fixed opponent(s) eat food goal breaking on 3+ player games

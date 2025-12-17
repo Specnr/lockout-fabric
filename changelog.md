@@ -8,7 +8,14 @@
     - Ride a nautilus
     - Obtain any nautilus armor
     - Achieve the "Mob Kabob" advancement
+- Added `/forfeit` command
+    - Allows players to forfeit
+    - Recalculates goals if needed
+    - Removes player from active goals
+    - Removes player from compass
+    - Changes gamemode of player to spectator
 - Kill a slime texture added
+
 
 ## Lockout v0.11.0
 - Fixed opponent(s) eat food goal breaking on 3+ player games

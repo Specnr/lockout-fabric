@@ -169,6 +169,11 @@ public class LockoutInitializer implements ModInitializer {
                 dispatcher.getRoot().addChild(CommandManager.literal("GetNearbyBiomes").requires(PERMISSIONS).executes(LockoutServer::getNearbyBiomes).build());
             }
 
+            {
+                // Forfeit command
+                dispatcher.getRoot().addChild(CommandManager.literal("forfeit").executes(LockoutServer::forfeitCommand).build());
+            }
+
         });
 
         LootTableEvents.REPLACE.register(((key, original, source, registries) -> {

@@ -34,12 +34,41 @@ public class CompassItemHandler {
     }
 
     public void cycle(PlayerEntity player) {
+        if (!currentSelection.containsKey(player.getUuid())) return;
         int cur = currentSelection.get(player.getUuid());
         int next = (cur + 1) % players.size();
         if (players.get(next).equals(player.getUuid())) {
             next = (next + 1) % players.size();
         }
         currentSelection.put(player.getUuid(), next);
+    }
+
+    public void removePlayer(UUID player) {
+        if (!players.contains(player)) return;
+        int index = players.indexOf(player);
+        players.remove(player);
+        playerNames.remove(player);
+
+        // Update selections for other players
+        for (UUID uuid : currentSelection.keySet()) {
+            int selected = currentSelection.get(uuid);
+            if (selected == index) {
+                // If they were selecting the removed player, cycle to next
+                if (players.isEmpty()) {
+                    currentSelection.put(uuid, 0); // Should handle empty list gracefully elsewhere if needed
+                } else {
+                    int next = selected % players.size(); // Wrap around just in case
+                    if (players.get(next).equals(uuid)) {
+                         next = (next + 1) % players.size();
+                    }
+                    currentSelection.put(uuid, next);
+                }
+            } else if (selected > index) {
+                // Shift down if above
+                currentSelection.put(uuid, selected - 1);
+            }
+        }
+        currentSelection.remove(player);
     }
 
     public ItemStack newCompass() {

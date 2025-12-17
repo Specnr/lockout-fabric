@@ -70,8 +70,13 @@ public class LockoutClient implements ClientModInitializer {
 
             int[] completedByTeam = payload.goals().stream().mapToInt(Pair::getB).toArray();
 
+            boolean previouslyStarted = lockout != null && lockout.hasStarted();
+            long previousTicks = lockout != null ? lockout.getTicks() : 0;
+
             lockout = new Lockout(new LockoutBoard(payload.goals().stream().map(Pair::getA).toList()), teams);
             lockout.setRunning(payload.isRunning());
+            lockout.setStarted(previouslyStarted);
+            lockout.setTicks(previousTicks);
 
             List<Goal> goalList = lockout.getBoard().getGoals();
             for (int i = 0; i < goalList.size(); i++) {
@@ -84,7 +89,7 @@ public class LockoutClient implements ClientModInitializer {
 
             MinecraftClient client = context.client();
             client.execute(() -> {
-                if (client.player != null) {
+                if (client.player != null && !previouslyStarted) {
                     client.setScreen(new BoardScreen(BOARD_SCREEN_HANDLER.create(0, client.player.getInventory()), client.player.getInventory(), Text.empty()));
                 }
             });

@@ -7,6 +7,7 @@
 - New goals:
     - Ride a nautilus
     - Obtain any nautilus armor
+    - Achieve the "Mob Kabob" advancement
 - Kill a slime texture added
 
 ## Lockout v0.11.0

@@ -445,6 +445,8 @@ public class DefaultGoalRegister {
 
         INSTANCE.register(GoalType.OBTAIN_ANY_NAUTILUS_ARMOR, ObtainAnyNautilusArmorGoal.class);
 
+        INSTANCE.register(GoalType.SKEWER_MOBS, SkewerMobsGoal.class);
+
     }
 
 }

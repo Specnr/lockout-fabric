@@ -254,5 +254,6 @@ public class GoalType {
     public static final String HAVE_MOST_DIAMOND_BLOCKS = "HAVE_MOST_DIAMOND_BLOCKS";
     public static final String ENTER_A_TRIAL_CHAMBER = "ENTER_A_TRIAL_CHAMBER";
     public static final String OBTAIN_ANY_NAUTILUS_ARMOR = "OBTAIN_ANY_NAUTILUS_ARMOR";
+    public static final String SKEWER_MOBS = "SKEWER_MOBS";
 
 }

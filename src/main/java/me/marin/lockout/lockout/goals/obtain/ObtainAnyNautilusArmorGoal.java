@@ -37,11 +37,4 @@ public class ObtainAnyNautilusArmorGoal extends ObtainSomeOfTheItemsGoal {
         return "Obtain any Nautilus Armor";
     }
 
-    @Override
-    public boolean renderTexture(DrawContext context, int x, int y, int tick) {
-        super.renderTexture(context, x, y, tick);
-        Utility.drawStackCount(context, x, y, String.valueOf(getAmount()));
-        return true;
-    }
-
 }

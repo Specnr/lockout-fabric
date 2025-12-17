@@ -56,6 +56,7 @@ public class Lockout {
 
     public final Map<UUID, Long> pumpkinWearTime = new HashMap<>();
     public final Map<UUID, Integer> distanceSprinted = new HashMap<>();
+    public final Map<UUID, Integer> distanceBoated = new HashMap<>();
     public final Map<UUID, Set<Item>> uniqueCrafts = new HashMap<>();
     public final Map<UUID, Integer> playerKills = new HashMap<>();
     public final Map<UUID, Integer> playerAdvancements = new HashMap<>();

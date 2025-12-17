@@ -122,6 +122,7 @@ public class GoalType {
     public static final String EAT_POISONOUS_POTATO = "EAT_POISONOUS_POTATO";
     public static final String EAT_PUMPKIN_PIE = "EAT_PUMPKIN_PIE";
     public static final String EAT_RABBIT_STEW = "EAT_RABBIT_STEW";
+    public static final String EAT_BEETROOT_SOUP = "EAT_BEETROOT_SOUP";
     public static final String EAT_SUSPICIOUS_STEW = "EAT_SUSPICIOUS_STEW";
     public static final String DRINK_HONEY_BOTTLE = "DRINK_HONEY_BOTTLE";
     public static final String DRINK_WATER_BOTTLE = "DRINK_WATER_BOTTLE";
@@ -225,6 +226,7 @@ public class GoalType {
     public static final String KILL_100_MOBS = "KILL_100_MOBS";
     public static final String DEAL_400_DAMAGE = "DEAL_400_DAMAGE";
     public static final String SPRINT_1_KM = "SPRINT_1_KM";
+    public static final String BOAT_2_KM = "BOAT_2_KM";
     public static final String PUT_BANNER_ON_SHIELD = "PUT_BANNER_ON_SHIELD";
     public static final String HAVE_MORE_UNIQUE_CRAFTS = "HAVE_MORE_UNIQUE_CRAFTS";
     public static final String HAVE_MOST_PLAYER_KILLS = "HAVE_MOST_PLAYER_KILLS";
@@ -264,4 +266,5 @@ public class GoalType {
     public static final String TUNE_NOTE_BLOCK = "TUNE_NOTE_BLOCK";
     public static final String PLACE_PAINTING = "PLACE_PAINTING";
     public static final String OBTAIN_CALIBRATED_SCULK_SENSOR = "OBTAIN_CALIBRATED_SCULK_SENSOR";
+    public static final String OBTAIN_SMOOTH_QUARTZ_STAIRS = "OBTAIN_SMOOTH_QUARTZ_STAIRS";
 }

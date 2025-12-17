@@ -3,6 +3,7 @@ package me.marin.lockout.mixin.server;
 import me.marin.lockout.Lockout;
 import me.marin.lockout.LockoutTeamServer;
 import me.marin.lockout.lockout.Goal;
+import me.marin.lockout.lockout.goals.misc.Boat2KmGoal;
 import me.marin.lockout.lockout.goals.misc.HaveShieldDisabledGoal;
 import me.marin.lockout.lockout.goals.misc.Sprint1KmGoal;
 import me.marin.lockout.lockout.goals.misc.Take200DamageGoal;
@@ -153,6 +154,14 @@ public abstract class PlayerMixin {
                 lockout.distanceSprinted.merge(player.getUuid(), amount, Integer::sum);
 
                 if (lockout.distanceSprinted.get(player.getUuid()) >= (100 * 1000)) {
+                    lockout.completeGoal(goal, player);
+                }
+            }
+            if (goal instanceof Boat2KmGoal && stat.equals(Stats.BOAT_ONE_CM)) {
+                lockout.distanceBoated.putIfAbsent(player.getUuid(), 0);
+                lockout.distanceBoated.merge(player.getUuid(), amount, Integer::sum);
+
+                if (lockout.distanceBoated.get(player.getUuid()) >= (100 * 2000)) {
                     lockout.completeGoal(goal, player);
                 }
             }

@@ -9,11 +9,11 @@
     - Obtain any nautilus armor
     - Achieve the "Mob Kabob" advancement
 - Added `/forfeit` command
-    - Allows players to forfeit
+    - Allows players or teams to forfeit
     - Recalculates goals if needed
-    - Removes player from active goals
-    - Removes player from compass
-    - Changes gamemode of player to spectator
+    - Removes player(s) from active goals
+    - Removes player(s) from compass
+    - Changes gamemode of player(s) to spectator
 - Kill a slime texture added
 
 

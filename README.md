@@ -33,6 +33,13 @@ Create teams using the vanilla `/team` command:
 Chat with your team:
 - `/chat team`
 
+Forfeit from an active game:
+- `/forfeit` - Allows players or teams to forfeit
+    - Recalculates goals if needed
+    - Removes player(s) from in progress goals
+    - Removes player(s) from compass
+    - Changes gamemode of player(s) to spectator
+
 Change the board position:
 - `/BoardPosition <left/right>` - changes the position of the board. If you select left, board will be hidden when you enable debug hud (F3).
 

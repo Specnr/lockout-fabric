@@ -13,6 +13,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.entity.EquipmentSlot;
+import me.marin.lockout.lockout.goals.misc.BreakToolGoal;
+import net.minecraft.component.DataComponentTypes;
 
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
@@ -36,6 +42,29 @@ public class LivingEntityMixin {
             if (goal instanceof Deal400DamageGoal deal400DamageGoal) {
                 team.sendTooltipUpdate(deal400DamageGoal);
                 if (lockout.damageDealt.get(team) >= 400) {
+                    lockout.completeGoal(goal, player);
+                }
+            }
+        }
+    }
+
+    @Inject(method = "sendEquipmentBreakStatus", at = @At("HEAD"))
+    public void onEquipmentBreak(Item item, EquipmentSlot slot, CallbackInfo ci) {
+        if (!((Object)this instanceof PlayerEntity player)) return;
+        if (player.getEntityWorld().isClient()) return;
+
+        Lockout lockout = LockoutServer.lockout;
+        if (!Lockout.isLockoutRunning(lockout)) return;
+
+        ItemStack stack = item.getDefaultStack();
+
+        // Check if it's a tool (has TOOL component or is damageable)
+        if (stack.contains(DataComponentTypes.TOOL) || stack.getMaxDamage() > 0) {
+            for (Goal goal : lockout.getBoard().getGoals()) {
+                if (goal == null) continue;
+                if (goal.isCompleted()) continue;
+
+                if (goal instanceof BreakToolGoal) {
                     lockout.completeGoal(goal, player);
                 }
             }

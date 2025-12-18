@@ -190,6 +190,8 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.OBTAIN_END_ROD, ObtainEndRodGoal.class);
         INSTANCE.register(GoalType.OBTAIN_SPONGE, ObtainSpongeGoal.class,
                 GoalRequirements.MONUMENT);
+        INSTANCE.register(GoalType.OBTAIN_SEA_LANTERN, ObtainSeaLanternGoal.class,
+                GoalRequirements.MONUMENT);
         INSTANCE.register(GoalType.OBTAIN_DRAGON_EGG, ObtainDragonEggGoal.class);
         INSTANCE.register(GoalType.OBTAIN_TNT, ObtainTNTGoal.class);
         INSTANCE.register(GoalType.OBTAIN_COBWEB, ObtainCobwebGoal.class);
@@ -461,6 +463,10 @@ public class DefaultGoalRegister {
         INSTANCE.register(GoalType.PLACE_PAINTING, PlacePaintingGoal.class);
         INSTANCE.register(GoalType.OBTAIN_CALIBRATED_SCULK_SENSOR, ObtainCalibratedSculkSensorGoal.class, GoalRequirements.DEEP_DARK_BIOME);
 
+        INSTANCE.register(GoalType.BREAK_TOOL, BreakToolGoal.class);
+        INSTANCE.register(GoalType.MAP_BANNER_WAYPOINT, MapBannerWaypointGoal.class);
+        INSTANCE.register(GoalType.OBTAIN_5_UNIQUE_PRESSURE_PLATES, Obtain5UniquePressurePlatesGoal.class);
+        INSTANCE.register(GoalType.OBTAIN_8_UNIQUE_BRICKS, Obtain8UniqueBricksGoal.class);
     }
 
 }

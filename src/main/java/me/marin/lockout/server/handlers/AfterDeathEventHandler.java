@@ -4,6 +4,7 @@ import me.marin.lockout.Lockout;
 import me.marin.lockout.LockoutTeam;
 import me.marin.lockout.LockoutTeamServer;
 import me.marin.lockout.lockout.Goal;
+import me.marin.lockout.lockout.goals.death.DieByDrowningGoal;
 import me.marin.lockout.lockout.goals.death.DieToFallingOffVinesGoal;
 import me.marin.lockout.lockout.goals.death.DieToTNTMinecartGoal;
 import me.marin.lockout.lockout.goals.have_more.HaveMostPlayerKillsGoal;
@@ -59,31 +60,29 @@ public class AfterDeathEventHandler implements ServerLivingEntityEvents.AfterDea
             }
         }
 
+        if (playerDied && killedByPlayer) {
+            PlayerEntity player = (PlayerEntity) entity;
+            PlayerEntity killer = (PlayerEntity) entity.getPrimeAdversary();
+
+            // Ensure it's not a self-kill and they're on different teams
+            if (!Objects.equals(player, killer) && !Objects.equals(lockout.getPlayerTeam(killer.getUuid()), lockout.getPlayerTeam(player.getUuid()))) {
+                // Increment kill count for this killer
+                lockout.playerKills.putIfAbsent(killer.getUuid(), 0);
+                lockout.playerKills.merge(killer.getUuid(), 1, Integer::sum);
+            }
+        }
+
         for (Goal goal : lockout.getBoard().getGoals()) {
             if (goal == null) continue;
 
             // Track player kills for HaveMostPlayerKillsGoal regardless of goal completion
-            if (playerDied && killedByPlayer) {
+            if (playerDied && killedByPlayer && goal instanceof HaveMostPlayerKillsGoal) {
                 PlayerEntity player = (PlayerEntity) entity;
                 PlayerEntity killer = (PlayerEntity) entity.getPrimeAdversary();
 
                 // Ensure it's not a self-kill and they're on different teams
                 if (!Objects.equals(player, killer) && !Objects.equals(lockout.getPlayerTeam(killer.getUuid()), lockout.getPlayerTeam(player.getUuid()))) {
-                    // Increment kill count for this killer
-                    lockout.playerKills.putIfAbsent(killer.getUuid(), 0);
-                    lockout.playerKills.merge(killer.getUuid(), 1, Integer::sum);
-
-                    int killerKills = lockout.playerKills.get(killer.getUuid());
-                    if (goal instanceof HaveMostPlayerKillsGoal) {
-                        // If this killer now has more kills than current leader, update completion
-                        if (killerKills > lockout.mostPlayerKills) {
-                            if (!Objects.equals(lockout.mostPlayerKillsPlayer, killer.getUuid())) {
-                                lockout.updateGoalCompletion(goal, killer.getUuid());
-                            }
-                            lockout.mostPlayerKillsPlayer = killer.getUuid();
-                            lockout.mostPlayerKills = killerKills;
-                        }
-                    }
+                    lockout.recalculatePlayerKillsGoal(goal);
                 }
             }
 
@@ -197,6 +196,12 @@ public class AfterDeathEventHandler implements ServerLivingEntityEvents.AfterDea
                 }
                 if (goal instanceof DieToTNTMinecartGoal) {
                     if (source.getSource() instanceof TntMinecartEntity) {
+                        lockout.completeGoal(goal, player);
+                    }
+                }
+
+                if (goal instanceof DieByDrowningGoal) {
+                    if (source.isOf(DamageTypes.DROWN)) {
                         lockout.completeGoal(goal, player);
                     }
                 }

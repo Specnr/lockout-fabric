@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 public class ReachBedrockGoal extends Goal implements CustomTextureRenderer {
 
     private static final ItemStack ITEM_STACK = Items.BEDROCK.getDefaultStack();
-    private static final Identifier TEXTURE = Identifier.of(Constants.NAMESPACE, "textures/custom/down_arrow.png");
+    private static final Identifier TEXTURE = Identifier.of(Constants.NAMESPACE, "textures/custom/overlay/down_overlay.png");
 
     public ReachBedrockGoal(String id, String data) {
         super(id, data);

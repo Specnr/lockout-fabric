@@ -72,14 +72,7 @@ public class CraftingResultSlotMixin {
                 }
                 player.sendMessage(Text.of("Unique crafts: " + crafts.size()), true);
 
-                if (crafts.size() > lockout.mostUniqueCrafts) {
-                    if (!Objects.equals(lockout.mostUniqueCraftsPlayer, player.getUuid())) {
-                        lockout.updateGoalCompletion(goal, player.getUuid());
-                    }
-
-                    lockout.mostUniqueCraftsPlayer = player.getUuid();
-                    lockout.mostUniqueCrafts = crafts.size();
-                }
+                lockout.recalculateUniqueCraftsGoal(goal);
             }
         }
     }

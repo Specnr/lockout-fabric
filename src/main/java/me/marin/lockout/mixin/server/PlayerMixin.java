@@ -3,6 +3,7 @@ package me.marin.lockout.mixin.server;
 import me.marin.lockout.Lockout;
 import me.marin.lockout.LockoutTeamServer;
 import me.marin.lockout.lockout.Goal;
+import me.marin.lockout.lockout.goals.misc.Boat2KmGoal;
 import me.marin.lockout.lockout.goals.misc.HaveShieldDisabledGoal;
 import me.marin.lockout.lockout.goals.misc.Sprint1KmGoal;
 import me.marin.lockout.lockout.goals.misc.Take200DamageGoal;
@@ -15,6 +16,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.thrown.EggEntity;
 import net.minecraft.entity.projectile.thrown.SnowballEntity;
 import net.minecraft.item.ItemStack;
@@ -101,6 +103,13 @@ public abstract class PlayerMixin {
                     lockout.completeMultiOpponentGoal(goal, player, player.getName().getString() + " took fall damage.");
                 }
             }
+            if (goal instanceof OpponentHitByArrowGoal) {
+                if (source.getSource() instanceof ArrowEntity arrowEntity) {
+                    if (arrowEntity.getOwner() instanceof PlayerEntity shooter && !Objects.equals(player, shooter)) {
+                        lockout.completeMultiOpponentGoal(goal, player, player.getName().getString() + " hit by " + shooter.getName().getString() + " with an Arrow.");
+                    }
+                }
+            }
             if (goal instanceof OpponentTakes100DamageGoal) {
                 if (lockout.damageTaken.get(team) >= 100) {
                     lockout.completeMultiOpponentGoal(goal, team, team.getDisplayName() + " took 100 damage.");
@@ -144,7 +153,25 @@ public abstract class PlayerMixin {
                 lockout.distanceSprinted.putIfAbsent(player.getUuid(), 0);
                 lockout.distanceSprinted.merge(player.getUuid(), amount, Integer::sum);
 
+                LockoutTeamServer team = (LockoutTeamServer) lockout.getPlayerTeam(player.getUuid());
+                if (team != null) {
+                    team.sendTooltipUpdate(goal);
+                }
+
                 if (lockout.distanceSprinted.get(player.getUuid()) >= (100 * 1000)) {
+                    lockout.completeGoal(goal, player);
+                }
+            }
+            if (goal instanceof Boat2KmGoal && stat.equals(Stats.BOAT_ONE_CM)) {
+                lockout.distanceBoated.putIfAbsent(player.getUuid(), 0);
+                lockout.distanceBoated.merge(player.getUuid(), amount, Integer::sum);
+
+                LockoutTeamServer team = (LockoutTeamServer) lockout.getPlayerTeam(player.getUuid());
+                if (team != null) {
+                    team.sendTooltipUpdate(goal);
+                }
+
+                if (lockout.distanceBoated.get(player.getUuid()) >= (100 * 2000)) {
                     lockout.completeGoal(goal, player);
                 }
             }

@@ -1,3 +1,31 @@
+## Lockout v0.12.1
+- New goals:
+    - Die by drowning
+    - Visit 10, 15, 20 unique biomes
+    - Obtain dead bush
+    - All other opponents hit by arrow
+    - Tune a note block
+    - Place a painting
+    - Obtain calibrated skulk sensor
+    - Obtain smooth quartz stairs
+    - Boat 2km
+    - Eat beetroot soup
+    - Break any tool
+    - Right click a banner with a map
+    - Obtain sea lanturn
+    - Obtain 5 unique pressure plates
+    - Obtian 8 unique brick blocks
+- Added `/forfeit` command
+    - Allows players or teams to forfeit
+    - Recalculates goals if needed
+    - Removes player(s) from active goals
+    - Removes player(s) from compass
+    - Changes gamemode of player(s) to spectator
+- Improved tooltips for more complex goals:
+    - Has most X goals shows how much you have
+    - Opponent does X goals shows who have not met the condition
+    - Sprint 1km & Boat 2km both show progress
+
 ## Lockout v0.12.0
 - Updated to 1.21.11
 - Updated goals:
@@ -9,6 +37,7 @@
     - Obtain any nautilus armor
     - Achieve the "Mob Kabob" advancement
 - Kill a slime texture added
+
 
 ## Lockout v0.11.0
 - Fixed opponent(s) eat food goal breaking on 3+ player games

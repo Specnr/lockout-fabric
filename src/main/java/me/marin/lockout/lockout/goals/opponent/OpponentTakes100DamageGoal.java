@@ -2,6 +2,7 @@ package me.marin.lockout.lockout.goals.opponent;
 
 import me.marin.lockout.Constants;
 import me.marin.lockout.lockout.Goal;
+import me.marin.lockout.lockout.interfaces.OpponentGoal;
 import me.marin.lockout.lockout.texture.TextureProvider;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
@@ -10,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
-public class OpponentTakes100DamageGoal extends Goal implements TextureProvider {
+public class OpponentTakes100DamageGoal extends Goal implements TextureProvider, OpponentGoal {
 
     private final static ItemStack DISPLAY_ITEM_STACK = Items.PLAYER_HEAD.getDefaultStack();
     static {

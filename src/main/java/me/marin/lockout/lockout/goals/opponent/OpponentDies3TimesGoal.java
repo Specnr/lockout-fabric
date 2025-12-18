@@ -2,7 +2,8 @@ package me.marin.lockout.lockout.goals.opponent;
 
 import me.marin.lockout.Constants;
 import me.marin.lockout.lockout.Goal;
-import me.marin.lockout.lockout.texture.CustomTextureRenderer;
+import me.marin.lockout.lockout.interfaces.OpponentGoal;
+import me.marin.lockout.lockout.texture.TextureProvider;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
@@ -10,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
-public class OpponentDies3TimesGoal extends Goal implements CustomTextureRenderer {
+public class OpponentDies3TimesGoal extends Goal implements TextureProvider, OpponentGoal {
 
     private final static ItemStack DISPLAY_ITEM_STACK = Items.PLAYER_HEAD.getDefaultStack();
     static {
@@ -31,6 +32,11 @@ public class OpponentDies3TimesGoal extends Goal implements CustomTextureRendere
     }
 
     private static final Identifier TEXTURE = Identifier.of(Constants.NAMESPACE, "textures/custom/opponent/no_death.png");
+
+    @Override
+    public Identifier getTextureIdentifier() {
+        return TEXTURE;
+    }
 
     @Override
     public boolean renderTexture(DrawContext context, int x, int y, int tick) {

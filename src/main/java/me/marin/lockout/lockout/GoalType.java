@@ -122,6 +122,7 @@ public class GoalType {
     public static final String EAT_POISONOUS_POTATO = "EAT_POISONOUS_POTATO";
     public static final String EAT_PUMPKIN_PIE = "EAT_PUMPKIN_PIE";
     public static final String EAT_RABBIT_STEW = "EAT_RABBIT_STEW";
+    public static final String EAT_BEETROOT_SOUP = "EAT_BEETROOT_SOUP";
     public static final String EAT_SUSPICIOUS_STEW = "EAT_SUSPICIOUS_STEW";
     public static final String DRINK_HONEY_BOTTLE = "DRINK_HONEY_BOTTLE";
     public static final String DRINK_WATER_BOTTLE = "DRINK_WATER_BOTTLE";
@@ -213,6 +214,7 @@ public class GoalType {
     public static final String OPPONENT_DIES = "OPPONENT_DIES";
     public static final String OPPONENT_HIT_BY_EGG = "OPPONENT_HIT_BY_EGG";
     public static final String OPPONENT_HIT_BY_SNOWBALL = "OPPONENT_HIT_BY_SNOWBALL";
+    public static final String OPPONENT_HIT_BY_ARROW = "OPPONENT_HIT_BY_ARROW";
     public static final String OPPONENT_JUMPS = "OPPONENT_JUMPS";
     public static final String OPPONENT_TAKES_100_DAMAGE = "OPPONENT_TAKES_100_DAMAGE";
     public static final String OPPONENT_TAKES_FALL_DAMAGE = "OPPONENT_TAKES_FALL_DAMAGE";
@@ -224,6 +226,7 @@ public class GoalType {
     public static final String KILL_100_MOBS = "KILL_100_MOBS";
     public static final String DEAL_400_DAMAGE = "DEAL_400_DAMAGE";
     public static final String SPRINT_1_KM = "SPRINT_1_KM";
+    public static final String BOAT_2_KM = "BOAT_2_KM";
     public static final String PUT_BANNER_ON_SHIELD = "PUT_BANNER_ON_SHIELD";
     public static final String HAVE_MORE_UNIQUE_CRAFTS = "HAVE_MORE_UNIQUE_CRAFTS";
     public static final String HAVE_MOST_PLAYER_KILLS = "HAVE_MOST_PLAYER_KILLS";
@@ -255,5 +258,18 @@ public class GoalType {
     public static final String ENTER_A_TRIAL_CHAMBER = "ENTER_A_TRIAL_CHAMBER";
     public static final String OBTAIN_ANY_NAUTILUS_ARMOR = "OBTAIN_ANY_NAUTILUS_ARMOR";
     public static final String SKEWER_MOBS = "SKEWER_MOBS";
-
+    public static final String DIE_BY_DROWNING = "DIE_BY_DROWNING";
+    public static final String OBTAIN_DEAD_BUSH = "OBTAIN_DEAD_BUSH";
+    public static final String VISIT_10_UNIQUE_BIOMES = "VISIT_10_UNIQUE_BIOMES";
+    public static final String VISIT_15_UNIQUE_BIOMES = "VISIT_15_UNIQUE_BIOMES";
+    public static final String VISIT_20_UNIQUE_BIOMES = "VISIT_20_UNIQUE_BIOMES";
+    public static final String TUNE_NOTE_BLOCK = "TUNE_NOTE_BLOCK";
+    public static final String PLACE_PAINTING = "PLACE_PAINTING";
+    public static final String OBTAIN_CALIBRATED_SCULK_SENSOR = "OBTAIN_CALIBRATED_SCULK_SENSOR";
+    public static final String OBTAIN_SMOOTH_QUARTZ_STAIRS = "OBTAIN_SMOOTH_QUARTZ_STAIRS";
+    public static final String BREAK_TOOL = "BREAK_TOOL";
+    public static final String MAP_BANNER_WAYPOINT = "MAP_BANNER_WAYPOINT";
+    public static final String OBTAIN_SEA_LANTERN = "OBTAIN_SEA_LANTERN";
+    public static final String OBTAIN_5_UNIQUE_PRESSURE_PLATES = "OBTAIN_5_UNIQUE_PRESSURE_PLATES";
+    public static final String OBTAIN_8_UNIQUE_BRICKS = "OBTAIN_8_UNIQUE_BRICKS";
 }

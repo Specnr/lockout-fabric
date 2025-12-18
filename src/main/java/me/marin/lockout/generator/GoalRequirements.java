@@ -43,6 +43,12 @@ public abstract class GoalRequirements {
                     BiomeRequirements.anyOf(DESERT, BADLANDS, ERODED_BADLANDS, WOODED_BADLANDS)
             ))
             .build();
+    public static final GoalRequirements DEAD_BUSH_BIOMES = new Builder()
+            .biomeRequirement(BiomeRequirements.anyOf(DESERT, BADLANDS, ERODED_BADLANDS, WOODED_BADLANDS, SWAMP, MANGROVE_SWAMP, OLD_GROWTH_PINE_TAIGA, OLD_GROWTH_SPRUCE_TAIGA))
+            .build();
+    public static final GoalRequirements DEEP_DARK_BIOME = new Builder()
+            .biomeRequirement(BiomeRequirements.anyOf(DEEP_DARK))
+            .build();
 
     private GoalRequirements() {}
 

@@ -2,11 +2,12 @@ package me.marin.lockout.lockout.goals.opponent;
 
 import me.marin.lockout.Constants;
 import me.marin.lockout.lockout.Goal;
+import me.marin.lockout.lockout.interfaces.OpponentGoal;
 import me.marin.lockout.lockout.texture.TextureProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
-public class OpponentTakesFallDamageGoal extends Goal implements TextureProvider {
+public class OpponentTakesFallDamageGoal extends Goal implements TextureProvider, OpponentGoal {
 
     public OpponentTakesFallDamageGoal(String id, String data) {
         super(id, data);

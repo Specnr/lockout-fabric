@@ -59,6 +59,34 @@ import static me.marin.lockout.Constants.PLACEHOLDER_PERM_STRING;
 
 public class LockoutServer {
 
+    public static int forfeitCommand(CommandContext<ServerCommandSource> context) {
+        if (!Lockout.isLockoutRunning(lockout)) return 0;
+        
+        ServerPlayerEntity player = context.getSource().getPlayer();
+        if (player == null || !lockout.isLockoutPlayer(player)) {
+            context.getSource().sendError(Text.literal("You are not participating in the Lockout match."));
+            return 0;
+        }
+
+        LockoutTeam team = lockout.getPlayerTeam(player.getUuid());
+        LockoutTeamServer teamServer = (LockoutTeamServer) team;
+
+        // Broadcast first
+        server.getPlayerManager().broadcast(Text.literal(team.getDisplayName() + " has forfeited the match."), false);
+
+        // Process all members of the team
+        for (UUID memberId : teamServer.getPlayers()) {
+            ServerPlayerEntity teamMember = server.getPlayerManager().getPlayer(memberId);
+            if (teamMember != null) {
+                teamMember.changeGameMode(GameMode.SPECTATOR);
+            }
+        }
+
+        lockout.forfeitTeam(team);
+
+        return 1;
+    }
+
     public static final int LOCATE_SEARCH = 750;
     public static final Map<RegistryKey<Biome>, LocateData> BIOME_LOCATE_DATA = new HashMap<>();
     public static final Map<RegistryKey<Structure>, LocateData> STRUCTURE_LOCATE_DATA = new HashMap<>();

@@ -8,6 +8,9 @@ import me.marin.lockout.network.CompleteTaskPayload;
 import me.marin.lockout.network.EndLockoutPayload;
 import me.marin.lockout.network.LockoutGoalsTeamsPayload;
 import me.marin.lockout.network.UpdateTimerPayload;
+import me.marin.lockout.lockout.goals.have_more.*;
+import me.marin.lockout.lockout.interfaces.HasTooltipInfo;
+import me.marin.lockout.network.UpdateTooltipPayload;
 import me.marin.lockout.server.LockoutServer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.EntityType;
@@ -38,6 +41,7 @@ public class Lockout {
     public final Map<LockoutTeam, Integer> killedArthropods = new HashMap<>();
     public final Map<LockoutTeam, LinkedHashSet<Item>> foodTypesEaten = new HashMap<>();
     public final Map<LockoutTeam, LinkedHashSet<Identifier>> uniqueAdvancements = new HashMap<>();
+    public final Map<LockoutTeam, LinkedHashSet<Identifier>> visitedBiomes = new HashMap<>();
     public final Map<LockoutTeam, Double> damageTaken = new HashMap<>();
     public final Map<LockoutTeam, Double> damageDealt = new HashMap<>();
     public final Map<LockoutTeam, Integer> deaths = new HashMap<>();
@@ -46,8 +50,13 @@ public class Lockout {
     // Tracks which teams have met the condition for each opponent goal (for 3+ team support)
     public final Map<Goal, Set<LockoutTeam>> opponentGoalProgress = new HashMap<>();
 
+    public final Map<UUID, Integer> levels = new LinkedHashMap<>();
+    public UUID mostLevelsPlayer;
+    public int mostLevels;
+
     public final Map<UUID, Long> pumpkinWearTime = new HashMap<>();
     public final Map<UUID, Integer> distanceSprinted = new HashMap<>();
+    public final Map<UUID, Integer> distanceBoated = new HashMap<>();
     public final Map<UUID, Set<Item>> uniqueCrafts = new HashMap<>();
     public final Map<UUID, Integer> playerKills = new HashMap<>();
     public final Map<UUID, Integer> playerAdvancements = new HashMap<>();
@@ -204,6 +213,8 @@ public class Lockout {
         // Track that this team has met the condition
         opponentGoalProgress.putIfAbsent(goal, new HashSet<>());
         opponentGoalProgress.get(goal).add(teamThatMetCondition);
+
+        updateTooltips(goal);
 
         // Check if all other teams (excluding the potential winner) have met the condition
         int teamsSize = teams.size();
@@ -426,15 +437,29 @@ public class Lockout {
                 isRunning);
     }
 
+    public void updateTooltips(Goal goal) {
+        if (goal instanceof HasTooltipInfo tooltipGoal) {
+            for (LockoutTeam team : teams) {
+                ((LockoutTeamServer)team).sendTooltipUpdate(goal);
+            }
+            // Update spectators
+            List<String> spectatorTooltip = tooltipGoal.getSpectatorTooltip();
+            var payload = new UpdateTooltipPayload(goal.getId(), String.join("\n", spectatorTooltip));
+            for (ServerPlayerEntity spectator : Utility.getSpectators(this, LockoutServer.server)) {
+                ServerPlayNetworking.send(spectator, payload);
+            }
+        }
+    }
 
-    public final Map<UUID, Integer> levels = new LinkedHashMap<>();
-    private UUID mostLevelsPlayer;
+
+
 
     public void recalculateXPGoal(Goal goal) {
         List<UUID> largestLevelPlayers = new ArrayList<>();
         int largestLevel = 0;
 
         for (UUID uuid : levels.keySet()) {
+            if (!isLockoutPlayer(uuid)) continue;
             if (levels.get(uuid) == largestLevel) {
                 largestLevelPlayers.add(uuid);
                 continue;
@@ -449,14 +474,214 @@ public class Lockout {
         if (largestLevel == 0) {
             if (this.mostLevelsPlayer != null) {
                 this.mostLevelsPlayer = null;
+                this.mostLevels = 0;
                 clearGoalCompletion(goal, true);
             }
-            return;
+        } else if (!largestLevelPlayers.contains(mostLevelsPlayer)) {
+            this.mostLevelsPlayer = largestLevelPlayers.get(0);
+            this.mostLevels = largestLevel;
+            updateGoalCompletion(goal, largestLevelPlayers.get(0));
+        } else {
+            this.mostLevels = largestLevel;
         }
 
-        if (!largestLevelPlayers.contains(mostLevelsPlayer)) {
-            this.mostLevelsPlayer = largestLevelPlayers.get(0);
-            updateGoalCompletion(goal, largestLevelPlayers.get(0));
+        updateTooltips(goal);
+    }
+
+    public void recalculateUniqueCraftsGoal(Goal goal) {
+        List<UUID> largestCraftPlayers = new ArrayList<>();
+        int largestCraftCount = 0;
+
+        for (UUID uuid : uniqueCrafts.keySet()) {
+            if (!isLockoutPlayer(uuid)) continue;
+            int count = uniqueCrafts.get(uuid).size();
+            if (count == largestCraftCount) {
+                largestCraftPlayers.add(uuid);
+                continue;
+            }
+            if (count > largestCraftCount) {
+                largestCraftPlayers.clear();
+                largestCraftPlayers.add(uuid);
+                largestCraftCount = count;
+            }
+        }
+
+        if (largestCraftCount == 0) {
+            if (this.mostUniqueCraftsPlayer != null) {
+                this.mostUniqueCraftsPlayer = null;
+                this.mostUniqueCrafts = 0;
+                clearGoalCompletion(goal, true);
+            }
+        } else if (!largestCraftPlayers.contains(mostUniqueCraftsPlayer)) {
+            this.mostUniqueCraftsPlayer = largestCraftPlayers.get(0);
+            this.mostUniqueCrafts = largestCraftCount;
+            updateGoalCompletion(goal, largestCraftPlayers.get(0));
+        } else {
+            this.mostUniqueCrafts = largestCraftCount;
+        }
+
+        updateTooltips(goal);
+    }
+
+    public void recalculatePlayerKillsGoal(Goal goal) {
+        List<UUID> largestKillPlayers = new ArrayList<>();
+        int largestKillCount = 0;
+
+        for (UUID uuid : playerKills.keySet()) {
+            if (!isLockoutPlayer(uuid)) continue;
+            int count = playerKills.get(uuid);
+            if (count == largestKillCount) {
+                largestKillPlayers.add(uuid);
+                continue;
+            }
+            if (count > largestKillCount) {
+                largestKillPlayers.clear();
+                largestKillPlayers.add(uuid);
+                largestKillCount = count;
+            }
+        }
+
+        if (largestKillCount == 0) {
+            if (this.mostPlayerKillsPlayer != null) {
+                this.mostPlayerKillsPlayer = null;
+                this.mostPlayerKills = 0;
+                clearGoalCompletion(goal, true);
+            }
+        } else if (!largestKillPlayers.contains(mostPlayerKillsPlayer)) {
+            this.mostPlayerKillsPlayer = largestKillPlayers.get(0);
+            this.mostPlayerKills = largestKillCount;
+            updateGoalCompletion(goal, largestKillPlayers.get(0));
+        } else {
+            this.mostPlayerKills = largestKillCount;
+        }
+
+        updateTooltips(goal);
+    }
+
+    public void recalculateAdvancementsGoal(Goal goal) {
+        List<UUID> largestAdvancementPlayers = new ArrayList<>();
+        int largestAdvancementCount = 0;
+
+        for (UUID uuid : playerAdvancements.keySet()) {
+            if (!isLockoutPlayer(uuid)) continue;
+            int count = playerAdvancements.get(uuid);
+            if (count == largestAdvancementCount) {
+                largestAdvancementPlayers.add(uuid);
+                continue;
+            }
+            if (count > largestAdvancementCount) {
+                largestAdvancementPlayers.clear();
+                largestAdvancementPlayers.add(uuid);
+                largestAdvancementCount = count;
+            }
+        }
+
+        if (largestAdvancementCount == 0) {
+            if (this.mostAdvancementsPlayer != null) {
+                this.mostAdvancementsPlayer = null;
+                this.mostAdvancements = 0;
+                clearGoalCompletion(goal, true);
+            }
+        } else if (!largestAdvancementPlayers.contains(mostAdvancementsPlayer)) {
+            this.mostAdvancementsPlayer = largestAdvancementPlayers.get(0);
+            this.mostAdvancements = largestAdvancementCount;
+            updateGoalCompletion(goal, largestAdvancementPlayers.get(0));
+        } else {
+            this.mostAdvancements = largestAdvancementCount;
+        }
+
+        updateTooltips(goal);
+    }
+
+    public void forfeitTeam(LockoutTeam team) {
+        // Remove team
+        ((List) teams).remove(team);
+
+        // Remove all players of this team from compass
+        if (team instanceof LockoutTeamServer teamServer) {
+            for (UUID playerId : teamServer.getPlayers()) {
+                LockoutServer.compassHandler.removePlayer(playerId);
+            }
+        }
+        
+        // Update opponent goal progress
+        for (Goal goal : opponentGoalProgress.keySet()) {
+            Set<LockoutTeam> progress = opponentGoalProgress.get(goal);
+            progress.remove(team);
+        }
+
+        // Re-evaluate multi-opponent goals
+        // Iterate over a copy of the key set to avoid concurrent modification issues
+        // if completing a goal modifies the map (though here we just read it)
+        for (Goal goal : new ArrayList<>(opponentGoalProgress.keySet())) {
+            if (goal.isCompleted()) continue;
+            
+            Set<LockoutTeam> teamsMetCondition = opponentGoalProgress.get(goal);
+            int teamsSize = teams.size();
+            int count = teamsMetCondition.size();
+
+            // Same logic as completeMultiOpponentGoal
+            if (count >= teamsSize - 1) {
+                 List<LockoutTeamServer> winningTeams = new ArrayList<>();
+                List<LockoutTeamServer> notMet = teams.stream()
+                        .filter(t -> !teamsMetCondition.contains(t))
+                        .map(t -> (LockoutTeamServer) t)
+                        .toList();
+                winningTeams.addAll(notMet);
+
+                if (winningTeams.isEmpty()) continue;
+
+                LockoutTeamServer winnerTeam = winningTeams.get(0);
+                goal.setCompleted(true, winnerTeam);
+                winnerTeam.addPoint();
+
+                String completionMessage = winnerTeam.getDisplayName() + " completed the goal! (Opponent forfeited)";
+
+                 for (LockoutTeam lockoutTeam : teams) {
+                    if (!(lockoutTeam instanceof LockoutTeamServer lockoutTeamServer)) continue;
+                    if (winningTeams.contains(lockoutTeamServer)) {
+                        lockoutTeamServer.sendMessage(Formatting.GREEN + completionMessage);
+                    } else {
+                        lockoutTeamServer.sendMessage(Formatting.RED + completionMessage);
+                    }
+                }
+                for (ServerPlayerEntity spectator : Utility.getSpectators(this, LockoutServer.server)) {
+                    spectator.sendMessage(Text.literal(completionMessage));
+                }
+
+                sendGoalCompletedPacket(goal, winnerTeam);
+                evaluateWinnerAndEndGame(winnerTeam);
+            }
+        }
+
+        // Recalculate "Most X" goals
+        for (Goal goal : board.getGoals()) {
+            if (goal == null) continue;
+            if (goal instanceof HaveMostXPLevelsGoal) recalculateXPGoal(goal);
+            if (goal instanceof HaveMostUniqueCraftsGoal) recalculateUniqueCraftsGoal(goal);
+            if (goal instanceof HaveMostPlayerKillsGoal) recalculatePlayerKillsGoal(goal);
+            if (goal instanceof HaveMostAdvancementsGoal) recalculateAdvancementsGoal(goal);
+            if (goal instanceof HaveMostHoppersGoal) recalculateHoppersGoal(goal);
+            if (goal instanceof HaveMostLeaflitterGoal) recalculateLeaflitterGoal(goal);
+            if (goal instanceof HaveMostDiamondBlocksGoal) recalculateDiamondBlocksGoal(goal);
+        }
+
+        // Check if only 1 team remains and declare them winner if appropriate
+        if (teams.size() == 1) {
+             LockoutTeamServer winner = (LockoutTeamServer) teams.get(0);
+             LockoutServer.server.getPlayerManager().broadcast(Text.literal(winner.getDisplayName() + " wins by default!"), false);
+             
+             // End game specifics
+             setRunning(false);
+             var payload = new EndLockoutPayload(new int[]{teams.indexOf(winner)}, System.currentTimeMillis());
+             for (ServerPlayerEntity serverPlayer : LockoutServer.server.getPlayerManager().getPlayerList()) {
+                ServerPlayNetworking.send(serverPlayer, payload);
+             }
+        }
+
+        // Update clients with new team list
+        for (ServerPlayerEntity serverPlayer : LockoutServer.server.getPlayerManager().getPlayerList()) {
+            ServerPlayNetworking.send(serverPlayer, getTeamsGoalsPacket());
         }
     }
 
@@ -465,6 +690,7 @@ public class Lockout {
         int largestHopperCount = 0;
 
         for (UUID uuid : playerHopperCounts.keySet()) {
+            if (!isLockoutPlayer(uuid)) continue;
             int count = playerHopperCounts.get(uuid);
             if (count == largestHopperCount) {
                 largestHopperPlayers.add(uuid);
@@ -489,6 +715,8 @@ public class Lockout {
             this.mostHoppersPlayer = largestHopperPlayers.get(0);
             updateGoalCompletion(goal, largestHopperPlayers.get(0));
         }
+
+        updateTooltips(goal);
     }
 
     public void recalculateLeaflitterGoal(Goal goal) {
@@ -496,6 +724,7 @@ public class Lockout {
         int largestLeaflitterCount = 0;
 
         for (UUID uuid : playerLeaflitterCounts.keySet()) {
+            if (!isLockoutPlayer(uuid)) continue;
             int count = playerLeaflitterCounts.get(uuid);
             if (count == largestLeaflitterCount) {
                 largestLeaflitterPlayers.add(uuid);
@@ -520,6 +749,8 @@ public class Lockout {
             this.mostLeaflitterPlayer = largestLeaflitterPlayers.get(0);
             updateGoalCompletion(goal, largestLeaflitterPlayers.get(0));
         }
+
+        updateTooltips(goal);
     }
 
     public void recalculateDiamondBlocksGoal(Goal goal) {
@@ -527,6 +758,7 @@ public class Lockout {
         int largestDiamondBlockCount = 0;
 
         for (UUID uuid : playerDiamondBlockCounts.keySet()) {
+            if (!isLockoutPlayer(uuid)) continue;
             int count = playerDiamondBlockCounts.get(uuid);
             if (count == largestDiamondBlockCount) {
                 largestDiamondBlockPlayers.add(uuid);
@@ -551,6 +783,8 @@ public class Lockout {
             this.mostDiamondBlocksPlayer = largestDiamondBlockPlayers.get(0);
             updateGoalCompletion(goal, largestDiamondBlockPlayers.get(0));
         }
+
+        updateTooltips(goal);
     }
 
 }

@@ -28,7 +28,7 @@ public class UseBrushOnSuspiciousBlock extends Goal implements CustomTextureRend
     }
 
     private static final List<ItemStack> SUSPICIOUS_BLOCKS = List.of(Items.SUSPICIOUS_GRAVEL.getDefaultStack(), Items.SUSPICIOUS_SAND.getDefaultStack());
-    private static final Identifier TEXTURE = Identifier.of(Constants.NAMESPACE, "textures/custom/brush_overlay.png");
+    private static final Identifier TEXTURE = Identifier.of(Constants.NAMESPACE, "textures/custom/overlay/brush_overlay.png");
     @Override
     public boolean renderTexture(DrawContext context, int x, int y, int tick) {
         int mod = tick % (60 * SUSPICIOUS_BLOCKS.size());

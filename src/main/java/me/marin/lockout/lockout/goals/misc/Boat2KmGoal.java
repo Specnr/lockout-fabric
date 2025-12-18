@@ -22,11 +22,12 @@ public class Boat2KmGoal extends Goal implements CustomTextureRenderer {
 
     @Override
     public ItemStack getTextureItemStack() {
-        return null;
+        return ITEM_STACK;
     }
 
     @Override
     public boolean renderTexture(DrawContext context, int x, int y, int tick) {
+        context.drawItem(ITEM_STACK, x, y);
         context.drawStackOverlay(MinecraftClient.getInstance().textRenderer,  ITEM_STACK, x, y, "2km");
         return true;
     }

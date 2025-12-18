@@ -13,6 +13,7 @@ import net.minecraft.util.Identifier;
 public class OpponentHitByArrowGoal extends Goal implements OpponentGoal, CustomTextureRenderer {
 
     private static final ItemStack ITEM_STACK = Items.ARROW.getDefaultStack();
+    private static final Identifier ITEM_TEXTURE = Identifier.of(Constants.NAMESPACE, "textures/custom/arrow.png");
     private static final Identifier TEXTURE = Identifier.of(Constants.NAMESPACE, "textures/custom/overlay/no_overlay.png");
 
     public OpponentHitByArrowGoal(String id, String data) {
@@ -31,7 +32,7 @@ public class OpponentHitByArrowGoal extends Goal implements OpponentGoal, Custom
 
     @Override
     public boolean renderTexture(DrawContext context, int x, int y, int tick) {
-        context.drawItem(ITEM_STACK, x, y);
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, ITEM_TEXTURE, x, y, 0, 0, 16, 16, 16, 16);
         context.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, 0, 0, 16, 16, 16, 16);
         return true;
     }

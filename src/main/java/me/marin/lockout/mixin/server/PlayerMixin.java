@@ -153,6 +153,11 @@ public abstract class PlayerMixin {
                 lockout.distanceSprinted.putIfAbsent(player.getUuid(), 0);
                 lockout.distanceSprinted.merge(player.getUuid(), amount, Integer::sum);
 
+                LockoutTeamServer team = (LockoutTeamServer) lockout.getPlayerTeam(player.getUuid());
+                if (team != null) {
+                    team.sendTooltipUpdate(goal);
+                }
+
                 if (lockout.distanceSprinted.get(player.getUuid()) >= (100 * 1000)) {
                     lockout.completeGoal(goal, player);
                 }
@@ -160,6 +165,11 @@ public abstract class PlayerMixin {
             if (goal instanceof Boat2KmGoal && stat.equals(Stats.BOAT_ONE_CM)) {
                 lockout.distanceBoated.putIfAbsent(player.getUuid(), 0);
                 lockout.distanceBoated.merge(player.getUuid(), amount, Integer::sum);
+
+                LockoutTeamServer team = (LockoutTeamServer) lockout.getPlayerTeam(player.getUuid());
+                if (team != null) {
+                    team.sendTooltipUpdate(goal);
+                }
 
                 if (lockout.distanceBoated.get(player.getUuid()) >= (100 * 2000)) {
                     lockout.completeGoal(goal, player);

@@ -24,6 +24,7 @@
 - Improved tooltips for more complex goals:
     - Has most X goals shows how much you have
     - Opponent does X goals shows who have not met the condition
+    - Sprint 1km & Boat 2km both show progress
 
 ## Lockout v0.12.0
 - Updated to 1.21.11

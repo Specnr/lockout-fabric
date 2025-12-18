@@ -1,16 +1,27 @@
 package me.marin.lockout.lockout.goals.misc;
 
 import me.marin.lockout.Constants;
+import me.marin.lockout.Constants;
+import me.marin.lockout.LockoutTeam;
+import me.marin.lockout.LockoutTeamServer;
 import me.marin.lockout.lockout.Goal;
+import me.marin.lockout.lockout.interfaces.HasTooltipInfo;
 import me.marin.lockout.lockout.texture.CustomTextureRenderer;
+import me.marin.lockout.server.LockoutServer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
-public class Sprint1KmGoal extends Goal implements CustomTextureRenderer {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+public class Sprint1KmGoal extends Goal implements CustomTextureRenderer, HasTooltipInfo {
 
     private static final ItemStack ITEM_STACK = Items.SUGAR.getDefaultStack();
     public Sprint1KmGoal(String id, String data) {
@@ -33,5 +44,37 @@ public class Sprint1KmGoal extends Goal implements CustomTextureRenderer {
         context.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, 0, 0, 16, 16, 16, 16);
         context.drawStackOverlay(MinecraftClient.getInstance().textRenderer,  ITEM_STACK, x, y, "1km");
         return true;
+    }
+
+    @Override
+    public List<String> getTooltip(LockoutTeam team, PlayerEntity player) {
+        List<String> tooltip = new ArrayList<>();
+        int maxDistance = 0;
+        for (UUID playerId : ((LockoutTeamServer) team).getPlayers()) {
+            maxDistance = Math.max(maxDistance, LockoutServer.lockout.distanceSprinted.getOrDefault(playerId, 0));
+        }
+
+        tooltip.add(" ");
+        tooltip.add("Distance: " + Math.min(1000, maxDistance / 100) + "/1000m");
+        tooltip.add(" ");
+
+        return tooltip;
+    }
+
+    @Override
+    public List<String> getSpectatorTooltip() {
+        List<String> tooltip = new ArrayList<>();
+
+        tooltip.add(" ");
+        for (LockoutTeam team : LockoutServer.lockout.getTeams()) {
+            int maxDistance = 0;
+            for (UUID playerId : ((LockoutTeamServer) team).getPlayers()) {
+                maxDistance = Math.max(maxDistance, LockoutServer.lockout.distanceSprinted.getOrDefault(playerId, 0));
+            }
+            tooltip.add(team.getColor() + team.getDisplayName() + Formatting.RESET + ": " + Math.min(1000, maxDistance / 100) + "/1000m");
+        }
+        tooltip.add(" ");
+
+        return tooltip;
     }
 }

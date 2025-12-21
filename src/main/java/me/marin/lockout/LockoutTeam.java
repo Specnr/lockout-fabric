@@ -13,6 +13,8 @@ public class LockoutTeam {
     private final Formatting color;
     @Getter
     private int points = 0;
+    @Getter
+    private boolean forfeited = false;
 
     public LockoutTeam(List<String> playerNames, Formatting formattingColor) {
         this.players = playerNames;
@@ -24,7 +26,12 @@ public class LockoutTeam {
     }
 
     public String getDisplayName() {
-        return players.size() == 1 ? players.get(0) : "Team " + formattingToString(color);
+        String name = players.size() == 1 ? players.get(0) : "Team " + formattingToString(color);
+        return forfeited ? name + " (Forfeited)" : name;
+    }
+
+    public void setForfeited(boolean forfeited) {
+        this.forfeited = forfeited;
     }
 
     public void addPoint() {

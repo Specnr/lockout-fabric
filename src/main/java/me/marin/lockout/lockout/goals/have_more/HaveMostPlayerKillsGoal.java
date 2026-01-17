@@ -37,7 +37,7 @@ public class HaveMostPlayerKillsGoal extends Goal implements TextureProvider, Mo
     @Override
     public int getStat(LockoutTeam team) {
         int max = 0;
-        for (UUID uuid : ((LockoutTeamServer)team).getPlayers()) {
+        for (UUID uuid : ((LockoutTeamServer)team).getPlayerIds()) {
             max = Math.max(max, LockoutServer.lockout.playerKills.getOrDefault(uuid, 0));
         }
         return max;

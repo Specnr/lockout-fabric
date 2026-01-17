@@ -37,7 +37,7 @@ public class HaveMostXPLevelsGoal extends Goal implements TextureProvider, MostS
     @Override
     public int getStat(LockoutTeam team) {
         int max = 0;
-        for (UUID uuid : ((LockoutTeamServer)team).getPlayers()) {
+        for (UUID uuid : ((LockoutTeamServer)team).getPlayerIds()) {
             max = Math.max(max, LockoutServer.lockout.levels.getOrDefault(uuid, 0));
         }
         return max;

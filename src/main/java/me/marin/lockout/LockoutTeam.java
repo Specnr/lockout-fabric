@@ -4,11 +4,14 @@ import lombok.Getter;
 import net.minecraft.util.Formatting;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class LockoutTeam {
 
     private final List<String> players;
+    private final List<UUID> playerIds;
     @Getter
     private final Formatting color;
     @Getter
@@ -17,12 +20,25 @@ public class LockoutTeam {
     private boolean forfeited = false;
 
     public LockoutTeam(List<String> playerNames, Formatting formattingColor) {
+        this(playerNames, new ArrayList<>(), formattingColor);
+    }
+
+    public LockoutTeam(List<String> playerNames, List<UUID> playerIds, Formatting formattingColor) {
         this.players = playerNames;
+        this.playerIds = playerIds;
         this.color = formattingColor;
     }
 
     public List<String> getPlayerNames() {
         return players;
+    }
+
+    public List<UUID> getPlayerIds() {
+        return playerIds;
+    }
+
+    public boolean containsPlayer(UUID uuid) {
+        return playerIds.contains(uuid);
     }
 
     public String getDisplayName() {

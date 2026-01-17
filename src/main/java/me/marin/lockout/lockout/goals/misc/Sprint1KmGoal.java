@@ -50,7 +50,7 @@ public class Sprint1KmGoal extends Goal implements CustomTextureRenderer, HasToo
     public List<String> getTooltip(LockoutTeam team, PlayerEntity player) {
         List<String> tooltip = new ArrayList<>();
         int maxDistance = 0;
-        for (UUID playerId : ((LockoutTeamServer) team).getPlayers()) {
+        for (UUID playerId : ((LockoutTeamServer) team).getPlayerIds()) {
             maxDistance = Math.max(maxDistance, LockoutServer.lockout.distanceSprinted.getOrDefault(playerId, 0));
         }
 
@@ -68,7 +68,7 @@ public class Sprint1KmGoal extends Goal implements CustomTextureRenderer, HasToo
         tooltip.add(" ");
         for (LockoutTeam team : LockoutServer.lockout.getTeams()) {
             int maxDistance = 0;
-            for (UUID playerId : ((LockoutTeamServer) team).getPlayers()) {
+            for (UUID playerId : ((LockoutTeamServer) team).getPlayerIds()) {
                 maxDistance = Math.max(maxDistance, LockoutServer.lockout.distanceSprinted.getOrDefault(playerId, 0));
             }
             tooltip.add(team.getColor() + team.getDisplayName() + Formatting.RESET + ": " + Math.min(1000, maxDistance / 100) + "/1000m");

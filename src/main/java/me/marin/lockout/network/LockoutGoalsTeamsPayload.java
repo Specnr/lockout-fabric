@@ -10,6 +10,7 @@ import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public record LockoutGoalsTeamsPayload(List<LockoutTeam> teams, List<Pair<Pair<String, String>, Integer>> goals,
                                        boolean isRunning) implements CustomPayload {
@@ -25,11 +26,14 @@ public record LockoutGoalsTeamsPayload(List<LockoutTeam> teams, List<Pair<Pair<S
                 int teamSize = buf.readInt();
                 Formatting color = Formatting.byName(buf.readString());
                 List<String> playerNames = new ArrayList<>();
+                List<UUID> playerIds = new ArrayList<>();
                 for (int j = 0; j < teamSize; j++) {
                     String playerName = buf.readString();
+                    UUID playerId = buf.readUuid();
                     playerNames.add(playerName);
+                    playerIds.add(playerId);
                 }
-                teams.add(new LockoutTeam(playerNames, color));
+                teams.add(new LockoutTeam(playerNames, playerIds, color));
             }
 
             // Read goals
@@ -51,8 +55,9 @@ public record LockoutGoalsTeamsPayload(List<LockoutTeam> teams, List<Pair<Pair<S
             for (LockoutTeam team : payload.teams()) {
                 buf.writeInt(team.getPlayerNames().size());
                 buf.writeString(team.getColor().asString());
-                for (String playerName : team.getPlayerNames()) {
-                    buf.writeString(playerName);
+                for (int i = 0; i < team.getPlayerNames().size(); i++) {
+                    buf.writeString(team.getPlayerNames().get(i));
+                    buf.writeUuid(team.getPlayerIds().get(i));
                 }
             }
 

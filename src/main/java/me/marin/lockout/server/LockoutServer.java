@@ -75,7 +75,7 @@ public class LockoutServer {
         server.getPlayerManager().broadcast(Text.literal(team.getDisplayName() + " has forfeited the match."), false);
 
         // Process all members of the team
-        for (UUID memberId : teamServer.getPlayers()) {
+        for (UUID memberId : teamServer.getPlayerIds()) {
             ServerPlayerEntity teamMember = server.getPlayerManager().getPlayer(memberId);
             if (teamMember != null) {
                 teamMember.changeGameMode(GameMode.SPECTATOR);
@@ -326,7 +326,7 @@ public class LockoutServer {
         PlayerManager playerManager = server.getPlayerManager();
         List<ServerPlayerEntity> allServerPlayers = playerManager.getPlayerList();
         List<UUID> allLockoutPlayers = teams.stream()
-                .flatMap(team -> team.getPlayers().stream())
+                .flatMap(team -> team.getPlayerIds().stream())
                 .toList();
         List<UUID> allSpectatorPlayers = allServerPlayers.stream()
                 .map(ServerPlayerEntity::getUuid)
@@ -444,9 +444,7 @@ public class LockoutServer {
                             // Update waypoint color to match team color with variation for team members
                             LockoutTeam playerTeam = lockout.getPlayerTeam(player.getUuid());
                             if (playerTeam != null) {
-                                // Find player index within their team
-                                int playerIndex = playerTeam.getPlayerNames().indexOf(player.getName().getString());
-                                updatePlayerWaypointColor(player, playerTeam.getColor(), playerIndex);
+                                updatePlayerWaypointColor(player, playerTeam.getColor());
                             }
                         }
                     }
@@ -460,22 +458,16 @@ public class LockoutServer {
      * Updates a player's waypoint color to match their team color with slight variation for team members
      * @param player The player whose waypoint color should be updated
      * @param teamColor The team's color formatting
-     * @param playerIndex The index of the player within their team (for color variation)
      */
-    public static void updatePlayerWaypointColor(ServerPlayerEntity player, Formatting teamColor, int playerIndex) {
+    public static void updatePlayerWaypointColor(ServerPlayerEntity player, Formatting teamColor) {
         try {
             Integer colorValue = teamColor.getColorValue();
             if (colorValue == null) {
                 return; // Skip if color has no RGB value
             }
             
-            // Create slight color variation for team members
-            int modifiedColor = createColorVariation(colorValue, playerIndex);
+            String hexColor = String.format("%06X", colorValue & 0xFFFFFF);
             
-            // Convert RGB integer to 6-character hex string
-            String hexColor = String.format("%06X", modifiedColor & 0xFFFFFF);
-            
-            // Construct the waypoint modify command (remove leading slash for execute method)
             String command = String.format("waypoint modify %s color hex %s", player.getName().getString(), hexColor);
             
             // Create command source with appropriate permissions and silent execution

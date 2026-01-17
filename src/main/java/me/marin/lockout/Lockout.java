@@ -134,9 +134,15 @@ public class Lockout {
         if (!isLockoutPlayer(playerId)) return;
         if (!hasStarted()) return;
 
-        LockoutTeamServer team = (LockoutTeamServer) getPlayerTeam(playerId);
+        LockoutTeam team = getPlayerTeam(playerId);
+        if (team == null) return;
 
-        completeGoal(goal, team, team.getPlayerName(playerId) + " completed " + goal.getGoalName() + ".");
+        if (team instanceof LockoutTeamServer teamServer) {
+            completeGoal(goal, teamServer, teamServer.getPlayerName(playerId) + " completed " + goal.getGoalName() + ".");
+        } else {
+            // Client side or other team type - should normally not happen on client but let's be safe
+            completeGoal(goal, team, "Someone completed " + goal.getGoalName() + ".");
+        }
     }
     public void completeGoal(Goal goal, LockoutTeam team) {
         completeGoal(goal, team, team.getDisplayName() + " completed " + goal.getGoalName() + ".");
@@ -172,7 +178,8 @@ public class Lockout {
         if (!isLockoutPlayer(playerId)) return;
         if (!hasStarted()) return;
 
-        LockoutTeamServer team = (LockoutTeamServer) getPlayerTeam(playerId);
+        LockoutTeam team = getPlayerTeam(playerId);
+        if (team == null) return;
 
         complete1v1Goal(goal, team, isWinner, message);
     }
@@ -180,16 +187,17 @@ public class Lockout {
         if (goal.isCompleted()) return;
         if (!hasStarted()) return;
 
-        LockoutTeamServer opponentTeam = (LockoutTeamServer) getOpponentTeam(team);
+        LockoutTeam opponentTeam = getOpponentTeam(team);
 
-        LockoutTeamServer winnerTeam = isWinner ? (LockoutTeamServer) team : opponentTeam;
-        LockoutTeamServer loserTeam  = isWinner ? opponentTeam : (LockoutTeamServer) team;
+        LockoutTeam winnerTeam = isWinner ? team : opponentTeam;
+        LockoutTeam loserTeam  = isWinner ? opponentTeam : team;
 
         goal.setCompleted(true, winnerTeam);
         winnerTeam.addPoint();
 
-        winnerTeam.sendMessage(Formatting.GREEN + message);
-        loserTeam.sendMessage(Formatting.RED + message);
+        if (winnerTeam instanceof LockoutTeamServer winnerServer) winnerServer.sendMessage(Formatting.GREEN + message);
+        if (loserTeam instanceof LockoutTeamServer loserServer) loserServer.sendMessage(Formatting.RED + message);
+
         for (ServerPlayerEntity spectator : Utility.getSpectators(this, LockoutServer.server)) {
             spectator.sendMessage(Text.literal(message));
         }
@@ -223,10 +231,10 @@ public class Lockout {
         // If all opponents have met the condition, complete the goal for the remaining team(s)
         if (teamsThatMetCondition >= teamsSize - 1) {
             // Find the team(s) that haven't met the condition - they win
-            List<LockoutTeamServer> winningTeams = new ArrayList<>();
+            List<LockoutTeam> winningTeams = new ArrayList<>();
             for (LockoutTeam team : teams) {
                 if (!opponentGoalProgress.get(goal).contains(team)) {
-                    winningTeams.add((LockoutTeamServer) team);
+                    winningTeams.add(team);
                 }
             }
 
@@ -237,7 +245,7 @@ public class Lockout {
             }
 
             // Complete the goal for the first winning team (in case of multiple, pick one)
-            LockoutTeamServer winnerTeam = winningTeams.get(0);
+            LockoutTeam winnerTeam = winningTeams.get(0);
             goal.setCompleted(true, winnerTeam);
             winnerTeam.addPoint();
 
@@ -355,7 +363,7 @@ public class Lockout {
     }
     public boolean isLockoutPlayer(UUID playerId) {
         for (LockoutTeam team : teams) {
-            if (!team.isForfeited() && ((LockoutTeamServer)team).getPlayers().contains(playerId)) {
+            if (!team.isForfeited() && team.containsPlayer(playerId)) {
                 return true;
             }
         }
@@ -364,7 +372,7 @@ public class Lockout {
 
     public LockoutTeam getPlayerTeam(UUID playerId) {
         for (LockoutTeam team : teams) {
-            if (((LockoutTeamServer)team).getPlayers().contains(playerId)) {
+            if (team.containsPlayer(playerId)) {
                 return team;
             }
         }
@@ -373,7 +381,7 @@ public class Lockout {
 
     public LockoutTeam getOpponentTeam(UUID playerId) {
         for (LockoutTeam team : teams) {
-            if (!team.isForfeited() && !((LockoutTeamServer)team).getPlayers().contains(playerId)) {
+            if (!team.isForfeited() && !team.containsPlayer(playerId)) {
                 return team;
             }
         }
@@ -438,11 +446,12 @@ public class Lockout {
                 board.getGoals().stream().map(goal -> new Pair<>(new Pair<>(goal.getId(), goal.getData()), teams.indexOf(goal.getCompletedTeam()))).toList(),
                 isRunning);
     }
-
     public void updateTooltips(Goal goal) {
         if (goal instanceof HasTooltipInfo tooltipGoal) {
             for (LockoutTeam team : teams) {
-                ((LockoutTeamServer)team).sendTooltipUpdate(goal);
+                if (team instanceof LockoutTeamServer teamServer) {
+                    teamServer.sendTooltipUpdate(goal);
+                }
             }
             // Update spectators
             List<String> spectatorTooltip = tooltipGoal.getSpectatorTooltip();
@@ -601,8 +610,9 @@ public class Lockout {
 
         // Remove all players of this team from compass
         if (team instanceof LockoutTeamServer teamServer) {
-            for (UUID playerId : teamServer.getPlayers()) {
-                LockoutServer.compassHandler.removePlayer(playerId);
+            // Process all members of the team
+            for (java.util.UUID memberId : teamServer.getPlayerIds()) {
+                LockoutServer.compassHandler.removePlayer(memberId);
             }
         }
         
@@ -622,14 +632,14 @@ public class Lockout {
 
             // Same logic as completeMultiOpponentGoal
             if (count >= activeTeamsCount - 1 && activeTeamsCount > 1) {
-                List<LockoutTeamServer> winningTeams = getNonForfeitedTeams().stream()
+                List<LockoutTeam> winningTeams = getNonForfeitedTeams().stream()
                         .filter(t -> !teamsMetCondition.contains(t))
-                        .map(t -> (LockoutTeamServer) t)
+                        .map(t -> (LockoutTeam) t)
                         .toList();
 
                 if (winningTeams.isEmpty()) continue;
 
-                LockoutTeamServer winnerTeam = winningTeams.get(0);
+                LockoutTeam winnerTeam = winningTeams.get(0);
                 goal.setCompleted(true, winnerTeam);
                 winnerTeam.addPoint();
 
@@ -666,7 +676,7 @@ public class Lockout {
 
         // Check if only 1 team remains and declare them winner if appropriate
         if (getNonForfeitedTeamsCount() == 1) {
-             LockoutTeamServer winner = (LockoutTeamServer) getNonForfeitedTeams().get(0);
+             LockoutTeam winner = getNonForfeitedTeams().get(0);
              LockoutServer.server.getPlayerManager().broadcast(Text.literal(winner.getDisplayName() + " wins by default!"), false);
              
              // End game specifics

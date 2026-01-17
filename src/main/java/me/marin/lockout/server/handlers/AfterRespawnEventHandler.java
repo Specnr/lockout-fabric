@@ -33,9 +33,7 @@ public class AfterRespawnEventHandler implements ServerPlayerEvents.AfterRespawn
         // Re-apply waypoint color after respawn
         LockoutTeam playerTeam = lockout.getPlayerTeam(newPlayer.getUuid());
         if (playerTeam != null) {
-            // Find player index within their team
-            int playerIndex = playerTeam.getPlayerNames().indexOf(newPlayer.getName().getString());
-            LockoutServer.updatePlayerWaypointColor(newPlayer, playerTeam.getColor(), playerIndex);
+            LockoutServer.updatePlayerWaypointColor(newPlayer, playerTeam.getColor());
         }
     }
 }

@@ -1,3 +1,7 @@
+## Lockout v0.12.2
+- Added player heads to the locator bar
+- Fixed /forfeit command removing completed goals
+
 ## Lockout v0.12.1
 - New goals:
     - Die by drowning

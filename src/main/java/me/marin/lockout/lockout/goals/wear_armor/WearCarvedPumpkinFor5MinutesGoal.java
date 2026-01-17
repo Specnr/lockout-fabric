@@ -85,9 +85,9 @@ public class WearCarvedPumpkinFor5MinutesGoal extends WearArmorPieceGoal impleme
 
         tooltip.add(" ");
         tooltip.add("Time worn: " + Utility.ticksToTimer(timeWorn));
-        if (serverTeam.getPlayers().size() > 1) {
+        if (serverTeam.getPlayerIds().size() > 1) {
             tooltip.add(" ");
-            for (UUID uuid : ((LockoutTeamServer) team).getPlayers()) {
+            for (UUID uuid : ((LockoutTeamServer) team).getPlayerIds()) {
                 if (!Objects.equals(uuid, player.getUuid())) {
                     tooltip.add(serverTeam.getPlayerName(uuid) + ": " + Utility.ticksToTimer(timeWorn));
                 }
@@ -104,7 +104,7 @@ public class WearCarvedPumpkinFor5MinutesGoal extends WearArmorPieceGoal impleme
 
         tooltip.add(" ");
         for (LockoutTeam team : LockoutServer.lockout.getTeams()) {
-            for (UUID uuid : ((LockoutTeamServer) team).getPlayers()) {
+            for (UUID uuid : ((LockoutTeamServer) team).getPlayerIds()) {
                 long timeWorn = Math.min(FIVE_MINUTES_TICKS, LockoutServer.lockout.pumpkinWearTime.getOrDefault(uuid, 0L));
                 tooltip.add(team.getColor() + ((LockoutTeamServer) team).getPlayerName(uuid) + Formatting.RESET + ": " + Utility.ticksToTimer(timeWorn));
             }

@@ -45,7 +45,7 @@ public class Boat2KmGoal extends Goal implements CustomTextureRenderer, HasToolt
     public List<String> getTooltip(LockoutTeam team, PlayerEntity player) {
         List<String> tooltip = new ArrayList<>();
         int maxDistance = 0;
-        for (UUID playerId : ((LockoutTeamServer) team).getPlayers()) {
+        for (UUID playerId : ((LockoutTeamServer) team).getPlayerIds()) {
             maxDistance = Math.max(maxDistance, LockoutServer.lockout.distanceBoated.getOrDefault(playerId, 0));
         }
 
@@ -63,7 +63,7 @@ public class Boat2KmGoal extends Goal implements CustomTextureRenderer, HasToolt
         tooltip.add(" ");
         for (LockoutTeam team : LockoutServer.lockout.getTeams()) {
             int maxDistance = 0;
-            for (UUID playerId : ((LockoutTeamServer) team).getPlayers()) {
+            for (UUID playerId : ((LockoutTeamServer) team).getPlayerIds()) {
                 maxDistance = Math.max(maxDistance, LockoutServer.lockout.distanceBoated.getOrDefault(playerId, 0));
             }
             tooltip.add(team.getColor() + team.getDisplayName() + Formatting.RESET + ": " + Math.min(2000, maxDistance / 100) + "/2000m");

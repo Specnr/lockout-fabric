@@ -45,7 +45,7 @@ public class HaveMostDiamondBlocksGoal extends Goal implements CustomTextureRend
     @Override
     public int getStat(LockoutTeam team) {
         int max = 0;
-        for (UUID uuid : ((LockoutTeamServer)team).getPlayers()) {
+        for (UUID uuid : ((LockoutTeamServer)team).getPlayerIds()) {
             max = Math.max(max, LockoutServer.lockout.playerDiamondBlockCounts.getOrDefault(uuid, 0));
         }
         return max;
